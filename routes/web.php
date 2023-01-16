@@ -24,5 +24,6 @@ Route::view('expertise', 'expertise')->name('expertise.index');
 Route::view('catalog', 'catalog.index')->name('catalog.index');
 Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
 Route::view('cart', 'cart')->name('cart.index');
+Route::view('search', 'search')->name('search');
 
 Auth::routes();

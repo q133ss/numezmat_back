@@ -15,27 +15,6 @@
 </head>
 
 <body>
-<div class="before-header">
-    <div class="before-header-container">
-        <div class="before-header-left">
-            <ul>
-                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
-            </ul>
-        </div>
-        <div class="before-header-right">
-            <ul>
-                <li>Телефон: <em>+7(495)123-45-67</em></li>
-                <li><a href="#">Вход</a></li>
-                <li><a href="#">Регистрация</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
-
 @include('includes.header')
 
 <div class="page-content">

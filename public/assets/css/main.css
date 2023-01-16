@@ -102,15 +102,15 @@ legend {
 
 @font-face {
   font-family: "Montserrat";
-  src: url("/fonts/Montserrat.ttf") format("ttf");
+  src: url("/assets/fonts/Montserrat.ttf") format("ttf");
 }
 @font-face {
   font-family: "TTHoves";
-  src: url("/fonts/TTHoves-Bold.ttf") format("ttf");
+  src: url("/assets/fonts/TTHoves-Bold.ttf") format("ttf");
 }
 @font-face {
   font-family: "TTNorms";
-  src: url("/fonts/TTNorms-Regular.ttf") format("ttf");
+  src: url("/assets/fonts/TTNorms-Regular.ttf") format("ttf");
 }
 .page-content {
   background-color: #f3f7fa;
@@ -318,7 +318,7 @@ section.slider {
 }
 
 .main-slider-arrow-left {
-  background-image: url("/img/main-slider-left.png");
+  background-image: url("/assets/img/main-slider-left.png");
   background-size: cover;
   width: 50px !important;
   height: 50px !important;
@@ -329,7 +329,7 @@ section.slider {
 }
 
 .main-slider-arrow-right {
-  background-image: url("/img/main-slider-right.png");
+  background-image: url("/assets/img/main-slider-right.png");
   background-size: cover;
   width: 50px !important;
   height: 50px !important;
@@ -401,7 +401,7 @@ section.slider {
 }
 
 .slider-arrow-left {
-  background-image: url("/img/slider-arrow-left.png");
+  background-image: url("/assets/img/slider-arrow-left.png");
   background-size: cover;
   width: 50px !important;
   height: 50px !important;
@@ -412,7 +412,7 @@ section.slider {
 }
 
 .slider-arrow-right {
-  background-image: url("/img/slider-arrow-right.png");
+  background-image: url("/assets/img/slider-arrow-right.png");
   background-size: cover;
   width: 50px !important;
   height: 50px !important;
@@ -475,7 +475,7 @@ section.why {
 
 .why-img {
   margin-right: 27px;
-  background-image: url("/img/Ellipse.png");
+  background-image: url("/assets/img/Ellipse.png");
   background-size: contain;
   background-repeat: no-repeat;
   padding: 13px;
@@ -971,7 +971,7 @@ footer {
 }
 
 .page-img {
-  background-image: url("/img/Ellipse67.png");
+  background-image: url("/assets/img/Ellipse67.png");
   background-size: contain;
   background-repeat: no-repeat;
   padding: 8px;
@@ -1018,7 +1018,7 @@ footer {
 
 .posts-paginate .current-page::after {
   content: "";
-  background-image: url("/img/paginate-back.png");
+  background-image: url("/assets/img/paginate-back.png");
   background-size: cover;
   position: relative;
   display: block;
@@ -1195,7 +1195,7 @@ footer {
 
 .catalog-search-icon {
   padding: 6px;
-  background-image: url("/img/search-bg.png");
+  background-image: url("/assets/img/search-bg.png");
   background-size: cover;
   margin-left: 6px;
 }

@@ -1,3 +1,23 @@
+<div class="before-header">
+    <div class="before-header-container">
+        <div class="before-header-left">
+            <ul>
+                <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                <li><a href="#"><i class="fa fa-instagram"></i></a></li>
+                <li><a href="#"><i class="fa fa-linkedin"></i></a></li>
+            </ul>
+        </div>
+        <div class="before-header-right">
+            <ul>
+                <li>Телефон: <em>+7(495)123-45-67</em></li>
+                <li><a href="{{route('login')}}">Вход</a></li>
+                <li><a href="{{route('register')}}">Регистрация</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
 <header>
     <div class="container">
         <div class="header-wrap">
@@ -73,7 +93,7 @@
                     </li>
 
                     <li>
-                        <a href="#" class="header-search"><i class="fa fa-search"></i></a>
+                        <a href="{{route('search')}}" class="header-search"><i class="fa fa-search"></i></a>
                     </li>
                 </ul>
                 <span class="menu-burger" onclick="mobileMenu()">
