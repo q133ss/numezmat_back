@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+//Директивы @role и @can!!!!
+
 Route::get('/', function () {
     return view('index');
 });
