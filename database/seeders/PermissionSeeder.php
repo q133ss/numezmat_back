@@ -16,13 +16,38 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $manageUser = new Permission();
-        $manageUser->name = 'Manage users';
-        $manageUser->slug = 'manage-users';
+        $manageUser->name = 'Просмотр страницы "Новости"';
+        $manageUser->slug = 'view-news';
         $manageUser->save();
 
-        $createTasks = new Permission();
-        $createTasks->name = 'Create Tasks';
-        $createTasks->slug = 'create-tasks';
-        $createTasks->save();
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Определение и оценка"';
+        $manageUser->slug = 'view-rating';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Экспертиза"';
+        $manageUser->slug = 'view-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Каталог"';
+        $manageUser->slug = 'view-catalog';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Магазин"';
+        $manageUser->slug = 'view-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Библиотека"';
+        $manageUser->slug = 'view-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Просмотр страницы "Беседка"';
+        $manageUser->slug = 'view-forum';
+        $manageUser->save();
     }
 }

@@ -19,7 +19,7 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::view('news', 'news')->name('news.index');
+Route::resource('news', App\Http\Controllers\NewsController::class);
 Route::view('rating', 'rating.index')->name('rating.index');
 Route::view('rating/{id}', 'rating.show')->name('rating.show');
 Route::view('expertise', 'expertise')->name('expertise.index');

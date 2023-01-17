@@ -49,53 +49,17 @@
     <section class="content-wrap">
         <div class="container">
             <div class="news-wrapper">
+                @foreach($news as $post)
                 <div class="news-slide-wrap">
-                    <img src="/assets/img/news1.png" class="news-slide-img" alt="">
+                    <img src="{{$post->img()}}" class="news-slide-img" alt="">
                     <div class="news-slide-left-part">
-                        <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                            ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                            НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                        <a href="#" class="news-slide-btn">Подробнее
+                        <h3>{{$post->title}}</h3>
+                        <a href="{{route('news.show', $post->id)}}" class="news-slide-btn">Подробнее
                             <img src="/assets/img/arrow-left.png" alt="">
                         </a>
                     </div>
                 </div>
-
-                <div class="news-slide-wrap">
-                    <img src="/assets/img/news1.png" class="news-slide-img" alt="">
-                    <div class="news-slide-left-part">
-                        <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                            ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                            НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                        <a href="#" class="news-slide-btn">Подробнее
-                            <img src="/assets/img/arrow-left.png" alt="">
-                        </a>
-                    </div>
-                </div>
-
-                <div class="news-slide-wrap">
-                    <img src="/assets/img/news1.png" class="news-slide-img" alt="">
-                    <div class="news-slide-left-part">
-                        <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                            ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                            НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                        <a href="#" class="news-slide-btn">Подробнее
-                            <img src="/assets/img/arrow-left.png" alt="">
-                        </a>
-                    </div>
-                </div>
-
-                <div class="news-slide-wrap">
-                    <img src="/assets/img/news1.png" class="news-slide-img" alt="">
-                    <div class="news-slide-left-part">
-                        <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                            ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                            НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                        <a href="#" class="news-slide-btn">Подробнее
-                            <img src="/assets/img/arrow-left.png" alt="">
-                        </a>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
             <div class="posts-paginate">
