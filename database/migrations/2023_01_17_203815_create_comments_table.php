@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->morphs('morphable');
+            $table->foreignId('user_id');
             $table->text('text');
             $table->unsignedBigInteger('reply_id')->nullable();
             $table->integer('likes')->default(0);

@@ -41,14 +41,15 @@
     <section class="content-wrap">
         <div class="container">
             <div class="login-wrap">
-                <form action="#" class="login-form">
+                <form action="{{route('login')}}" method="POST" class="login-form">
+                    @csrf
                     <div class="login-group">
                         <label>Email</label>
-                        <input type="text" placeholder="email@mail.ru">
+                        <input type="text" name="email" value="{{old('email')}}" placeholder="email@mail.ru">
                     </div>
                     <div class="login-group">
                         <label>Пароль</label>
-                        <input type="password" placeholder="********">
+                        <input type="password" name="password" placeholder="********">
                     </div>
                     <button class="comment-form-btn">Войти</button>
                     <a href="#">Забыл пароль</a>

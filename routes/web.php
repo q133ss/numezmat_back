@@ -27,5 +27,6 @@ Route::view('catalog', 'catalog.index')->name('catalog.index');
 Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');
+Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
 
 Auth::routes();
