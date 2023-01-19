@@ -100,4 +100,22 @@
     $('.comment-answers').click(function (){
         $(this).parent().parent().parent().parent().find('.sub-comment').toggleClass('display-n');
     });
+
+    $('.comment-action').click(function (){
+        let post_id = $(this).data('id');
+        let action = $(this).data('action');
+        let parent = $(this).parent();
+
+        $.ajax({
+            url: "/comment/action",
+            type: "POST",
+            data: {'comment_id':post_id, 'action':action},
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+        }).done(function(data) {
+            console.log($(this).parent().html())
+            parent.html(data);
+        });
+    });
 </script>

@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ActionCommentRequest;
 use App\Http\Requests\CommentController\SendCommentRequest;
 use App\Models\Comment;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CommentController extends Controller
 {
@@ -20,5 +22,35 @@ class CommentController extends Controller
         $comment->reply_id = $request->reply_id;
         $comment->save();
         return back();
+    }
+
+    public function actionComment(ActionCommentRequest $request)
+    {
+        if(Auth()->check()) {
+            $table = DB::table('comment_likes');
+
+            if($table->where('user_id', Auth()->id())
+                ->where('comment_id', $request->comment_id)
+                ->exists()
+            ){
+                $table->where('user_id', Auth()->id())
+                    ->where('comment_id', $request->comment_id)
+                    ->delete();
+                $comment = Comment::find($request->comment_id);
+                return view('includes.likes', compact('comment'))->render();
+            }else {
+                $table->insert(
+                    [
+                        'comment_id' => $request->comment_id,
+                        'user_id' => Auth()->id(),
+                        'type' => $request->action
+                    ]
+                );
+                $comment = Comment::find($request->comment_id);
+                return view('includes.likes', compact('comment'))->render();
+            }
+        }else{
+            return false;
+        }
     }
 }

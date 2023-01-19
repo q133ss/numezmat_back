@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('comments', function (Blueprint $table) {
+        Schema::create('comment_likes', function (Blueprint $table) {
             $table->id();
-            $table->morphs('morphable');
+            $table->foreignId('comment_id');
             $table->foreignId('user_id');
-            $table->text('text');
-            $table->unsignedBigInteger('reply_id')->nullable();
-            $table->foreignId('coin_id')->nullable();
+            $table->enum('type',['like','dislike']);
             $table->timestamps();
         });
     }
@@ -31,6 +29,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('comments');
+        Schema::dropIfExists('comment_likes');
     }
 };

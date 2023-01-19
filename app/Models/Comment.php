@@ -37,4 +37,18 @@ class Comment extends Model
     {
         return Carbon::parse($this->created_at)->translatedFormat('d M Y H:i');
     }
+
+    public function likes()
+    {
+        return $this->belongsToMany(User::class, 'comment_likes')
+                    ->where('type','like')
+                    ->count();
+    }
+
+    public function dislikes()
+    {
+        return $this->belongsToMany(User::class, 'comment_likes')
+                    ->where('type','dislike')
+                    ->count();
+    }
 }

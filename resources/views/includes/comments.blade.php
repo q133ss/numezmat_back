@@ -5,12 +5,12 @@
                 <div class="comment-author">
                     <img src="/assets/img/ava.png" alt="" class="comment-author-avatar">
                     <div class="comment-author-info">
-                                            <span class="comment-author-nick">
-                                                {{'@'.$comment->author->name}}
-                                            </span>
+                        <span class="comment-author-nick">
+                            {{'@'.$comment->author->name}}
+                        </span>
                         <span class="comment-author-date">
-                                                {{$comment->date()}}
-                                            </span>
+                            {{$comment->date()}}
+                        </span>
                     </div>
                 </div>
                 <div class="comment-text">
@@ -24,21 +24,21 @@
                 @endif
                 <div class="comment-footer">
                     <div class="comment-likes">
-                        <div class="comment-like">
+                        <div class="comment-like comment-action" data-id="{{$comment->id}}" data-action="like">
                             <img src="/assets/img/thumbs-up.png" alt="">
-                            {{$comment->likes}}
+                            {{$comment->likes()}}
                         </div>
-                        <div class="comment-dislike">
+                        <div class="comment-dislike comment-action" data-id="{{$comment->id}}" data-action="dislike">
                             <img src="/assets/img/thumbs-down.png" alt="">
-                            {{$comment->dislikes}}
+                            {{$comment->dislikes()}}
                         </div>
                     </div>
                     <div class="comment-footer-right">
                         <button class="comment-answers">
                             Показать ответы
                             <span class="comment-answer-count">
-                                                    ({{$comment->replies()->count()}})
-                                            </span>
+                                    ({{$comment->replies()->count()}})
+                            </span>
                         </button>
                         <button class="comment-answer" data-post="{{$postId}}" data-type="{{$type}}" data-reply="{{$comment->id}}">
                             <img src="/assets/img/corner-down-right.png" alt="">

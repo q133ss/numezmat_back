@@ -28,5 +28,6 @@ Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
+Route::post('/comment/action', [App\Http\Controllers\CommentController::class, 'actionComment'])->name('comment.action');
 
 Auth::routes();
