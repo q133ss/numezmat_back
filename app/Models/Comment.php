@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -30,5 +31,10 @@ class Comment extends Model
     public function coin()
     {
         return $this->hasOne(Coin::class, 'id', 'coin_id');
+    }
+
+    public function date()
+    {
+        return Carbon::parse($this->created_at)->translatedFormat('d M Y H:i');
     }
 }

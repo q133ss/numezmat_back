@@ -96,4 +96,8 @@
             );
         }
     });
+
+    $('.comment-answers').click(function (){
+        $(this).parent().parent().parent().parent().find('.sub-comment').toggleClass('display-n');
+    });
 </script>
