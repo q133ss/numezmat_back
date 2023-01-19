@@ -33,6 +33,7 @@ class UserSeeder extends Seeder
 
 
         $adminRole = Role::where('slug', 'admin')->first();
+        $userRole = Role::where('slug', 'user')->first();
 
         $admin = new User();
         $admin->name = 'admin';
@@ -40,6 +41,13 @@ class UserSeeder extends Seeder
         $admin->password = bcrypt('password');
         $admin->save();
 
+        $user = new User();
+        $user->name = 'user';
+        $user->email = 'user@email.net';
+        $user->password = bcrypt('password');
+        $user->save();
+
         $admin->roles()->attach($adminRole);
+        $user->roles()->attach($userRole);
     }
 }

@@ -27,6 +27,7 @@ class SendCommentRequest extends FormRequest
             'type' => 'required|in:news,rating,expertise,catalog,shop,library,forum',
             'post_id' => 'required|integer',
             'coin_id' => 'nullable|integer|exists:coins,id', #TODO проверка принадлежность к юзеру!!!
+            'reply_id' => 'nullable|integer|exists:comments,id',
             'text' => 'required|string'
         ];
     }

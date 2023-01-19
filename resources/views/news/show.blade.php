@@ -218,8 +218,11 @@
                         </div>
                         <form action="{{route('comment.send', ['type' => 'news','post_id' => $news->id])}}" method="POST" class="comment-form">
                             @csrf
-                            <select name="" id="" class="comment-select-coin">
+                            <select name="coin_id" id="" class="comment-select-coin">
                                 <option value="" selected disabled>Прикрепить монету</option>
+                                @foreach(Auth()->user()->coins as $coin)
+                                    <option value="{{$coin->id}}">{{$coin->title}}</option>
+                                @endforeach
                             </select>
                             <textarea name="text" id="" class="comment-field" cols="100" rows="10"
                                       placeholder="Ваш коментарий"></textarea>
@@ -272,14 +275,15 @@
                                             Показать ответы
                                             <span class="comment-answer-count">
                                                     ({{$comment->replies()->count()}})
-                                                </span>
+                                            </span>
                                         </button>
-                                        <button class="comment-answer">
+                                        <button class="comment-answer" data-post="{{$news->id}}" data-type="news" data-reply="{{$comment->id}}">
                                             <img src="/assets/img/corner-down-right.png" alt="">
                                             Ответить
                                         </button>
                                     </div>
                                 </div>
+                                <div class="for-answer"></div>
                             </div>
 
                             @foreach($comment->replies()->get() as $reply)
@@ -288,15 +292,24 @@
                                     <span class="sub-comment-reply">{{'@'.$reply->replyAuthor()}}, </span>
                                     {{$reply->text}}
                                 </div>
+                                @if($reply->coin)
+                                    <div class="comment-coin" style="margin-top: 10px;">
+                                        <span class="comment-coin-count">1</span>
+                                        {{$reply->coin->title}}
+                                    </div>
+                                @endif
                                 <div class="sub-comment-footer">
                                     <div class="sub-comment-author">
                                         by {{'@'.$comment->author->name}}
                                     </div>
-                                    <button class="comment-answer">
+                                    <div class="fix">
+                                    <button class="comment-answer" data-post="{{$news->id}}" data-type="news" data-reply="{{$comment->id}}">
                                         <img src="/assets/img/corner-down-right.png" alt="">
                                         Ответить
                                     </button>
+                                    </div>
                                 </div>
+                                <div class="for-answer"></div>
                             </div>
                             @endforeach
                         </div>

@@ -52,3 +52,48 @@
         </div>
     </div>
 </div>
+
+<script>
+    $('.comment-answer').click(function (){
+        let post_id = $(this).data('post');
+        let type = $(this).data('type');
+        let reply_id = $(this).data('reply') || '';
+
+        let mainBlock = $(this).parent().parent().parent().find('.for-answer');
+        if(mainBlock.find('.comment-area').length > 0){
+            mainBlock.find('.comment-area').remove();
+        }else{
+            mainBlock.append(
+                '<div class="comment-area">' +
+                '@if(Auth()->check())' +
+                '<div class="comment-avatar-block">' +
+                '<img src="/assets/img/Ellipse66.png" class="comment-avatar" alt="">' +
+                '<div class="comment-nick">' +
+                '@unkind' +
+                '</div>' +
+                '</div>' +
+                '<form action="{{route('comment.send')}}" method="POST" class="comment-form">' +
+                '@csrf' +
+                '<input type="hidden" name="type" value="'+type+'">'+
+                '<input type="hidden" name="post_id" value="'+post_id+'">'+
+                '<input type="hidden" name="reply_id" value="'+reply_id+'">'+
+                '<select name="coin_id" id="" class="comment-select-coin">' +
+                @foreach(Auth()->user()->coins as $coin)
+                '<option value="{{$coin->id}}">{{$coin->title}}</option>'+
+                @endforeach
+                '<option value="" selected disabled>Прикрепить монету</option>' +
+                '</select>' +
+                '<textarea name="text" id="" class="comment-field" cols="100" rows="10"' +
+                'placeholder="Ваш коментарий"></textarea>' +
+                '<div class="comment-form-btn-wrap">' +
+                '<button class="comment-form-btn">Опубликовать</button>' +
+                '</div>' +
+                '</form>' +
+                '@else' +
+                '<span class="comment-text">Необходимо <a href="{{route('login')}}">войти</a>, что бы оставлять комментарии</span>' +
+                '@endif' +
+                '</div>'
+            );
+        }
+    });
+</script>

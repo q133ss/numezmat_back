@@ -17,6 +17,7 @@ class CommentController extends Controller
         $comment->user_id = Auth()->id();
         $comment->text = $request->text;
         $comment->coin_id = $request->coin_id;
+        $comment->reply_id = $request->reply_id;
         $comment->save();
         return back();
     }
