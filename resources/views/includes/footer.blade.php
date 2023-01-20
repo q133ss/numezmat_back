@@ -101,10 +101,8 @@
         $(this).parent().parent().parent().parent().find('.sub-comment').toggleClass('display-n');
     });
 
-    $('.comment-action').click(function (){
-        let post_id = $(this).data('id');
-        let action = $(this).data('action');
-        let parent = $(this).parent();
+    function commentAction (action, post_id){
+        let comment = $('#likes-'+post_id);
 
         $.ajax({
             url: "/comment/action",
@@ -114,8 +112,7 @@
                 'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
             },
         }).done(function(data) {
-            console.log($(this).parent().html())
-            parent.html(data);
+            comment.html(data);
         });
-    });
+    }
 </script>

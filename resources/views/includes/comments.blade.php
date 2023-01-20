@@ -23,12 +23,12 @@
                     </div>
                 @endif
                 <div class="comment-footer">
-                    <div class="comment-likes">
-                        <div class="comment-like comment-action" data-id="{{$comment->id}}" data-action="like">
+                    <div class="comment-likes" id="likes-{{$comment->id}}">
+                        <div class="comment-like" onclick="commentAction('like', '{{$comment->id}}')">
                             <img src="/assets/img/thumbs-up.png" alt="">
                             {{$comment->likes()}}
                         </div>
-                        <div class="comment-dislike comment-action" data-id="{{$comment->id}}" data-action="dislike">
+                        <div class="comment-dislike" onclick="commentAction('dislike', '{{$comment->id}}')">
                             <img src="/assets/img/thumbs-down.png" alt="">
                             {{$comment->dislikes()}}
                         </div>

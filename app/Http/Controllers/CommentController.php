@@ -50,7 +50,7 @@ class CommentController extends Controller
                 return view('includes.likes', compact('comment'))->render();
             }
         }else{
-            return false;
+            return response('not auth', 403);
         }
     }
 }
