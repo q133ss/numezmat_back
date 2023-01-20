@@ -49,5 +49,16 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Просмотр страницы "Беседка"';
         $manageUser->slug = 'view-forum';
         $manageUser->save();
+
+        //News actions
+        $manageUser = new Permission();
+        $manageUser->name = 'Редактировать новости';
+        $manageUser->slug = 'edit-news';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать новости';
+        $manageUser->slug = 'block-news';
+        $manageUser->save();
     }
 }

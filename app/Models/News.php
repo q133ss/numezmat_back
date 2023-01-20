@@ -23,7 +23,7 @@ class News extends Model
 
     public function relatedPosts()
     {
-        return $this->where('id', '!=', $this->id)->limit(3)->get();
+        return $this->where('id', '!=', $this->id)->where('is_block', false)->limit(3)->get();
     }
 
     public function comments()

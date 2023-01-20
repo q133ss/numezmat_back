@@ -69,7 +69,7 @@
                 '<div class="comment-avatar-block">' +
                 '<img src="/assets/img/Ellipse66.png" class="comment-avatar" alt="">' +
                 '<div class="comment-nick">' +
-                '@unkind' +
+                '{{ '@'.Auth()->user()->name }}' +
                 '</div>' +
                 '</div>' +
                 '<form action="{{route('comment.send')}}" method="POST" class="comment-form">' +
@@ -119,5 +119,9 @@
 <style>
     .valid-error{
         color: #CB3631;
+    }
+
+    .comment-like, .comment-dislike{
+        cursor: pointer;
     }
 </style>

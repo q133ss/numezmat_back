@@ -8,6 +8,12 @@ use Illuminate\Http\Request;
 
 class NewsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:edit-news')->only(['index','edit','update']);
+        $this->middleware('permission:block-news')->only('block');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::orderBy('created_at','DESC')->paginate(10);
+        $news = News::orderBy('created_at','DESC')->where('is_block', false)->paginate(10);
         return view('news.index', compact('news'));
     }
 
@@ -77,15 +83,8 @@ class NewsController extends Controller
 
         if($request->file('img') != null){
             unlink(public_path().'/'.$post->img());
-            //$post->file()->delete();
 
             $file = $request->file('img')->store('news', 'public');
-//            File::create([
-//                'morphable_type' => 'App\Models\News',
-//                'morphable_id' => $post->id,
-//                'src' => '/storage/'.$file,
-//                'category' => 'img'
-//            ]);
             $post->file()->update(['src' => '/storage/'.$file]);
         }
 
@@ -95,6 +94,11 @@ class NewsController extends Controller
         $post->update($data);
 
         return to_route('news.show', $id);
+    }
+
+    public function block(Request $request)
+    {
+        News::findOrFail($request->post_id)->update(['is_block' => true]);
     }
 
     /**

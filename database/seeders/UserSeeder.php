@@ -35,6 +35,11 @@ class UserSeeder extends Seeder
         $adminRole = Role::where('slug', 'admin')->first();
         $userRole = Role::where('slug', 'user')->first();
 
+        //Права для роли админ
+        foreach (Permission::all() as $permission){
+            $adminRole->permissions()->attach($permission);
+        }
+
         $admin = new User();
         $admin->name = 'admin';
         $admin->email = 'admin@email.net';

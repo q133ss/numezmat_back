@@ -19,6 +19,7 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);
 Route::resource('news', App\Http\Controllers\NewsController::class);
 Route::view('rating', 'rating.index')->name('rating.index');
 Route::view('rating/{id}', 'rating.show')->name('rating.show');

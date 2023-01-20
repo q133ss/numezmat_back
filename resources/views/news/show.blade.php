@@ -147,7 +147,7 @@
             }
         }
 
-        .container p{
+        .detail_slider .container p{
             color: #4A4A4A;
         }
     </style>
@@ -205,9 +205,16 @@
                     </div>
 
                     <div class="rating-show-control">
-                        <a href="{{route('news.edit', $news->id)}}" class="rating-show-edit-btn">Редактировать новость <img src="/assets/img/Edit_fill.png"
-                                                                                         alt=""></a>
-                        <a href="#" class="rating-show-block-btn">Заблокировать новость</a>
+                        @can('edit-news')
+                        <a href="{{route('news.edit', $news->id)}}" class="rating-show-edit-btn">
+                            Редактировать новость
+                            <img src="/assets/img/Edit_fill.png" alt="">
+                        </a>
+                        @endcan
+
+                        @can('block-news')
+                        <a href="#" onclick="block()" class="rating-show-block-btn">Заблокировать новость</a>
+                        @endcan
                     </div>
 
                     <h4 class="rating-show-other-themes">Добавить комментарий</h4>
@@ -285,6 +292,24 @@
         let path = $(this).parent().parent().find('img').attr('src');
         $('#photoModalImg').attr('src', path);
     });
+
+    function block(){
+        if(confirm('Вы уверены?')){
+            let post_id = '{{$post->id}}';
+            $.ajax({
+                url: "/news/block",
+                type: "POST",
+                data: {'post_id':post_id},
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+            }).done(function() {
+                location.href='{{route('news.index')}}';
+            });
+        }else{
+            return false;
+        }
+    }
 
     //Swiper
     // Инициализация превью слайдера
