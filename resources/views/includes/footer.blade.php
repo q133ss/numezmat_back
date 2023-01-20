@@ -116,3 +116,8 @@
         });
     }
 </script>
+<style>
+    .valid-error{
+        color: #CB3631;
+    }
+</style>

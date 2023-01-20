@@ -24,9 +24,22 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'img' => 'nullable',
+            'img' => 'nullable|dimensions:min_width=269,min_height=168',
             'title' => 'required|string',
             'description' => 'required|string'
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'img.dimensions' => 'Минимальный размер изображения 269x168px',
+
+            'title.required' => 'Введите загаловок',
+            'title.string' => 'Загаловок должен быть строкой',
+
+            'description.required' => 'Введите текст',
+            'description.string' => 'Текст должен быть строкой'
         ];
     }
 }

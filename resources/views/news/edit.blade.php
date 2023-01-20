@@ -64,6 +64,13 @@
             <form action="{{route('news.update', $post->id)}}" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
                 @method('PUT')
+
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <span class="search-header valid-error">{{ $error }}</span> <br>
+                    @endforeach
+                @endif
+
                 <label for="title" class="search-header news-edit-label">Изображение</label>
                 <img src="{{$post->img()}}" style="margin-top: 15px; display: block;" alt="">
                 <input type="file" class="search-request" name="img">

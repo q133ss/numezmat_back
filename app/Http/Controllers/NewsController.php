@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\NewsController\UpdateRequest;
-use App\Models\File;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -16,7 +15,7 @@ class NewsController extends Controller
      */
     public function index()
     {
-        $news = News::orderBy('created_at','DESC')->paginate(1);
+        $news = News::orderBy('created_at','DESC')->paginate(10);
         return view('news.index', compact('news'));
     }
 
