@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsController\UpdateRequest;
+use App\Models\File;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -59,7 +61,8 @@ class NewsController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = News::findOrFail($id);
+        return view('news.edit', compact('post'));
     }
 
     /**
@@ -69,9 +72,30 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+        $post = News::find($id);
+
+        if($request->file('img') != null){
+            unlink(public_path().'/'.$post->img());
+            //$post->file()->delete();
+
+            $file = $request->file('img')->store('news', 'public');
+//            File::create([
+//                'morphable_type' => 'App\Models\News',
+//                'morphable_id' => $post->id,
+//                'src' => '/storage/'.$file,
+//                'category' => 'img'
+//            ]);
+            $post->file()->update(['src' => '/storage/'.$file]);
+        }
+
+        $data = $request->validated();
+        unset($data['img']);
+
+        $post->update($data);
+
+        return to_route('news.show', $id);
     }
 
     /**

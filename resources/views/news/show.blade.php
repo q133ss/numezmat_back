@@ -146,6 +146,10 @@
                 width: 32px;
             }
         }
+
+        .container p{
+            color: #4A4A4A;
+        }
     </style>
 </head>
 
@@ -201,9 +205,9 @@
                     </div>
 
                     <div class="rating-show-control">
-                        <a href="#" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png"
+                        <a href="{{route('news.edit', $news->id)}}" class="rating-show-edit-btn">Редактировать новость <img src="/assets/img/Edit_fill.png"
                                                                                          alt=""></a>
-                        <a href="#" class="rating-show-block-btn">Заблокировать тему</a>
+                        <a href="#" class="rating-show-block-btn">Заблокировать новость</a>
                     </div>
 
                     <h4 class="rating-show-other-themes">Добавить комментарий</h4>

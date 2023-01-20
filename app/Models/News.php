@@ -9,9 +9,16 @@ class News extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function img()
     {
         return $this->morphOne(File::class, 'morphable')->where('category', 'img')->pluck('src')->first();
+    }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'morphable');
     }
 
     public function relatedPosts()
