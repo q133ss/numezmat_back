@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\NewsController\StoreRequest;
 use App\Http\Requests\NewsController\UpdateRequest;
+use App\Models\File;
 use App\Models\News;
 use Illuminate\Http\Request;
 
@@ -10,8 +12,9 @@ class NewsController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('permission:edit-news')->only(['index','edit','update']);
+        $this->middleware('permission:edit-news')->only(['edit','update']);
         $this->middleware('permission:block-news')->only('block');
+        $this->middleware('permission:create-news')->only(['create','store']);
     }
 
     /**
@@ -32,7 +35,7 @@ class NewsController extends Controller
      */
     public function create()
     {
-        //
+        return view('news.create');
     }
 
     /**
@@ -41,9 +44,21 @@ class NewsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        unset($data['img']);
+        $news = News::create($data);
+
+        $file = new File();
+        $file->morphable_type = 'App\Models\News';
+        $file->morphable_id = $news->id;
+        $path = $request->file('img')->store('news', 'public');
+        $file->src = '/storage/'.$path;
+        $file->category = 'img';
+        $file->save();
+
+        return to_route('news.show', $news->id);
     }
 
     /**

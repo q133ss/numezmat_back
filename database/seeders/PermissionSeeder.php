@@ -60,5 +60,10 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Блокировать новости';
         $manageUser->slug = 'block-news';
         $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять новости';
+        $manageUser->slug = 'create-news';
+        $manageUser->save();
     }
 }

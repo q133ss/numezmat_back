@@ -251,7 +251,7 @@
                 </div>
                 <div class="rating-show-sidebar">
                     <div class="rating-show-sidebar-wrap">
-                        <img src="/assets/img/ads.jpg" alt="">
+                        @include('includes.ad', ['count' => 1])
                         <h4 class="rating-show-other-themes">Другие темы</h4>
 
                         @foreach($news->relatedPosts() as $post)

@@ -4,7 +4,7 @@ namespace App\Http\Requests\NewsController;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateRequest extends FormRequest
+class StoreRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,9 +24,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'img' => 'nullable|dimensions:min_width=269,min_height=168',
-            'title' => 'required|string',
+            'img' => 'required|dimensions:min_width=269,min_height=168',
             'except' => 'required|string',
+            'title' => 'required|string',
             'description' => 'required|string'
         ];
     }
@@ -34,6 +34,7 @@ class UpdateRequest extends FormRequest
     public function messages()
     {
         return [
+            'img.required' => 'Выберите изображение',
             'img.dimensions' => 'Минимальный размер изображения 269x168px',
 
             'title.required' => 'Введите загаловок',

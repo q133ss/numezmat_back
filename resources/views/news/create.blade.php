@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$post->title}}</title>
+    <title>Добавить новость</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
@@ -43,14 +43,14 @@
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
                         <li><a href="{{route('news.index')}}">Новости</a></li>
-                        <li>{{$post->title}}</li>
+                        <li>Добавить новость</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/revMyMoney.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            {{$post->title}}
+                            Добавить новость
                         </h3>
                     </div>
                 </div>
@@ -61,9 +61,8 @@
 
     <section class="rating-show">
         <div class="container">
-            <form action="{{route('news.update', $post->id)}}" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('news.store')}}" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
-                @method('PUT')
 
                 @if ($errors->any())
                     @foreach ($errors->all() as $error)
@@ -72,17 +71,16 @@
                 @endif
 
                 <label for="title" class="search-header news-edit-label">Изображение</label>
-                <img src="{{$post->img()}}" style="margin-top: 15px; display: block;" alt="">
                 <input type="file" class="search-request" name="img">
                 <label for="title" class="search-header news-edit-label">Заголовок</label>
-                <input type="text" class="search-request" name="title" value="{{$post->title}}">
-                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст новости</label>
+                <input type="text" class="search-request" name="title" value="{{old('title')}}">
+                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Краткое описание</label>
                 <textarea name="except" id="" cols="30" rows="10" class="comment-field">
-                    {{$post->except}}
+                    {{old('except')}}
                 </textarea>
                 <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст новости</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
-                    {{$post->description}}
+                    {{old('description')}}
                 </textarea>
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>

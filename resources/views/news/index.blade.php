@@ -47,6 +47,9 @@
     </section>
 
     <section class="content-wrap">
+        @can('create-news')
+        <a href="{{route('news.create')}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0; width: 170px">Добавить новость</a>
+        @endcan
         <div class="container">
             <div class="news-wrapper">
                 @foreach($news as $post)
