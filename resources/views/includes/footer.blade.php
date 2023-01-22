@@ -124,4 +124,9 @@
     .comment-like, .comment-dislike{
         cursor: pointer;
     }
+
+    .post-content{
+        width: 100%;
+        justify-content: space-between;
+    }
 </style>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Экспертиза</title>
+    <title>Оценка монет</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
@@ -12,6 +12,7 @@
 
 </head>
 <body>
+
 @include('includes.header')
 
 <div class="page-content">
@@ -22,17 +23,17 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Экспертиза</li>
+                        <li>Оценка монет</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/expertImg.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            Экспертиза монет
+                            Оценка монет
                         </h3>
                         <span class="page-sub-title">
-                                Монеты на экспертизу
+                                Монеты на оценку
                             </span>
                     </div>
                 </div>
@@ -250,7 +251,6 @@
 
     @include('includes.footer')
 </div>
-
 @include('includes.mobile')
 <script src="/assets/js/main.js"></script>
 <!-- Swiper -->

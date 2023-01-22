@@ -21,8 +21,8 @@ Route::get('/', function () {
 
 Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);
 Route::resource('news', App\Http\Controllers\NewsController::class);
-Route::view('rating', 'rating.index')->name('rating.index');
-Route::view('rating/{id}', 'rating.show')->name('rating.show');
+Route::get('rating/detail/{id}', [App\Http\Controllers\RatingController::class, 'detail'])->name('rating.detail');
+Route::resource('rating', App\Http\Controllers\RatingController::class);
 Route::view('expertise', 'expertise')->name('expertise.index');
 Route::view('catalog', 'catalog.index')->name('catalog.index');
 Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');

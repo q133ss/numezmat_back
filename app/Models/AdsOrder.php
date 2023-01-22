@@ -16,11 +16,13 @@ class AdsOrder extends Model
 
     public static function getAds($count = 2)
     {
-        return self::join('ads', 'ads.id', 'ads_orders.ad_id')
+        $query = self::join('ads', 'ads.id', 'ads_orders.ad_id')
             ->where('page_url', url()->current())
             ->where('active', true)
             ->orderBy('ads_orders.last_date', 'ASC')
             ->limit($count)
             ->get();
+
+        return $query;
     }
 }

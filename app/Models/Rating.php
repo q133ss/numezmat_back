@@ -8,4 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class Rating extends Model
 {
     use HasFactory;
+
+    public function img()
+    {
+        return $this->morphOne(File::class, 'morphable')->where('category','img')->pluck('src')->first();
+    }
 }

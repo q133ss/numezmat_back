@@ -1,10 +1,12 @@
+//delete
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Оценка монет</title>
+    <title>{{$category->name}} | Экспертиза</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
@@ -15,18 +17,21 @@
 @include('includes.header')
 
 <div class="page-content">
-
     <section class="page-header">
         <div class="container">
             <div class="page-header-wrap">
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Экспертиза</li>
+                        <li><a href="{{route('rating.index')}}">Экспертиза</a></li>
+                        @foreach($category->getParents() as $category)
+                            <li><a href="{{route('rating.show', $category)}}">{{$category->name}}</a></li>
+                        @endforeach
+                        <li>{{$category->name}}</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
-                            <img src="/assets/img/reviewImg.png" alt="">
+                            <img src="/assets/img/expertImg.png" alt="">
                         </div>
                         <h3 class="page-title">
                             Экспертиза монет
@@ -51,36 +56,41 @@
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
                     @foreach($categories as $category)
-                    <div class="post">
-                        <img src="{{$category->img()}}" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    {{$category->name}}
-                                </h3>
-                                <p class="post-except">
-                                    {{$category->description}}
-                                </p>
+                        <div class="post">
+                            <img src="{{$category->img()}}" class="post-image" alt="">
+                            <div class="post-content">
+                                <div class="post-description">
+                                    <h3 class="post-title">
+                                        {{$category->name}}
+                                    </h3>
+                                    <p class="post-except">
+                                        {{$category->description}}
+                                    </p>
 
-                                <a href="{{route('rating.show', $category->id)}}" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
+                                    <a href="{{route('rating.show', $category->id)}}" class="post-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                </div>
 
-                            <div class="post-info">
+                                <div class="post-info">
                                     <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
+                                        Экспертизы:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
                                     </span>
-                                <span class="post-info-item">
+                                    <span class="post-info-item">
                                         Просмотры:  <span class="post-info-item-count">{{$category->views_count ?? '0'}}</span>
                                     </span>
-                                <span class="post-date">
+                                    <span class="post-date">
                                         Создано - {{$category->date()}}
                                     </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     @endforeach
+                    @if($categories->isEmpty())
+                        <div class="post">
+                            <span class="post-title" style="width: 100%;text-align: center;align-self: center;">Записи отсутствуют</span>
+                        </div>
+                    @endif
                 </div>
                 <div class="ads">
                     @include('includes.ad', ['count' => 2])

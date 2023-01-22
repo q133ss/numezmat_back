@@ -15,9 +15,10 @@ return new class extends Migration
     {
         Schema::create('categories', function (Blueprint $table) {
             $table->id();
-            $table->morphs('morphable');
+            $table->string('type');
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->string('name');
+            $table->string('description')->nullable();
             $table->integer('views_count')->nullable();
             $table->timestamps();
         });

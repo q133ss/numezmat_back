@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
+use App\Models\Category;
 use App\Models\File;
 use App\Models\News;
+use App\Models\Rating;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -63,6 +65,87 @@ class PostSeeder extends Seeder
             $file->src = '/assets/img/news1.png';
             $file->category = 'img';
             $file->save();
+        }
+
+        //Rating seeder
+        //category
+        $categories = [
+            ['name' => 'Монеты на оценку', 'description' => 'Оценка любых монет'],
+            ['name' => 'Монеты СССР', 'description' => 'Оценка монет СССР'],
+            ['name' => 'Оценка монет СНГ', 'description' => 'В этом разделе можно оценить монеты из СНГ'],
+            ['name' => 'Оценка иностранных монет', 'description' => 'В этом разделе можно оценить иностранную монету']
+        ];
+
+        foreach ($categories as $category){
+            $category['type'] = 'App\Models\Rating';
+            Category::create($category);
+        }
+        //Subcategory
+        $coins = Category::where('name','Монеты на оценку')->pluck('id')->first();
+        $sng = Category::where('name', 'Оценка монет СНГ')->pluck('id')->first();
+        $foreign = Category::where('name', 'Оценка иностранных монет')->pluck('id')->first();
+
+        $subcats = [
+            ['name' => 'Монеты РФ', 'description' => 'Оценка монет из РФ', 'parent_id' => $sng],
+            ['name' => 'Монеты Казахстан', 'description' => 'Оценка монет из казахстана', 'parent_id' => $sng],
+            ['name' => 'Монеты Грузия', 'description' => 'Оценка грузинских монет', 'parent_id' => $sng],
+
+            ['name' => 'Английские монеты', 'description' => 'Оценка монет из Англии', 'parent_id' => $foreign]
+        ];
+
+        foreach ($subcats as $subcat){
+            $subcat['type'] = 'App\Models\Rating';
+            Category::create($subcat);
+        }
+        //Posts
+        $rf = Category::where('name', 'Монеты РФ')->pluck('id')->first();
+        $ratings = [
+            ['title' => 'Оцените мою монету', 'description' => 'Нашел монету, какая примерная цена?', 'category_id' => $coins],
+            ['title' => '10 копеек', 'description' => '10 копеек, год не знаю', 'category_id' => $coins],
+            ['title' => '20 руб 1992', 'description' => 'Что скажите?', 'category_id' => $coins],
+
+            ['title' => '1 копейка 1798', 'description' => 'Оцените пожалуйста', 'category_id' => $rf],
+            ['title' => '3 копейки 1956', 'description' => 'Что скажите?', 'category_id' => $rf],
+        ];
+
+        foreach ($ratings as $rating){
+            Rating::create($rating);
+        }
+
+        //Img for cats
+        $ussr = Category::where('name', 'Монеты СССР')->pluck('id')->first();
+
+        $kz = Category::where('name', 'Монеты Казахстан')->pluck('id')->first();
+        $gr = Category::where('name', 'Монеты Грузия')->pluck('id')->first();
+        $eng = Category::where('name', 'Английские монеты')->pluck('id')->first();
+
+        $imgs = [
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $coins, 'src' => '/assets/img/just-coin.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $ussr, 'src' => '/assets/img/just-penny.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $sng, 'src' => '/assets/img/sng.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $foreign, 'src' => '/assets/img/foreign.jpg', 'category' => 'img'],
+
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $rf, 'src' => '/assets/img/just-rub.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $kz, 'src' => '/assets/img/just-rub.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $gr, 'src' => '/assets/img/just-rub.jpg', 'category' => 'img'],
+            ['morphable_type' => 'App\Models\Category', 'morphable_id' => $eng, 'src' => '/assets/img/just-rub.jpg', 'category' => 'img']
+        ];
+
+        //create files
+
+        foreach ($imgs as $img){
+            File::create($img);
+        }
+
+        foreach (Rating::all() as $rating){
+            File::create(
+                [
+                    'morphable_type' => 'App\Models\Rating',
+                    'morphable_id' => $rating->id,
+                    'src' => '/assets/img/just-rub.jpg',
+                    'category' => 'img'
+                ]
+            );
         }
     }
 }
