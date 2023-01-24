@@ -71,6 +71,7 @@ class Category extends Model
     {
         return $this->join('filters', 'filters.category_id', 'categories.id')
             ->where('filters.type', 'App\Models\Rating')
+            ->where('filters.category_id', $this->id)
             ->get();
     }
 
@@ -78,6 +79,7 @@ class Category extends Model
     public function getFilterValuesForRating($field)
     {
         return $this->join('ratings', 'ratings.category_id', 'categories.id')
+            ->where('ratings.category_id', $this->id)
             ->join('characteristics', 'characteristics.morphable_id', 'ratings.id')
             ->where('characteristics.morphable_type', 'App\Models\Rating')
             ->where('characteristics.key', $field)

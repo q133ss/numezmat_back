@@ -129,14 +129,16 @@
                                 </div>
                     </div>
                         @endforeach
-                        @if($items->isEmpty())
+                        @if($items->isEmpty() && $categories->isEmpty())
                             <div class="post" style="text-align: center"><span class="post-title" style="align-self: center;width: 100%;">Ничего не найдено</span></div>
                         @endif
 {{--                    end items--}}
                 </div>
                 <div class="ads">
+                    @if(!$category->getFiltersForRating()->isEmpty())
                     <div class="filter">
                         <h3 class="characteristics-title">Фильтр</h3>
+
                         <form action="" class="form-filter">
                             @foreach($category->getFiltersForRating() as $filter)
                             <div class="filter-group">
@@ -153,19 +155,10 @@
                             </div>
                             @endforeach
 
-{{--                            <div class="filter-group">--}}
-{{--                                <label for="year" class="characteristics-key">--}}
-{{--                                    Состояние--}}
-{{--                                </label>--}}
-{{--                                <select name="" id="year" class="filter-select">--}}
-{{--                                    <option value="#" selected disabled>Выбрать состояние</option>--}}
-{{--                                    <option value="#">Хорошее</option>--}}
-{{--                                    <option value="#">Плохое</option>--}}
-{{--                                </select>--}}
-{{--                            </div>--}}
                             <button class="filter-btn">Фильтровать</button>
                         </form>
                     </div>
+                    @endif
                     @include('includes.ad', ['count' => 1])
                 </div>
             </div>
