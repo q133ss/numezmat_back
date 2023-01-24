@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Category;
+use App\Models\Characteristic;
 use App\Models\File;
 use App\Models\News;
 use App\Models\Rating;
@@ -146,6 +147,59 @@ class PostSeeder extends Seeder
                     'category' => 'img'
                 ]
             );
+        }
+
+        //characteristics
+        $characteristics = [
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '2',
+                'key' => 'condition',
+                'value' => 'Удовлетворительое'
+            ],
+
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '3',
+                'key' => 'year',
+                'value' => '1992'
+            ],
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '3',
+                'key' => 'condition',
+                'value' => 'Удовлетворительое'
+            ],
+
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '4',
+                'key' => 'condition',
+                'value' => 'Удовлетворительое'
+            ],
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '4',
+                'key' => 'year',
+                'value' => '1798'
+            ],
+
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '5',
+                'key' => 'condition',
+                'value' => 'Новое'
+            ],
+            [
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => '5',
+                'key' => 'year',
+                'value' => '1956'
+            ],
+        ];
+
+        foreach ($characteristics as $characteristic){
+            Characteristic::create($characteristic);
         }
     }
 }

@@ -46,12 +46,17 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $category = Category::findOrFail($id);
         $category->addView();
         $categories = Category::getSubCategories('App\Models\Rating', $id)->paginate(10);
-        $items = Rating::where('category_id', $category->id)->paginate(10);
+        $items = Rating::where('category_id', $category->id)->withFilter($request)->paginate(10);
+
+        //->whereHas('characteristics', function ($q) use ($year){
+        //                $q->where('key', $year);
+        //            });
+
         return view('rating.show', compact('category','categories', 'items'));
     }
 

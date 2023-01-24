@@ -15,7 +15,8 @@ return new class extends Migration
     {
         Schema::create('filters', function (Blueprint $table) {
             $table->id();
-            $table->morphs('morphable');
+            $table->string('type'); //rating, expertise
+            $table->foreignId('category_id');
             $table->string('name');
             $table->string('db_key');
             $table->timestamps();

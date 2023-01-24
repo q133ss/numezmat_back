@@ -38,10 +38,10 @@
                 </div>
                 <div class="page-header-right">
 
-                    <div class="catalog-search">
-                        <img src="/assets/img/Search_fill.png" class="catalog-search-icon" alt="">
-                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">
-                    </div>
+{{--                    <div class="catalog-search">--}}
+{{--                        <img src="/assets/img/Search_fill.png" class="catalog-search-icon" alt="">--}}
+{{--                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">--}}
+{{--                    </div>--}}
 
                     <select name="sort" id="" class="page-header-sort">
                         <option value="#">По активности</option>
@@ -117,48 +117,56 @@
                                             <!-- Просмотры:  <span class="post-info-item-count">64</span> -->
                                         </span>
                                             <span class="post-date">
-                                            Год - <span class="search-val">2012</span>
-
-                                            Состояние - <span class="search-val">Новое</span>
+                                                @if(!$item->characteristics->where('key', 'year')->isEmpty())
+                                            Год - <span class="search-val">{{$item->characteristics->where('key', 'year')->pluck('value')->first()}}</span>
+                                                @endif
+                                                @if(!$item->characteristics->where('key', 'condition')->isEmpty())
+                                            Состояние - <span class="search-val">{{$item->characteristics->where('key', 'condition')->pluck('value')->first()}}</span>
+                                                @endif
                                         </span>
                                         </div>
                                     </div>
                                 </div>
                     </div>
                         @endforeach
+                        @if($items->isEmpty())
+                            <div class="post" style="text-align: center"><span class="post-title" style="align-self: center;width: 100%;">Ничего не найдено</span></div>
+                        @endif
 {{--                    end items--}}
                 </div>
                 <div class="ads">
                     <div class="filter">
                         <h3 class="characteristics-title">Фильтр</h3>
                         <form action="" class="form-filter">
+                            @foreach($category->getFiltersForRating() as $filter)
                             <div class="filter-group">
                                 <label for="year" class="characteristics-key">
-                                    Год
+                                    {{$filter->name}}
                                 </label>
-                                <select name="" id="year" class="filter-select">
-                                    <option value="#" selected disabled>Выбрать год</option>
-                                    <option value="#">2022</option>
-                                    <option value="#">2021</option>
-                                </select>
-                            </div>
 
-                            <div class="filter-group">
-                                <label for="year" class="characteristics-key">
-                                    Состояние
-                                </label>
-                                <select name="" id="year" class="filter-select">
-                                    <option value="#" selected disabled>Выбрать состояние</option>
-                                    <option value="#">Хорошее</option>
-                                    <option value="#">Плохое</option>
+                                <select name="{{$filter->db_key}}" id="year" class="filter-select">
+                                    <option value="#" selected disabled>Выбрать</option>
+                                    @foreach(array_unique($category->getFilterValuesForRating($filter->db_key)) as $value)
+                                    <option value="{{$value}}">{{$value}}</option>
+                                    @endforeach
                                 </select>
                             </div>
+                            @endforeach
+
+{{--                            <div class="filter-group">--}}
+{{--                                <label for="year" class="characteristics-key">--}}
+{{--                                    Состояние--}}
+{{--                                </label>--}}
+{{--                                <select name="" id="year" class="filter-select">--}}
+{{--                                    <option value="#" selected disabled>Выбрать состояние</option>--}}
+{{--                                    <option value="#">Хорошее</option>--}}
+{{--                                    <option value="#">Плохое</option>--}}
+{{--                                </select>--}}
+{{--                            </div>--}}
                             <button class="filter-btn">Фильтровать</button>
                         </form>
                     </div>
-                    <a href="#">
-                        <img src="/assets/img/ads.jpg" alt="">
-                    </a>
+                    @include('includes.ad', ['count' => 1])
                 </div>
             </div>
 

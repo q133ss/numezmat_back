@@ -66,4 +66,22 @@ class Category extends Model
 
         return true;
     }
+
+    public function getFiltersForRating()
+    {
+        return $this->join('filters', 'filters.category_id', 'categories.id')
+            ->where('filters.type', 'App\Models\Rating')
+            ->get();
+    }
+
+    //получает значения фильтров
+    public function getFilterValuesForRating($field)
+    {
+        return $this->join('ratings', 'ratings.category_id', 'categories.id')
+            ->join('characteristics', 'characteristics.morphable_id', 'ratings.id')
+            ->where('characteristics.morphable_type', 'App\Models\Rating')
+            ->where('characteristics.key', $field)
+            ->pluck('characteristics.value')
+            ->all();
+    }
 }
