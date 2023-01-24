@@ -149,7 +149,7 @@
                                 <select name="{{$filter->db_key}}" id="year" class="filter-select">
                                     <option value="#" selected disabled>Выбрать</option>
                                     @foreach(array_unique($category->getFilterValuesForRating($filter->db_key)) as $value)
-                                    <option value="{{$value}}">{{$value}}</option>
+                                    <option value="{{$value}}" @if(array_key_exists($filter->db_key, \Request()->query()) && \Request()->query()[$filter->db_key] == $value) selected @endif>{{$value}}</option>
                                     @endforeach
                                 </select>
                             </div>
