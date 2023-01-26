@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
-
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 </head>
 <body>
 @include('includes.header')
@@ -21,7 +22,7 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('rating.index')}}">Экспертиза</a></li>
+                        <li><a href="{{route('rating.index')}}">Определение и оценка</a></li>
                         @foreach($category->getParents() as $category)
                             <li><a href="{{route('rating.show', $category)}}">{{$category->name}}</a></li>
                         @endforeach
@@ -43,9 +44,10 @@
 {{--                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">--}}
 {{--                    </div>--}}
 
-                    <select name="sort" id="" class="page-header-sort">
-                        <option value="#">По активности</option>
-                        <option value="#">По дате</option>
+                    <select name="sort" onchange="sort($(this).val())" class="page-header-sort">
+                        <option value="" disabled selected>Сортировка</option>
+                        <option value="active">По активности</option>
+                        <option value="date">По дате</option>
                     </select>
                 </div>
             </div>
@@ -145,7 +147,6 @@
                                 <label for="year" class="characteristics-key">
                                     {{$filter->name}}
                                 </label>
-
                                 <select name="{{$filter->db_key}}" id="year" class="filter-select">
                                     <option value="#" selected disabled>Выбрать</option>
                                     @foreach(array_unique($category->getFilterValuesForRating($filter->db_key)) as $value)
@@ -154,7 +155,7 @@
                                 </select>
                             </div>
                             @endforeach
-
+                            <input type="hidden" id="sort-field" value="date" name="sort">
                             <button class="filter-btn">Фильтровать</button>
                         </form>
                     </div>
@@ -175,6 +176,11 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <!-- Initialize Swiper -->
 <script>
+
+    function sort(val){
+        $('#sort-field').val(val)
+    }
+
     var swiper = new Swiper(".mySwiper", {
         navigation: {
             nextEl: ".swiper-button-next",

@@ -18,6 +18,9 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->foreignId('category_id');
+            $table->foreignId('user_id');
+            $table->unsignedBigInteger('views')->default(0);
+            $table->boolean('is_block')->default(false);
             $table->timestamps();
         });
     }

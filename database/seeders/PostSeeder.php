@@ -110,6 +110,7 @@ class PostSeeder extends Seeder
         ];
 
         foreach ($ratings as $rating){
+            $rating['user_id'] = 1;
             Rating::create($rating);
         }
 
