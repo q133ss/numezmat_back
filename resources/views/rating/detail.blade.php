@@ -286,7 +286,7 @@
             </div>
 
             <div class="rating-show-control">
-                <a href="#" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png"
+                <a href="{{route('rating.edit', $rating->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png"
                                                                                  alt=""></a>
                 <a href="#" class="rating-show-block-btn">Заблокировать тему</a>
             </div>

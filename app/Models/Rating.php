@@ -33,6 +33,11 @@ class Rating extends Model
         return $this->morphOne(File::class, 'morphable')->where('category','img')->pluck('src')->first();
     }
 
+    public function images()
+    {
+        return $this->morphMany(File::class, 'morphable')->where('category', 'img')->pluck('src')->all();
+    }
+
     public function characteristics()
     {
         return $this->morphMany(Characteristic::class, 'morphable');

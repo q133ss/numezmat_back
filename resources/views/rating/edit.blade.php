@@ -30,6 +30,40 @@
         display: block;
         margin-top: 25px;
     }
+
+    /*swiper*/
+
+      .swiper {
+          width: 100%;
+          height: 100%;
+      }
+
+    .swiper-slide {
+        text-align: center;
+        font-size: 18px;
+        background: #fff;
+
+        /* Center slide text vertically */
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-box-pack: center;
+        -ms-flex-pack: center;
+        -webkit-justify-content: center;
+        justify-content: center;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        -webkit-align-items: center;
+        align-items: center;
+    }
+
+    .swiper-slide img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 </style>
 
 @include('includes.header')
@@ -42,7 +76,11 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('news.index')}}">Новости</a></li>
+                        <li><a href="{{route('rating.index')}}">Определение и оценка</a></li>
+                        @foreach($post->category->getParents() as $category)
+                            <li><a href="{{route('rating.show', $category)}}">{{$category->name}}</a></li>
+                        @endforeach
+                        <li><a href="{{route('rating.show', $post->category->id)}}">{{$post->category->name}}</a></li>
                         <li>{{$post->title}}</li>
                     </ul>
                     <div class="page-title-block">
@@ -58,10 +96,9 @@
             </div>
         </div>
     </section>
-
     <section class="rating-show">
         <div class="container">
-            <form action="{{route('news.update', $post->id)}}" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('rating.update', $post->id)}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
                 @method('PUT')
 
@@ -71,19 +108,27 @@
                     @endforeach
                 @endif
 
-                <label for="title" class="search-header news-edit-label">Изображение</label>
-                <img src="{{$post->img()}}" style="margin-top: 15px; display: block;" alt="">
-                <input type="file" class="search-request" name="img">
+                <label for="title" class="search-header news-edit-label">Изображения</label>
+                <!-- Swiper -->
+                <div class="swiper mySwiper">
+                    <div class="swiper-wrapper">
+                        @foreach($post->images() as $img)
+                        <div class="swiper-slide">
+                            <img src="{{$img}}" alt="" style="cursor: pointer" class="edit-imgs">
+                        </div>
+                        @endforeach
+                    </div>
+                    <div class="swiper-pagination"></div>
+                </div>
+{{--                end Swiper--}}
                 <label for="title" class="search-header news-edit-label">Заголовок</label>
                 <input type="text" class="search-request" name="title" value="{{$post->title}}">
-                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Короткое описание новости</label>
-                <textarea name="except" id="" cols="30" rows="10" class="comment-field">
-                    {{$post->except}}
-                </textarea>
-                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст новости</label>
+
+                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
                     {{$post->description}}
                 </textarea>
+                <input type="file" id="qwe">
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>
@@ -113,46 +158,40 @@
     });
 
     //Swiper
-    // Инициализация превью слайдера
-    const sliderThumbs = new Swiper('.slider__thumbs .swiper-container', { // ищем слайдер превью по селектору
-        // задаем параметры
-        direction: 'vertical', // вертикальная прокрутка
-        slidesPerView: 3, // показывать по 3 превью
-        spaceBetween: 24, // расстояние между слайдами
-        mousewheel: true,
-        navigation: { // задаем кнопки навигации
-            nextEl: '.slider__next', // кнопка Next
-            prevEl: '.slider__prev' // кнопка Prev
+    var swiper = new Swiper(".mySwiper", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        freeMode: true,
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
         },
-        freeMode: true, // при перетаскивании превью ведет себя как при скролле
-        breakpoints: { // условия для разных размеров окна браузера
-            0: { // при 0px и выше
-                direction: 'horizontal', // горизонтальная прокрутка
-            },
-            768: { // при 768px и выше
-                direction: 'vertical', // вертикальная прокрутка
-            }
-        }
     });
-    // Инициализация слайдера изображений
-    const sliderImages = new Swiper('.slider__images .swiper-container', { // ищем слайдер превью по селектору
-        // задаем параметры
-        direction: 'vertical', // вертикальная прокрутка
-        slidesPerView: 1, // показывать по 1 изображению
-        spaceBetween: 72, // расстояние между слайдами
-        mousewheel: true, // можно прокручивать изображения колёсиком мыши
 
-        grabCursor: true, // менять иконку курсора
-        thumbs: { // указываем на превью слайдер
-            swiper: sliderThumbs // указываем имя превью слайдера
-        },
-        breakpoints: { // условия для разных размеров окна браузера
-            0: { // при 0px и выше
-                direction: 'horizontal', // горизонтальная прокрутка
-            },
-            768: { // при 768px и выше
-                direction: 'vertical', // вертикальная прокрутка
-            }
+    $('.edit-imgs').click(function (){
+        //передаем файл
+        let file_data = $('#qwe').prop('files')[0];
+        if(file_data != undefined) {
+            let form_data = new FormData();
+            form_data.append('file', file_data);
+            form_data.append('src', $(this).attr('src'));
+            form_data.append('id', '{{$post->id}}');
+            let th = $(this);
+
+            $.ajax({
+                url: "/rating/change-file",
+                type: "POST",
+                processData: false,
+                contentType: false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: form_data,
+                success: function (response) {
+                    console.log($(this).attr('src'))
+                    th.attr('src', response);
+                },
+            });
         }
     });
 </script>

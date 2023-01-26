@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\File;
 use App\Models\Rating;
 use Illuminate\Http\Request;
 
@@ -72,7 +73,28 @@ class RatingController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Rating::findOrFail($id);
+        return view('rating.edit', compact('post'));
+    }
+
+    /**
+     * @param Request $request
+     * @return string
+     * Change ajax file
+     */
+    public function updateImg(Request $request)
+    {
+        $src = $request->src;
+        $id = $request->id;
+        $img = $request->file('file')->store('ratings', 'public');
+        //удаляем прошлый файл (пока не буду!)
+        $file = File::where('morphable_type', 'App\Models\Rating')
+            ->where('morphable_id', $id)
+            ->where('src', $src)
+            ->first();
+        $file->src = '/storage/'.$img;
+        $file->save();
+        return $file->src;
     }
 
     /**

@@ -150,6 +150,19 @@ class PostSeeder extends Seeder
             );
         }
 
+        $postImgs = ['/assets/img/sng.jpg', '/assets/img/foreign.jpg', '/assets/img/just-coin.jpg', '/assets/img/just-penny.jpg'];
+
+        foreach ($postImgs as $img){
+            File::create(
+                [
+                    'morphable_type' => 'App\Models\Rating',
+                    'morphable_id' => 1,
+                    'src' => $img,
+                    'category' => 'img'
+                ]
+            );
+        }
+
         //characteristics
         $characteristics = [
             [
