@@ -145,6 +145,15 @@
                 width: 32px;
             }
         }
+
+        .rating-show-description p{
+            color: #4A4A4A;
+            font-weight: 400;
+            font-size: 16px;
+            font-family: "Roboto",sans-serif;
+            margin-bottom: 53px;
+            max-width: 285px;
+        }
     </style>
 </head>
 
@@ -193,36 +202,14 @@
                             <div class="slider__images">
                                 <div class="swiper-container"> <!-- Слайдер с изображениями -->
                                     <div class="swiper-wrapper">
+                                        @foreach($rating->images() as $img)
                                         <div class="swiper-slide">
                                             <div class="slider__image">
-                                                <img src="https://picsum.photos/1920/1080" alt="" />
+                                                <img src="{{$img}}" alt="" />
                                                 <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
                                             </div>
                                         </div>
-                                        <div class="swiper-slide">
-                                            <div class="slider__image"><img src="https://picsum.photos/1920/1081"
-                                                                            alt="" />
-                                                <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="slider__image"><img src="https://picsum.photos/1920/1082"
-                                                                            alt="" />
-                                                <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="slider__image"><img src="https://picsum.photos/1920/1083"
-                                                                            alt="" />
-                                                <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
-                                            </div>
-                                        </div>
-                                        <div class="swiper-slide">
-                                            <div class="slider__image"><img src="https://picsum.photos/1920/1084"
-                                                                            alt="" />
-                                                <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
-                                            </div>
-                                        </div>
+                                        @endforeach
                                     </div>
                                 </div>
                             </div>
@@ -231,26 +218,12 @@
                                 <div class="slider__thumbs">
                                     <div class="swiper-container"> <!-- Слайдер с превью -->
                                         <div class="swiper-wrapper">
+                                            @foreach($rating->images() as $img)
                                             <div class="swiper-slide">
                                                 <div class="slider__image"><img
-                                                        src="https://picsum.photos/1920/1080" alt="" /></div>
+                                                        src="{{$img}}" alt="" /></div>
                                             </div>
-                                            <div class="swiper-slide">
-                                                <div class="slider__image"><img
-                                                        src="https://picsum.photos/1920/1081" alt="" /></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="slider__image"><img
-                                                        src="https://picsum.photos/1920/1082" alt="" /></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="slider__image"><img
-                                                        src="https://picsum.photos/1920/1083" alt="" /></div>
-                                            </div>
-                                            <div class="swiper-slide">
-                                                <div class="slider__image"><img
-                                                        src="https://picsum.photos/1920/1084" alt="" /></div>
-                                            </div>
+                                            @endforeach
                                         </div>
                                     </div>
                                 </div>
@@ -266,9 +239,9 @@
                     <h3 class="rating-show-title">
                         {{$rating->title}}
                     </h3>
-                    <p class="rating-show-description">
-                        {{$rating->description}}
-                    </p>
+                    <div class="rating-show-description">
+                        {!! $rating->description !!}
+                    </div>
                     <div class="rating-show-views">
                         Просмотры:
                         <span class="rating-show-views-count">{{$rating->views}}</span>
@@ -279,7 +252,7 @@
                             {{$rating->getDate()}}
                         </div>
                         <div class="rating-author">
-                            Автор <a href="">{{$rating->author->name}}</a>
+                            Автор <a href="{{route('users.show', $rating->author->id)}}">{{$rating->author->name}}</a>
                         </div>
                     </div>
                 </div>
@@ -303,7 +276,7 @@
                             <div class="comment-avatar-block">
                                 <img src="/assets/img/Ellipse66.png" class="comment-avatar" alt="">
                                 <div class="comment-nick">
-                                    @unkind
+                                    {{'@'.Auth()->user()->name}}
                                 </div>
                             </div>
                             <form action="{{route('comment.send', ['type' => 'rating','post_id' => $rating->id])}}" method="POST" class="comment-form">

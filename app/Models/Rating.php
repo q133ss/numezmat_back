@@ -12,6 +12,8 @@ class Rating extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public static function isJoined($query, $table)
     {
         $joins = $query->getQuery()->joins;
@@ -30,7 +32,7 @@ class Rating extends Model
 
     public function img()
     {
-        return $this->morphOne(File::class, 'morphable')->where('category','img')->pluck('src')->first();
+        return $this->morphOne(File::class, 'morphable')->where('category','img')->orderBy('created_at','DESC')->pluck('src')->first();
     }
 
     public function images()

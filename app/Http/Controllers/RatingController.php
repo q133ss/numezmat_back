@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\RatingController\UpdateImgRequest;
+use App\Http\Requests\RatingController\UpdateRequest;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Rating;
@@ -117,9 +118,10 @@ class RatingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+        Rating::findOrFail($id)->update($request->validated());
+        return to_route('rating.detail', $id);
     }
 
     /**

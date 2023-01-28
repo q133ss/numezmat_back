@@ -25,6 +25,7 @@ Route::get('rating/detail/{id}', [App\Http\Controllers\RatingController::class, 
 Route::post('/rating/change-file', [App\Http\Controllers\RatingController::class, 'updateImg']);
 Route::post('/rating/delete-file', [App\Http\Controllers\RatingController::class, 'deleteImg']);
 Route::resource('rating', App\Http\Controllers\RatingController::class);
+Route::get('user/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('users.show');
 Route::view('expertise', 'expertise')->name('expertise.index');
 Route::view('catalog', 'catalog.index')->name('catalog.index');
 Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
