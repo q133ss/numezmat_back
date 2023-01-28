@@ -65,5 +65,21 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Добавлять новости';
         $manageUser->slug = 'create-news';
         $manageUser->save();
+
+        //Rating actions
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Определение и оценка"';
+        $manageUser->slug = 'create-rating';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Определение и оценка"';
+        $manageUser->slug = 'edit-rating';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать и удалять записи в "Определение и оценка"';
+        $manageUser->slug = 'block-rating';
+        $manageUser->save();
     }
 }

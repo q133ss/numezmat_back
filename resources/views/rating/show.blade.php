@@ -101,7 +101,7 @@
                                                 {{$item->title}}
                                             </h3>
                                             <p class="post-except">
-                                                {{mb_substr($item->description, 0, 100)}}
+                                                {{ strip_tags(mb_substr($item->description, 0, 100)) }}
                                                 @if(strlen($item->description) > 100)
                                                     ...
                                                 @endif

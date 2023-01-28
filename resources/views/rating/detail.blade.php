@@ -259,9 +259,17 @@
             </div>
 
             <div class="rating-show-control">
-                <a href="{{route('rating.edit', $rating->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png"
-                                                                                 alt=""></a>
-                <a href="#" class="rating-show-block-btn">Заблокировать тему</a>
+                @can('edit-rating')
+                    <a href="{{route('rating.edit', $rating->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png" alt=""></a>
+                @endcan
+
+                @can('block-rating')
+                    @if($rating->is_block == 0)
+                        <a href="{{route('rating.block', ['id' => $rating->id, 'action' => 1])}}" class="rating-show-block-btn">Заблокировать тему</a>
+                    @else
+                        <a href="{{route('rating.block', ['id' => $rating->id, 'action' => 0])}}" class="rating-show-block-btn comment-form-btn">Разблокировать тему</a>
+                    @endif
+                @endcan
             </div>
 
             <div class="rating-show-wrapper">

@@ -11,6 +11,12 @@ use Illuminate\Http\Request;
 
 class RatingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('permission:edit-rating')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-rating')->only(['block']);
+        $this->middleware('permission:create-rating')->only(['create','store']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -99,7 +105,6 @@ class RatingController extends Controller
         return $file->src;
     }
 
-    #TODO добавить проверку прав на удаление и изменение файлов!
     public function deleteImg(Request $request)
     {
         File::where('morphable_type', 'App\Models\Rating')
@@ -121,6 +126,12 @@ class RatingController extends Controller
     public function update(UpdateRequest $request, $id)
     {
         Rating::findOrFail($id)->update($request->validated());
+        return to_route('rating.detail', $id);
+    }
+
+    public function block($id, $action)
+    {
+        Rating::findOrFail($id)->update(['is_block' => $action]);
         return to_route('rating.detail', $id);
     }
 
