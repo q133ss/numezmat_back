@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RatingController\UpdateImgRequest;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Rating;
@@ -82,7 +83,7 @@ class RatingController extends Controller
      * @return string
      * Change ajax file
      */
-    public function updateImg(Request $request)
+    public function updateImg(UpdateImgRequest $request)
     {
         $src = $request->src;
         $id = $request->id;
@@ -95,6 +96,18 @@ class RatingController extends Controller
         $file->src = '/storage/'.$img;
         $file->save();
         return $file->src;
+    }
+
+    #TODO добавить проверку прав на удаление и изменение файлов!
+    public function deleteImg(Request $request)
+    {
+        File::where('morphable_type', 'App\Models\Rating')
+            ->where('morphable_id', $request->id)
+            ->where('src', $request->src)
+            ->delete();
+        unlink(public_path().$request->src);
+
+        return response('deleted', 200);
     }
 
     /**

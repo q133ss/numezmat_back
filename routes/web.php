@@ -23,6 +23,7 @@ Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']
 Route::resource('news', App\Http\Controllers\NewsController::class);
 Route::get('rating/detail/{id}', [App\Http\Controllers\RatingController::class, 'detail'])->name('rating.detail');
 Route::post('/rating/change-file', [App\Http\Controllers\RatingController::class, 'updateImg']);
+Route::post('/rating/delete-file', [App\Http\Controllers\RatingController::class, 'deleteImg']);
 Route::resource('rating', App\Http\Controllers\RatingController::class);
 Route::view('expertise', 'expertise')->name('expertise.index');
 Route::view('catalog', 'catalog.index')->name('catalog.index');

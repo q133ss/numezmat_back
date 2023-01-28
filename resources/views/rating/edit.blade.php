@@ -64,6 +64,30 @@
         height: 100%;
         object-fit: cover;
     }
+
+    .edit-slide{
+        display: grid;
+    }
+
+    .edit-slide-edit-btn{
+        background-color: #CB3631;
+    }
+
+    .edit-imgs{
+        max-width: 300px;
+    }
+
+    .mySwiper{
+        margin-top: 20px;
+    }
+
+    .swiper-pagination{
+        margin-top: 25px;
+    }
+
+    .swiper-pagination-bullet-active{
+        background-color:#3F6695 !important;
+    }
 </style>
 
 @include('includes.header')
@@ -113,8 +137,13 @@
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
                         @foreach($post->images() as $img)
-                        <div class="swiper-slide">
+                        <div class="swiper-slide edit-slide">
                             <img src="{{$img}}" alt="" style="cursor: pointer" class="edit-imgs">
+                            <div class="slider-btns">
+                                <button class="comment-form-btn slider-edit-btn" type="button">Изменить</button>
+                                <button class="comment-form-btn edit-slide-edit-btn" type="button">Удалить</button>
+                                <input type="file" class="display-n sliders-file">
+                            </div>
                         </div>
                         @endforeach
                     </div>
@@ -128,7 +157,6 @@
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
                     {{$post->description}}
                 </textarea>
-                <input type="file" id="qwe">
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>
@@ -168,15 +196,21 @@
         },
     });
 
-    $('.edit-imgs').click(function (){
-        //передаем файл
-        let file_data = $('#qwe').prop('files')[0];
+    //Edit photos
+    $('.slider-edit-btn').click(function (){
+        $(this).parent().find('input').click();
+    });
+
+    $('.sliders-file').change(function (){
+        let img = $(this).parent().parent().find('img');
+        let _this = $(this);
+
+        let file_data = _this.prop('files')[0];
         if(file_data != undefined) {
             let form_data = new FormData();
             form_data.append('file', file_data);
-            form_data.append('src', $(this).attr('src'));
+            form_data.append('src', img.attr('src'));
             form_data.append('id', '{{$post->id}}');
-            let th = $(this);
 
             $.ajax({
                 url: "/rating/change-file",
@@ -188,12 +222,50 @@
                 },
                 data: form_data,
                 success: function (response) {
-                    console.log($(this).attr('src'))
-                    th.attr('src', response);
+                    img.attr('src', response);
                 },
+                error: function(data) {
+                    var response = JSON.parse(data.responseText);
+                    var errorString = '';
+                    $.each( response.errors, function( key, value) {
+                        errorString += value;
+                    });
+                    alert(errorString);
+                }
             });
         }
     });
+
+    $('.edit-slide-edit-btn').click(function (){
+        let conf = confirm('Вы уверены?');
+
+        let img = $(this).parent().parent().find('img');
+        let _this = $(this);
+        let block = _this.parent().parent();
+
+        let src = img.attr('src');
+
+        if(conf){
+            $.ajax({
+                url: "/rating/delete-file",
+                type: "POST",
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                data: {
+                    'src': src,
+                    'id': '{{$post->id}}'
+                },
+                success: function (response) {
+                    block.remove();
+                },
+                error: function(data) {
+                    //
+                }
+            });
+        }
+    });
+    //end edit photos
 </script>
 
 <script>
