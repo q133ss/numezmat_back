@@ -81,5 +81,20 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Блокировать и удалять записи в "Определение и оценка"';
         $manageUser->slug = 'block-rating';
         $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять разделы в "Определение и оценка"';
+        $manageUser->slug = 'create-sections-rating';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять разделы в "Определение и оценка"';
+        $manageUser->slug = 'edit-sections-rating';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Удалять разделы в "Определение и оценка"';
+        $manageUser->slug = 'delete-sections-rating';
+        $manageUser->save();
     }
 }

@@ -21,11 +21,19 @@ Route::get('/', function () {
 
 Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);
 Route::resource('news', App\Http\Controllers\NewsController::class);
+
+
 Route::get('rating/detail/{id}', [App\Http\Controllers\RatingController::class, 'detail'])->name('rating.detail');
 Route::post('/rating/change-file', [App\Http\Controllers\RatingController::class, 'updateImg']);
 Route::post('/rating/delete-file', [App\Http\Controllers\RatingController::class, 'deleteImg']);
 Route::get('/rating/block/{id}/{action}', [App\Http\Controllers\RatingController::class, 'block'])->name('rating.block');
+Route::get('/rating/create-section', [App\Http\Controllers\RatingController::class, 'createSection'])->name('rating.create.section');
+Route::post('/rating/store-section', [App\Http\Controllers\RatingController::class, 'storeSection'])->name('rating.store.section');
+Route::get('/rating/edit-section/{id}', [App\Http\Controllers\RatingController::class, 'editSection'])->name('rating.edit.section');
+Route::post('/rating/update-section/{id}', [App\Http\Controllers\RatingController::class, 'updateSection'])->name('rating.update.section');
 Route::resource('rating', App\Http\Controllers\RatingController::class);
+
+
 Route::get('user/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('users.show');
 Route::view('expertise', 'expertise')->name('expertise.index');
 Route::view('catalog', 'catalog.index')->name('catalog.index');

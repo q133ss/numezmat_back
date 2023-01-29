@@ -10,6 +10,8 @@ class Category extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public static function getMainCategories($type)
     {
         return self::where('type', $type)->where('parent_id', null);
@@ -28,24 +30,17 @@ class Category extends Model
     public function getParents()
     {
         $ids = [];
-        $ids[] = $this->parent_id;
-
-        while (true){
-
-            try {
-                $parent = $this->find(last($ids))->parent_id;
-            }catch(\Exception $exception){
-                break;
+        if($this->parent_id != null) {
+            $ids[] = $this->parent_id;
+            while (true) {
+                $lastItem = $this->find(last($ids))->toArray();
+                if($lastItem['parent_id'] != null) {
+                    $ids[] = $lastItem['parent_id'];
+                }else{
+                    break;
+                }
             }
-
-            if($parent != null) {
-                $ids[] = $parent->id;
-            }else{
-                break;
-            }
-
         }
-
         return $this->whereIn('id', $ids)->get();
     }
 

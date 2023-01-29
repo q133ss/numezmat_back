@@ -23,8 +23,8 @@
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
                         <li><a href="{{route('rating.index')}}">Определение и оценка</a></li>
-                        @foreach($category->getParents() as $category)
-                            <li><a href="{{route('rating.show', $category)}}">{{$category->name}}</a></li>
+                        @foreach($category->getParents() as $cat)
+                            <li><a href="{{route('rating.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
                         <li>{{$category->name}}</li>
                     </ul>
@@ -58,6 +58,27 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
+                    <div class="actions" style="display: flex; gap: 30px">
+                        @can('create-sections-rating')
+                            @php $args = ['parent_id' => 1]; @endphp
+                            <a href="{{route('rating.create.section', ['parent_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый подраздел</a>
+                        @endcan
+
+                        @can('edit-sections-rating')
+                            @php $args = ['parent_id' => 1]; @endphp
+                            <a href="{{route('rating.edit.section', [$category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Изменить раздел</a>
+                        @endcan
+
+                        @can('delete-sections-rating')
+                            @php $args = ['parent_id' => 1]; @endphp
+                            <a href="{{route('rating.create.section', ['parent_id' => $category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
+                        @endcan
+
+                        @can('create-rating')
+                            <a href="{{route('rating.create', ['category_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить оценку</a>
+                        @endcan
+                    </div>
+
                     @foreach($categories as $category)
                         <div class="post">
                             <img src="{{$category->img()}}" class="post-image" alt="">

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RatingController\UpdateImgRequest;
 use App\Http\Requests\RatingController\UpdateRequest;
+use App\Http\Requests\StoreSection;
+use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Rating;
@@ -16,6 +18,7 @@ class RatingController extends Controller
         $this->middleware('permission:edit-rating')->only(['edit','update','updateImg','deleteImg']);
         $this->middleware('permission:block-rating')->only(['block']);
         $this->middleware('permission:create-rating')->only(['create','store']);
+        $this->middleware('permission:create-sections-rating')->only(['createSection','storeSection']);
     }
     /**
      * Display a listing of the resource.
@@ -26,6 +29,59 @@ class RatingController extends Controller
     {
         $categories = Category::getMainCategories('App\Models\Rating')->paginate(10);
         return view('rating.index', compact('categories'));
+    }
+
+    public function createSection(Request $request)
+    {
+        return view('general.createSection', ['route' => 'rating.store.section', 'parent_id' => $request->parent_id]);
+    }
+
+    public function storeSection(StoreSection $request)
+    {
+        $data = $request->validated();
+        unset($data['img']);
+        $data['type'] = 'App\Models\Rating';
+        $data['parent_id'] = $request->parent_id;
+        $category = Category::create($data);
+        $filePath = $request->file('img')->store('categories', 'public');
+        File::create([
+            'morphable_type' => 'App\Models\Category',
+            'morphable_id' => $category->id,
+            'src' => '/storage/'.$filePath,
+            'category' => 'img'
+        ]);
+
+        return to_route('rating.show', $category->id);
+    }
+
+    public function editSection($id)
+    {
+        $route = route('rating.update.section', $id);
+        $section = Category::findOrFail($id);
+        $categories = Category::where('id', '!=', $id)->get();
+        return view('general.editSection', compact('route', 'section', 'categories'));
+    }
+
+    public function updateSection(UpdateSection $request, $id)
+    {
+        $data = $request->validated();
+
+        unset($data['img']);
+
+        if($request->file('img')) {
+            $file = File::where('morphable_type', 'App\Models\Category')
+                ->where('morphable_id', $id)
+                ->first();
+
+            unlink(public_path().$file->src);
+
+            $filePath = $request->file('img')->store('categories', 'public');
+            $file->src = '/storage/' . $filePath;
+            $file->save();
+        }
+
+        Category::findOrFail($id)->update($data);
+        return to_route('rating.show', $id);
     }
 
     /**
