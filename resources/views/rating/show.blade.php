@@ -71,7 +71,7 @@
 
                         @can('delete-sections-rating')
                             @php $args = ['parent_id' => 1]; @endphp
-                            <a href="{{route('rating.create.section', ['parent_id' => $category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
+                            <a href="{{route('rating.delete.section', [$category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
                         @endcan
 
                         @can('create-rating')

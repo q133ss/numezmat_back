@@ -23,17 +23,17 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Оценка монет</li>
+                        <li>Экспертиза монет</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/expertImg.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            Оценка монет
+                            Экспертиза
                         </h3>
                         <span class="page-sub-title">
-                                Монеты на оценку
+                                Экспертиза монет
                             </span>
                     </div>
                 </div>
@@ -51,201 +51,45 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
+                    @can('create-sections-expertise')
+                        <a href="{{route('expertise.create.section')}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0; width: 205px">Добавить новый раздел</a>
+                    @endcan
+                    @foreach($categories as $category)
                     <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
+                        <img src="{{$category->img()}}" class="post-image" alt="">
                         <div class="post-content">
                             <div class="post-description">
                                 <h3 class="post-title">
-                                    Монеты на оценку
+                                    {{$category->name}}
                                 </h3>
                                 <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
+                                    {{$category->description}}
                                 </p>
 
-                                <a href="" class="post-btn">Подробнее
+                                <a href="{{route('expertise.show', $category->id)}}" class="post-btn">Подробнее
                                     <img src="/assets/img/arrow-left.png" alt="">
                                 </a>
                             </div>
                             <div class="post-info">
                                     <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
+                                        Оценки:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
                                     </span>
                                 <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
+                                        Просмотры:  <span class="post-info-item-count">{{$category->views_count ?? '0'}}</span>
                                     </span>
                                 <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
+                                        Создано - {{$category->date()}}
+                                </span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-                                <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                </p>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info">
-                                    <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-                                <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                </p>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info">
-                                    <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-                                <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                </p>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info">
-                                    <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-                                <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                </p>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info">
-                                    <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-                                <p class="post-except">
-                                    Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                </p>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info">
-                                    <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-info-item">
-                                        Просмотры:  <span class="post-info-item-count">64</span>
-                                    </span>
-                                <span class="post-date">
-                                        Создано - 2022-04-09 22:42:34
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <div class="ads">
-                    <a href="#">
-                        <img src="/assets/img/ads.jpg" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="/assets/img/ads.jpg" alt="">
-                    </a>
+                    @include('includes.ad', ['count' => 2])
                 </div>
             </div>
-
-            <div class="posts-paginate">
-                <ul>
-                    <li class="current-page">1</li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                </ul>
-            </div>
+            {{$categories->links('includes.pagination')}}
         </div>
     </section>
 

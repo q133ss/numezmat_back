@@ -96,5 +96,36 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Удалять разделы в "Определение и оценка"';
         $manageUser->slug = 'delete-sections-rating';
         $manageUser->save();
+
+        //Expertise
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять разделы в "Экспетризу монет"';
+        $manageUser->slug = 'create-sections-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Экспетризу монет"';
+        $manageUser->slug = 'create-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Экспетриза монет"';
+        $manageUser->slug = 'edit-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать и удалять записи в "Экспетриза монет"';
+        $manageUser->slug = 'block-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять разделы в "Экспетриза монет"';
+        $manageUser->slug = 'edit-sections-expertise';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Удалять разделы в "Экспетриза монет"';
+        $manageUser->slug = 'delete-sections-expertise';
+        $manageUser->save();
     }
 }

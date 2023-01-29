@@ -22,17 +22,17 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Экспертиза</li>
+                        <li>Оценка монет</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/reviewImg.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            Экспертиза монет
+                            Оценка монет
                         </h3>
                         <span class="page-sub-title">
-                                Монеты на экспертизу
+                                Монеты на оценку
                             </span>
                     </div>
                 </div>

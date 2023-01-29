@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\Characteristic;
+use App\Models\Expertise;
 use App\Models\File;
 use App\Models\News;
 use App\Models\Rating;
@@ -214,6 +215,68 @@ class PostSeeder extends Seeder
 
         foreach ($characteristics as $characteristic){
             Characteristic::create($characteristic);
+        }
+
+        //Expertise categories
+        $expertise_categories = [
+            ['name' => 'Монеты СССР', 'description' => 'Экспертиза монет из СССР'],
+            ['name' => 'Монеты РФ', 'description' => 'Экспертиза монет из РФ'],
+        ];
+
+        foreach ($expertise_categories as $category){
+            $category['type'] = 'App\Models\Expertise';
+            Category::create($category);
+        }
+
+        //Experise subcats
+            $cat_type = 'App\Models\Expertise';
+        Category::create(['name' => 'Подкатегория 1', 'description' => 'Экспетира монет подкатегория 1', 'type' => $cat_type, 'parent_id' => Category::where('name', 'Монеты РФ')->where('type', 'App\Models\Expertise')->pluck('id')->first()]);
+        Category::create(['name' => 'Подкатегория 2', 'description' => 'Экспетира монет подкатегория 2', 'type' => $cat_type, 'parent_id' => Category::where('name', 'Подкатегория 1')->where('type', 'App\Models\Expertise')->pluck('id')->first()]);
+        Category::create(['name' => 'Подкатегория 3', 'description' => 'Экспетира монет подкатегория 3', 'type' => $cat_type, 'parent_id' => Category::where('name', 'Подкатегория 2')->where('type', 'App\Models\Expertise')->pluck('id')->first()]);
+        Category::create(['name' => 'Подкатегория 4', 'description' => 'Экспетира монет подкатегория 4', 'type' => $cat_type, 'parent_id' => Category::where('name', 'Подкатегория 3')->where('type', 'App\Models\Expertise')->pluck('id')->first()]);
+        Category::create(['name' => 'Подкатегория 5', 'description' => 'Экспетира монет подкатегория 5', 'type' => $cat_type, 'parent_id' => Category::where('name', 'Подкатегория 4')->where('type', 'App\Models\Expertise')->pluck('id')->first()]);
+
+        //Experise cats img
+        $expertise_img = [
+            ['name' => 'Монеты СССР', 'src' => '/assets/img/just-rub.jpg'],
+            ['name' => 'Монеты РФ', 'src' => '/assets/img/just-coin.jpg']
+        ];
+
+        for($i = 1; $i <= 5; $i++){
+            array_push($expertise_img, ['name' => 'Подкатегория '.$i, 'src' => '/assets/img/just-coin.jpg']);
+        }
+
+        foreach ($expertise_img as $img){
+            $img['morphable_type'] = 'App\Models\Category';
+            $img['morphable_id'] = Category::where('type', 'App\Models\Expertise')->where('name', $img['name'])->pluck('id')->first();
+            $img['category'] = 'img';
+            unset($img['name']);
+            File::create($img);
+        }
+
+        //Expertise posts
+        $rf_expertise = Category::where('type', 'App\Models\Expertise')->where('name', 'Монеты РФ')->pluck('id')->first();
+        $ussr_expertise = Category::where('type', 'App\Models\Expertise')->where('name', 'Монеты СССР')->pluck('id')->first();
+
+        $expertises = [
+            ['title' => 'Требуется экспертиза этой монеты', 'description' => 'Нашел монету, требуется экспертиза', 'category_id' => $rf_expertise],
+            ['title' => '10 копеек', 'description' => 'Кто сможет помочь с экспертизой?', 'category_id' => $rf_expertise],
+            ['title' => '20 руб 1998', 'description' => 'Необходимо провести экспертизу', 'category_id' => $rf_expertise],
+
+            ['title' => '1 копейка 1978', 'description' => 'Нужна экспертиза', 'category_id' => $ussr_expertise],
+            ['title' => '3 копейки 1956', 'description' => 'Что скажите?', 'category_id' => $ussr_expertise]
+        ];
+
+        foreach ($expertises as $expertise){
+            $expertise['user_id'] = 1;
+            $post = Expertise::create($expertise);
+
+            File::create([
+                'morphable_type' => 'App\Models\Expertise',
+                'morphable_id' => $post->id,
+                'category' => 'img',
+                'src' => '/assets/img/just-coin.jpg'
+            ]);
         }
     }
 }

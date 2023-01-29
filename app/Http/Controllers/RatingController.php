@@ -11,6 +11,7 @@ use App\Models\Category;
 use App\Models\File;
 use App\Models\Rating;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Route;
 
 class RatingController extends Controller
 {
@@ -19,7 +20,7 @@ class RatingController extends Controller
         $this->middleware('permission:edit-rating')->only(['edit','update','updateImg','deleteImg']);
         $this->middleware('permission:block-rating')->only(['block']);
         $this->middleware('permission:create-rating')->only(['create','store']);
-        $this->middleware('permission:create-sections-rating')->only(['createSection','storeSection']);
+        $this->middleware('permission:create-sections-rating')->only(['createSection','storeSection', 'updateSection']);
     }
     /**
      * Display a listing of the resource.
@@ -206,6 +207,48 @@ class RatingController extends Controller
     {
         Rating::findOrFail($id)->update(['is_block' => $action]);
         return to_route('rating.detail', $id);
+    }
+
+    public function deleteSection($id)
+    {
+        $section = Category::findOrFail($id);
+
+        $category_ids = [];
+        //Добавляем текущую категорию
+        $category_ids[] = $section->id;
+
+        $item_ids = [];
+        //Добавляем текущую категорию
+        foreach (Rating::where('category_id', $id)->get() as $rating) {
+            $item_ids[] = $rating->id;
+        }
+
+        while(true){
+            $item = Category::where('parent_id', last($category_ids));
+            if($item->exists()) {
+                $category_id = $item->pluck('id')->first();
+
+                $category_ids[] = $category_id;
+                foreach (Rating::where('category_id', $category_id)->get() as $rating) {
+                    $item_ids[] = $rating->id;
+                }
+            }else{
+                break;
+            }
+        }
+
+        //если есть родительская категория, то переходим в нее, иначе на главную
+        if($section->parent_id != null){
+            $route = Route('rating.show', $section->parent_id);
+        }else{
+            $route = Route('rating.index');
+        }
+        //Удаляем все и делаем редирект
+        #TODO Добавить удаление файлов!
+        Rating::whereIn('id', $item_ids)->delete();
+        Category::whereIn('id', $category_ids)->delete();
+
+        return redirect($route);
     }
 
     /**

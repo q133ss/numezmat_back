@@ -28,7 +28,11 @@ class StoreRequest extends FormRequest
                         'array',
                         function($attribute, $value, $fail){
                             foreach ($value as $img){
-                                $data = getimagesize($img);
+                                try {
+                                    $data = getimagesize($img);
+                                }catch (\Exception $e){
+                                    $fail('Неверный формат изображения');
+                                }
                                 if($data[0] < 269 || $data[1] < 168){
                                     $fail('Минимальный размер изображения 269x168px');
                                 }
