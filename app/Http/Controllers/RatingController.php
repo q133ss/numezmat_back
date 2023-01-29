@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RatingController\StoreRequest;
 use App\Http\Requests\RatingController\UpdateImgRequest;
 use App\Http\Requests\RatingController\UpdateRequest;
 use App\Http\Requests\StoreSection;
@@ -89,9 +90,11 @@ class RatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $category_id = $request->category_id;
+
+        return view('rating.create', compact('category_id'));
     }
 
     /**
@@ -100,9 +103,23 @@ class RatingController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = Auth()->id();
+        unset($data['img']);
+        $rating = Rating::create($data);
+        foreach ($request->img as $img){
+            $path = $img->store('ratings', 'public');
+            File::create([
+                'morphable_type' => 'App\Models\Rating',
+                'morphable_id' => $rating->id,
+                'category' => 'img',
+                'src' => '/storage/'.$path
+            ]);
+        }
+
+        return to_route('rating.detail', $rating->id);
     }
 
     /**
@@ -116,7 +133,7 @@ class RatingController extends Controller
         $category = Category::findOrFail($id);
         $category->addView();
         $categories = Category::getSubCategories('App\Models\Rating', $id)->paginate(10);
-        $items = Rating::where('ratings.category_id', $category->id)->withFilter($request)->paginate(10);
+        $items = Rating::where('ratings.category_id', $category->id)->where('is_block', false)->withFilter($request)->paginate(10);
 
         return view('rating.show', compact('category','categories', 'items'));
     }
