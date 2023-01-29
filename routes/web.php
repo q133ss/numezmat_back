@@ -43,6 +43,9 @@ Route::post('/expertise/store-section', [App\Http\Controllers\ExpertiseControlle
 Route::get('expertise/detail/{id}', [App\Http\Controllers\ExpertiseController::class, 'detail'])->name('expertise.detail');
 Route::get('/expertise/block/{id}/{action}', [App\Http\Controllers\ExpertiseController::class, 'block'])->name('expertise.block');
 Route::get('/expertise/edit-section/{id}', [App\Http\Controllers\ExpertiseController::class, 'editSection'])->name('expertise.edit.section');
+Route::post('/expertise/update-section/{id}', [App\Http\Controllers\ExpertiseController::class, 'updateSection'])->name('expertise.update.section');
+Route::post('/expertise/change-file', [App\Http\Controllers\ExpertiseController::class, 'updateImg']);
+Route::post('/expertise/delete-file', [App\Http\Controllers\ExpertiseController::class, 'deleteImg']);
 Route::get('/expertise/delete-section/{id}', [App\Http\Controllers\ExpertiseController::class, 'deleteSection'])->name('expertise.delete.section');
 Route::resource('expertise', App\Http\Controllers\ExpertiseController::class);
 

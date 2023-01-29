@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Изменить секцию</title>
+    <title>Добавить экспертизу</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
@@ -25,6 +25,7 @@
 
 <body>
 
+
 @include('includes.header')
 
 <div class="page-content">
@@ -35,24 +36,24 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Изменить секцию</li>
+                        <li><a href="{{route('expertise.index')}}">Экспертиза монет</a></li>
+                        <li>Добавить экспертизу</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/revMyMoney.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            Изменить секцию
+                            Добавить экспертизу
                         </h3>
                     </div>
                 </div>
-
             </div>
         </div>
     </section>
     <section class="rating-show">
         <div class="container">
-            <form action="{{$route}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('expertise.store')}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
 
                 @if ($errors->any())
@@ -61,25 +62,18 @@
                     @endforeach
                 @endif
 
-                <img src="{{$section->img()}}" width="300px" alt="" style="display: block">
-                <label for="title" class="search-header news-edit-label">Изображение</label>
-                <input type="file" class="search-request" name="img" value="">
+                <label for="title" class="search-header news-edit-label">Изображения</label>
+                <input type="file" name="img[]" class="search-request"  multiple>
+                <label for="title" class="search-header news-edit-label">Заголовок</label>
+                <input type="text" class="search-request" name="title" value="{{old('title')}}">
 
-                <label for="parent_id" class="search-header news-edit-label">Родительская категория</label>
-                <select name="parent_id" class="search-request">
-                    <option value="">Нет</option>
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}" @if($category->id == $section->parent_id) selected @endif>{{$category->name}}</option>
-                    @endforeach
-                </select>
+                <input type="hidden" value="{{$category_id}}" name="category_id">
 
-                <label for="title" class="search-header news-edit-label">Название</label>
-                <input type="text" class="search-request" name="name" value="{{$section->name}}">
-
-                <label for="title" class="search-header news-edit-label">Описание</label>
-                <textarea name="description" class="search-request" cols="30" rows="10" style="display: block">{{$section->description}}</textarea>
-
-                <button class="comment-form-btn" type="submit">Изменить</button>
+                <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
+                <textarea name="description" id="" cols="30" rows="10" class="comment-field">
+                    {{old('description')}}
+                </textarea>
+                <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>
     </section>
@@ -94,6 +88,22 @@
 
 @include('includes.mobile')
 <script src="/assets/js/main.js"></script>
+
+<script>
+    tinymce.init({
+        selector: '.comment-field',
+        plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect',
+        toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+        tinycomments_mode: 'embedded',
+        tinycomments_author: 'Author name',
+        language: 'ru',
+        mergetags_list: [
+            { value: 'First.Name', title: 'First Name' },
+            { value: 'Email', title: 'Email' },
+        ]
+    });
+
+</script>
 </body>
 
 </html>

@@ -11,6 +11,8 @@ class Expertise extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function scopeWithFilter($query, Request $request)
     {
         return $query->when($request->query('year'), function ($query, $year){

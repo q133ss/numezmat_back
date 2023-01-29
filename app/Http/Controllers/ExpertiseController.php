@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RatingController\StoreRequest;
+use App\Http\Requests\RatingController\UpdateImgRequest;
+use App\Http\Requests\RatingController\UpdateRequest;
 use App\Http\Requests\StoreSection;
+use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\Expertise;
 use App\Models\File;
@@ -27,9 +31,11 @@ class ExpertiseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $category_id = $request->category_id;
+
+        return view('expertise.create', compact('category_id'));
     }
 
     /**
@@ -38,9 +44,23 @@ class ExpertiseController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        $data['user_id'] = Auth()->id();
+        unset($data['img']);
+        $expertise = Expertise::create($data);
+        foreach ($request->img as $img){
+            $path = $img->store('ratings', 'public');
+            File::create([
+                'morphable_type' => 'App\Models\Expertise',
+                'morphable_id' => $expertise->id,
+                'category' => 'img',
+                'src' => '/storage/'.$path
+            ]);
+        }
+
+        return to_route('expertise.detail', $expertise->id);
     }
 
     /**
@@ -132,6 +152,36 @@ class ExpertiseController extends Controller
         return redirect($route);
     }
 
+    public function editSection($id)
+    {
+        $route = route('expertise.update.section', $id);
+        $section = Category::findOrFail($id);
+        $categories = Category::where('id', '!=', $id)->where('type', 'App\Models\Expertise')->get();
+        return view('general.editSection', compact('route', 'section', 'categories'));
+    }
+
+    public function updateSection(UpdateSection $request, $id)
+    {
+        $data = $request->validated();
+
+        unset($data['img']);
+
+        if($request->file('img')) {
+            $file = File::where('morphable_type', 'App\Models\Category')
+                ->where('morphable_id', $id)
+                ->first();
+
+            unlink(public_path().$file->src);
+
+            $filePath = $request->file('img')->store('expertises', 'public');
+            $file->src = '/storage/' . $filePath;
+            $file->save();
+        }
+
+        Category::findOrFail($id)->update($data);
+        return to_route('expertise.show', $id);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -140,7 +190,34 @@ class ExpertiseController extends Controller
      */
     public function edit($id)
     {
-        //
+        $post = Expertise::findOrFail($id);
+        return view('expertise.edit', compact('post'));
+    }
+
+    public function updateImg(UpdateImgRequest $request)
+    {
+        $src = $request->src;
+        $id = $request->id;
+        $img = $request->file('file')->store('expertises', 'public');
+        //TODO удаляем прошлый файл (пока не буду!)
+        $file = File::where('morphable_type', 'App\Models\Expertise')
+            ->where('morphable_id', $id)
+            ->where('src', $src)
+            ->first();
+        $file->src = '/storage/'.$img;
+        $file->save();
+        return $file->src;
+    }
+
+    public function deleteImg(Request $request)
+    {
+        File::where('morphable_type', 'App\Models\Expertise')
+            ->where('morphable_id', $request->id)
+            ->where('src', $request->src)
+            ->delete();
+        unlink(public_path().$request->src);
+
+        return response('deleted', 200);
     }
 
     /**
@@ -150,9 +227,16 @@ class ExpertiseController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
-        //
+        Expertise::findOrFail($id)->update($request->validated());
+        return to_route('expertise.detail', $id);
+    }
+
+    public function block($id, $action)
+    {
+        Expertise::findOrFail($id)->update(['is_block' => $action]);
+        return to_route('expertise.detail', $id);
     }
 
     /**

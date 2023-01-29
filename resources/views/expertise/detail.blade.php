@@ -169,7 +169,7 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('expertise.index')}}">Определение и оценка</a></li>
+                        <li><a href="{{route('expertise.index')}}">Экспертиза</a></li>
                         @foreach($expertise->category->getParents() as $category)
                             <li><a href="{{route('expertise.show', $category)}}">{{$category->name}}</a></li>
                         @endforeach

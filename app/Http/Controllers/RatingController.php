@@ -60,7 +60,7 @@ class RatingController extends Controller
     {
         $route = route('rating.update.section', $id);
         $section = Category::findOrFail($id);
-        $categories = Category::where('id', '!=', $id)->get();
+        $categories = Category::where('id', '!=', $id)->where('type', 'App\Models\Rating')->get();
         return view('general.editSection', compact('route', 'section', 'categories'));
     }
 
