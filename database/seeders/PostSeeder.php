@@ -278,5 +278,39 @@ class PostSeeder extends Seeder
                 'src' => '/assets/img/just-coin.jpg'
             ]);
         }
+
+        //Catalog
+
+        $catalog_cats = [
+            ['name' => 'Монеты РФ', 'description' => 'Монеты РФ'],
+            ['name' => 'Монеты СНГ', 'description' => 'Монеты СНГ'],
+        ];
+
+        foreach ($catalog_cats as $cat){
+            $cat['type'] = 'App\Models\Catalog';
+            $category = Category::create($cat);
+        }
+
+        $catalog_subcats = [
+            ['name' => 'До революции', 'description' => 'Монеты до революции'],
+            ['name' => 'После революции', 'description' => 'Монеты после революции'],
+            ['name' => 'Монеты СССР', 'description' => 'Монеты СССР'],
+            ['name' => 'Монеты РФ', 'description' => 'Каталог монет РФ']
+        ];
+
+        foreach ($catalog_subcats as $cat){
+            $cat['parent_id'] = Category::where('name', 'Монеты РФ')->where('type', 'App\Models\Catalog')->pluck('id')->first();
+            $cat['type'] = 'App\Models\Catalog';
+            Category::create($cat);
+        }
+
+        foreach (Category::where('type', 'App\Models\Catalog')->get() as $cat) {
+            File::create([
+                'morphable_type' => 'App\Models\Category',
+                'morphable_id' => $cat->id,
+                'src' => '/assets/img/just-rub.jpg',
+                'category' => 'img'
+            ]);
+        }
     }
 }

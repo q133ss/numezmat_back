@@ -50,7 +50,9 @@ Route::get('/expertise/delete-section/{id}', [App\Http\Controllers\ExpertiseCont
 Route::resource('expertise', App\Http\Controllers\ExpertiseController::class);
 
 
-Route::view('catalog', 'catalog.index')->name('catalog.index');
+Route::resource('catalog', App\Http\Controllers\CatalogController::class);
+
+
 Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');

@@ -17,9 +17,9 @@ class Category extends Model
         return self::where('type', $type)->where('parent_id', null);
     }
 
-    public static function getSubCategories($type, $parent_id)
+    public static function getSubCategories($type, $parent_id, $limit = 10000)
     {
-        return self::where('type', $type)->where('parent_id', $parent_id);
+        return self::where('type', $type)->where('parent_id', $parent_id)->limit($limit);
     }
 
     public static function getItems($table, $parent_id)

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('description');
+            $table->boolean('is_block')->default(false);
             $table->timestamps();
         });
     }

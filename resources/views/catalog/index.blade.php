@@ -56,8 +56,9 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
+                    @foreach($categories as $category)
                     <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
+                        <img src="{{$category->img()}}" class="post-image" alt="">
                         <div class="post-content catalog-post-content">
                             <div class="post-description">
                                 <h3 class="post-title">
@@ -65,25 +66,12 @@
                                 </h3>
 
                                 <div class="post-categories">
-                                    <a href="#" class="post-category">
+                                    @foreach(\App\Models\Category::getSubCategories('App\Models\Catalog', $category->id, 4)->get() as $subCat)
+                                    <a href="{{route('catalog.show', $subCat->id)}}" class="post-category">
                                         <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
+                                        {{$subCat->name}}
                                     </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
+                                    @endforeach
                                 </div>
 
                                 <a href="" class="post-btn">Подробнее
@@ -92,160 +80,19 @@
                             </div>
                             <div class="post-info post-catalog-info">
                                     <span class="post-info-item">
-                                        Разделы:  <span class="post-info-item-count">64</span>
+                                        Разделы:  <span class="post-info-item-count">{{\App\Models\Category::getSubCategories('App\Models\Catalog', $category->id, 1000)->count()}}</span>
                                     </span>
                             </div>
                         </div>
                     </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content catalog-post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-
-                                <div class="post-categories">
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-                                </div>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info post-catalog-info">
-                                    <span class="post-info-item">
-                                        Разделы:  <span class="post-info-item-count">64</span>
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content catalog-post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-
-                                <div class="post-categories">
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-                                </div>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info post-catalog-info">
-                                    <span class="post-info-item">
-                                        Разделы:  <span class="post-info-item-count">64</span>
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="post">
-                        <img src="/assets/img/news1.png" class="post-image" alt="">
-                        <div class="post-content catalog-post-content">
-                            <div class="post-description">
-                                <h3 class="post-title">
-                                    Монеты на оценку
-                                </h3>
-
-                                <div class="post-categories">
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-
-                                    <a href="#" class="post-category">
-                                        <img src="/assets/img/Folder_fill.png" class="post-category-icon" alt="">
-                                        До реформы
-                                    </a>
-                                </div>
-
-                                <a href="" class="post-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                            <div class="post-info post-catalog-info">
-                                    <span class="post-info-item">
-                                        Разделы:  <span class="post-info-item-count">64</span>
-                                    </span>
-                            </div>
-                        </div>
-                    </div>
-
+                    @endforeach
                 </div>
                 <div class="ads">
-                    <a href="#">
-                        <img src="/assets/img/ads.jpg" alt="">
-                    </a>
-                    <a href="#">
-                        <img src="/assets/img/ads.jpg" alt="">
-                    </a>
+                    @include('includes.ad', ['count' => 2])
                 </div>
             </div>
 
-            <div class="posts-paginate">
-                <ul>
-                    <li class="current-page">1</li>
-                    <li><a href="#">2</a></li>
-                    <li><a href="#">3</a></li>
-                    <li><a href="#">4</a></li>
-                    <li><a href="#">5</a></li>
-                    <li><a href="#">6</a></li>
-                    <li><a href="#">7</a></li>
-                </ul>
-            </div>
+            {{$categories->links('includes.pagination')}}
         </div>
     </section>
 
