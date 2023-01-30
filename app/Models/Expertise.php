@@ -13,6 +13,11 @@ class Expertise extends Model
 
     protected $guarded = [];
 
+    public function characteristics()
+    {
+        return $this->morphMany(Characteristic::class, 'morphable');
+    }
+
     public function scopeWithFilter($query, Request $request)
     {
         return $query->when($request->query('year'), function ($query, $year){
@@ -44,11 +49,6 @@ class Expertise extends Model
     public function img()
     {
         return $this->morphOne(File::class, 'morphable')->where('category','img')->orderBy('created_at','DESC')->pluck('src')->first();
-    }
-
-    public function characteristics()
-    {
-        return $this->morphMany(Characteristic::class, 'morphable');
     }
 
     public function category()

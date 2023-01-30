@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Catalog;
 use App\Models\Category;
 use App\Models\Characteristic;
 use App\Models\Expertise;
@@ -169,6 +170,7 @@ class PostSeeder extends Seeder
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '2',
+                'name' => 'Состояние',
                 'key' => 'condition',
                 'value' => 'Удовлетворительое'
             ],
@@ -176,12 +178,14 @@ class PostSeeder extends Seeder
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '3',
+                'name' => 'Год',
                 'key' => 'year',
                 'value' => '1992'
             ],
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '3',
+                'name' => 'Состояние',
                 'key' => 'condition',
                 'value' => 'Удовлетворительое'
             ],
@@ -189,12 +193,14 @@ class PostSeeder extends Seeder
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '4',
+                'name' => 'Состояние',
                 'key' => 'condition',
                 'value' => 'Удовлетворительое'
             ],
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '4',
+                'name' => 'Год',
                 'key' => 'year',
                 'value' => '1798'
             ],
@@ -202,12 +208,14 @@ class PostSeeder extends Seeder
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '5',
+                'name' => 'Состояние',
                 'key' => 'condition',
                 'value' => 'Новое'
             ],
             [
                 'morphable_type' => 'App\Models\Rating',
                 'morphable_id' => '5',
+                'name' => 'Год',
                 'key' => 'year',
                 'value' => '1956'
             ],
@@ -311,6 +319,48 @@ class PostSeeder extends Seeder
                 'src' => '/assets/img/just-rub.jpg',
                 'category' => 'img'
             ]);
+        }
+
+        $catalog_posts = [
+            [
+                'title' => '2 рубля 1725 года',
+                'description' => 'В центре изображён Святой апостол Андрей Первозванный несущий крест. Под ним - полоса земли. Вокруг изображения, обращенная внутрь, надпись: «МОНЕТА НОВА ЦЕНА ДВА РУБЛI 1725». Полоса земли делит год выпуска (17-25).',
+                'category_id' => Category::where('type', 'App\Models\Catalog')->where('name', 'До революции')->pluck('id')->first()
+            ],
+            [
+                'title' => '1 рубль 1725 года',
+                'description' => 'В центре профильный портрет вправо императора Петра I, увенчанный лавровым венком. Вокруг портрета надпись: «ПЕТРЪ А ИМПЕРАТОРЪ IСАМОДЕРЖЕЦЪ ВСЕРОССIИСКIИ». По окружности канта - витой ободок.',
+                'category_id' => Category::where('type', 'App\Models\Catalog')->where('name', 'До революции')->pluck('id')->first()
+            ]
+        ];
+
+        foreach ($catalog_posts as $post){
+            $catalog = Catalog::create($post);
+            File::create([
+                'morphable_type' => 'App\Models\Catalog',
+                'morphable_id' => $catalog->id,
+                'src' => '/assets/img/just-rub.jpg',
+                'category' => 'img'
+            ]);
+        }
+
+        //Characteristics !!!!!!!!
+        $characteristic_catalog = [
+            ['name' => 'Страна', 'key' => 'country', 'value' => 'Россия'],
+            ['name' => 'Тип', 'key' => 'type', 'value' => 'Юбилейная или памятная'],
+            ['name' => 'Год', 'key' => 'year', 'value' => '2020 г.'],
+            ['name' => 'Номинал', 'key' => 'denomination', 'value' => '25 рублей.'],
+            ['name' => 'Диаметр (мм)', 'key' => 'diameter', 'value' => '27'],
+            ['name' => 'Тираж (шт)', 'key' => 'circulation', 'value' => '5 000 000'],
+            ['name' => 'Материал', 'key' => 'material', 'value' => 'Мельхиор'],
+            ['name' => 'Толщина (мм)', 'key' => 'thickness', 'value' => '2,3 мм'],
+            ['name' => 'Вес монеты (г)' ,'key' => 'weight', 'value' => '10']
+        ];
+
+        foreach ($characteristic_catalog as $char){
+            $char['morphable_type'] = 'App\Models\Catalog';
+            $char['morphable_id'] = Catalog::where('title', '2 рубля 1725 года ')->pluck('id')->first();
+            Characteristic::create($char);
         }
     }
 }

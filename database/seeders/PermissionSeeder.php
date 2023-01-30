@@ -127,5 +127,31 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Удалять разделы в "Экспетриза монет"';
         $manageUser->slug = 'delete-sections-expertise';
         $manageUser->save();
+
+        //Catalog
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Каталог"';
+        $manageUser->slug = 'edit-catalog';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать записи в "Каталог"';
+        $manageUser->slug = 'block-catalog';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять категории в "Каталог"';
+        $manageUser->slug = 'catalog.create.section';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменить категории в "Каталог"';
+        $manageUser->slug = 'catalog.edit.section';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменить категории в "Каталог"';
+        $manageUser->slug = 'catalog.delete.section';
+        $manageUser->save();
     }
 }

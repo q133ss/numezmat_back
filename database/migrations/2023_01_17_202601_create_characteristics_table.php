@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('characteristics', function (Blueprint $table) {
             $table->id();
             $table->morphs('morphable');
+            $table->string('name');
             $table->string('key');
             $table->string('value');
             $table->timestamps();

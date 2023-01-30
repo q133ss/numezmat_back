@@ -50,10 +50,17 @@ Route::get('/expertise/delete-section/{id}', [App\Http\Controllers\ExpertiseCont
 Route::resource('expertise', App\Http\Controllers\ExpertiseController::class);
 
 
+Route::get('/catalog/create/section', [App\Http\Controllers\CatalogController::class, 'createSection'])->name('catalog.create.section');
+Route::post('/catalog/store-section', [App\Http\Controllers\CatalogController::class, 'storeSection'])->name('catalog.store.section');
+Route::get('/catalog/edit-section/{id}', [App\Http\Controllers\CatalogController::class, 'editSection'])->name('catalog.edit.section');
+Route::post('/catalog/update-section/{id}', [App\Http\Controllers\CatalogController::class, 'updateSection'])->name('catalog.update.section');
+Route::get('/catalog/delete-section/{id}', [App\Http\Controllers\CatalogController::class, 'deleteSection'])->name('catalog.delete.section');
+Route::post('/catalog/change-file', [App\Http\Controllers\CatalogController::class, 'updateImg']);
+Route::post('/catalog/delete-file', [App\Http\Controllers\CatalogController::class, 'deleteImg']);
+Route::get('/catalog/block/{id}/{action}', [App\Http\Controllers\CatalogController::class, 'block'])->name('catalog.block');
+Route::get('catalog/detail/{id}', [App\Http\Controllers\CatalogController::class, 'detail'])->name('catalog.detail');
 Route::resource('catalog', App\Http\Controllers\CatalogController::class);
 
-
-Route::view('catalog/{id}', 'catalog.show')->name('catalog.show');
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');

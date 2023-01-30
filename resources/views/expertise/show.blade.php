@@ -59,22 +59,22 @@
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
                     <div class="actions" style="display: flex; gap: 30px">
-                        @can('create-sections-expertise')
+                        @can('create-sections-catalog')
                             @php $args = ['parent_id' => 1]; @endphp
                             <a href="{{route('expertise.create.section', ['parent_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый подраздел</a>
                         @endcan
 
-                        @can('edit-sections-expertise')
+                        @can('edit-sections-catalog')
                             @php $args = ['parent_id' => 1]; @endphp
                             <a href="{{route('expertise.edit.section', [$category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Изменить раздел</a>
                         @endcan
 
-                        @can('delete-sections-expertise')
+                        @can('delete-sections-catalog')
                             @php $args = ['parent_id' => 1]; @endphp
                             <a href="{{route('expertise.delete.section', [$category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
                         @endcan
 
-                        @can('create-expertise')
+                        @can('create-catalog')
                             <a href="{{route('expertise.create', ['category_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить оценку</a>
                         @endcan
                     </div>

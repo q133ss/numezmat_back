@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$expertise->title}}</title>
+    <title>{{$catalog->title}}</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
@@ -13,14 +13,13 @@
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/752l8byduhddjuj8adfjo4ntwolgqwjrr1bhlxn26marh09g/tinymce/6/tinymce.min.js"
             referrerpolicy="origin"></script>
-
     <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
-
     <style>
         .detail_slider {
             padding: 10px 16px;
@@ -145,15 +144,6 @@
                 width: 32px;
             }
         }
-
-        .rating-show-description p{
-            color: #4A4A4A;
-            font-weight: 400;
-            font-size: 16px;
-            font-family: "Roboto",sans-serif;
-            margin-bottom: 53px;
-            max-width: 285px;
-        }
     </style>
 </head>
 
@@ -164,24 +154,21 @@
 <div class="page-content">
 
     <section class="page-header">
-        <div class="sw_container">
+        <div class="container">
             <div class="page-header-wrap">
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('expertise.index')}}">Экспертиза</a></li>
-                        @foreach($expertise->category->getParents() as $category)
-                            <li><a href="{{route('expertise.show', $category)}}">{{$category->name}}</a></li>
+                        <li><a href="{{route('catalog.index')}}">Каталог</a></li>
+                        @foreach($catalog->category->getParents() as $cat)
+                            <li><a href="{{route('catalog.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
-                        <li><a href="{{route('expertise.show', $expertise->category->id)}}">{{$expertise->category->name}}</a></li>
-                        <li>{{$expertise->title}}</li>
+                        <li><a href="{{route('catalog.show', $catalog->category->id)}}">{{$catalog->category->name}}</a></li>
+                        <li>{{$catalog->title}}</li>
                     </ul>
                     <div class="page-title-block">
-                        <div class="page-img">
-                            <img src="/assets/img/revMyMoney.png" alt="">
-                        </div>
                         <h3 class="page-title">
-                            {{$expertise->title}}
+                            {{$catalog->title}}
                         </h3>
                     </div>
                 </div>
@@ -192,92 +179,86 @@
 
     <section class="rating-show">
         <div class="container">
-
-            <div class="rating-show-info">
-                <!-- <img src="/assets/img/post2.png" class="rating-show-img" alt=""> -->
-                <!-- SWIPER GALLERY -->
-                <section class="detail_slider">
-                    <div class="container">
-                        <div class="slider__flex">
-                            <div class="slider__images">
-                                <div class="swiper-container"> <!-- Слайдер с изображениями -->
-                                    <div class="swiper-wrapper">
-                                        @foreach($expertise->images() as $img)
+            <div class="rating-show-content">
+                <div class="rating-show-info">
+                    <!-- SWIPER GALLERY -->
+                    <section class="detail_slider">
+                        <div class="container">
+                            <div class="slider__flex">
+                                <div class="slider__images">
+                                    <div class="swiper-container"> <!-- Слайдер с изображениями -->
+                                        <div class="swiper-wrapper">
+                                            @foreach($catalog->images() as $img)
                                             <div class="swiper-slide">
                                                 <div class="slider__image">
                                                     <img src="{{$img}}" alt="" />
-                                                    <div class="rating_view_btn"><a rel="modal:open" href="#photoModal">Быстрый просмотр</a></div>
+                                                    <div class="rating_view_btn"><a rel="modal:open"
+                                                                                    href="#photoModal">Быстрый просмотр</a></div>
                                                 </div>
                                             </div>
-                                        @endforeach
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="slider__col">
-
-                                <div class="slider__thumbs">
-                                    <div class="swiper-container"> <!-- Слайдер с превью -->
-                                        <div class="swiper-wrapper">
-                                            @foreach($expertise->images() as $img)
-                                                <div class="swiper-slide">
-                                                    <div class="slider__image"><img
-                                                            src="{{$img}}" alt="" /></div>
-                                                </div>
                                             @endforeach
                                         </div>
                                     </div>
                                 </div>
+                                <div class="slider__col">
+
+                                    <div class="slider__thumbs">
+                                        <div class="swiper-container"> <!-- Слайдер с превью -->
+                                            <div class="swiper-wrapper">
+                                                @foreach($catalog->images() as $img)
+                                                <div class="swiper-slide">
+                                                    <div class="slider__image"><img
+                                                            src="{{$img}}" alt="" />
+                                                    </div>
+                                                </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
 
                             </div>
-
                         </div>
-                    </div>
-                </section>
-                <!-- END SWIPER GALLERY -->
-
-                <div class="rating-show-info-block">
-                    <h3 class="rating-show-title">
-                        {{$expertise->title}}
-                    </h3>
-                    <div class="rating-show-description">
-                        {!! $expertise->description !!}
-                    </div>
-                    <div class="rating-show-views">
-                        Просмотры:
-                        <span class="rating-show-views-count">{{$expertise->views}}</span>
-                    </div>
-
-                    <div class="rating-show-bottom">
-                        <div class="rating-show-date">
-                            {{$expertise->getDate()}}
-                        </div>
-                        <div class="rating-author">
-                            Автор <a href="{{route('users.show', $expertise->author->id)}}">{{$expertise->author->name}}</a>
+                    </section>
+                    <!-- END SWIPER GALLERY -->
+                    <div class="rating-show-info-block">
+                        <div class="catalog-data">
+                            <h3>Характеристики</h3>
+                            @foreach($catalog->characteristics->chunk(2) as $chunk)
+                            <div class="catalog-char-wrap">
+                                @foreach($chunk as $characteristic)
+                                <div class="catalog-char-item">
+                                    <div class="cat-char-key">{{$characteristic->name}}:</div>
+                                    <div class="cat-char-val">{{$characteristic->value}}</div>
+                                </div>
+                                @endforeach
+                            </div>
+                            @endforeach
                         </div>
                     </div>
                 </div>
+
+                <div class="rating-show-control">
+                    @can('edit-catalog')
+                        <a href="{{route('catalog.edit', $catalog->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png" alt=""></a>
+                    @endcan
+
+                    @can('block-catalog')
+                        @if($catalog->is_block == 0)
+                            <a href="{{route('catalog.block', ['id' => $catalog->id, 'action' => 1])}}" class="rating-show-block-btn">Заблокировать тему</a>
+                        @else
+                            <a href="{{route('catalog.block', ['id' => $catalog->id, 'action' => 0])}}" class="rating-show-block-btn comment-form-btn">Разблокировать тему</a>
+                        @endif
+                    @endcan
+                </div>
+
             </div>
-
-            <div class="rating-show-control">
-                @can('edit-rating')
-                    <a href="{{route('expertise.edit', $expertise->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png" alt=""></a>
-                @endcan
-
-                @can('block-rating')
-                    @if($expertise->is_block == 0)
-                        <a href="{{route('expertise.block', ['id' => $expertise->id, 'action' => 1])}}" class="rating-show-block-btn">Заблокировать тему</a>
-                    @else
-                        <a href="{{route('expertise.block', ['id' => $expertise->id, 'action' => 0])}}" class="rating-show-block-btn comment-form-btn">Разблокировать тему</a>
-                    @endif
-                @endcan
-            </div>
-
             <div class="rating-show-wrapper">
                 <div class="rating-show-content">
 
 
                     <h4 class="rating-show-other-themes">Добавить комментарий</h4>
-
                     <button class="comment-form-btn comment-btn">Прокоментировать</button>
                     <div class="comment-area display-n">
                         @if(Auth()->check())
@@ -287,7 +268,7 @@
                                     {{'@'.Auth()->user()->name}}
                                 </div>
                             </div>
-                            <form action="{{route('comment.send', ['type' => 'expertise','post_id' => $expertise->id])}}" method="POST" class="comment-form">
+                            <form action="{{route('comment.send', ['type' => 'catalog','post_id' => $catalog->id])}}" method="POST" class="comment-form">
                                 @csrf
                                 <select name="coin_id" id="" class="comment-select-coin">
                                     <option value="" selected disabled>Прикрепить монету</option>
@@ -305,15 +286,11 @@
                             <span class="comment-text">Необходимо <a href="{{route('login')}}">войти</a>, что бы оставлять комментарии</span>
                         @endif
                     </div>
-
-                    @include('includes.comments', ['comments' => $expertise->comments, 'type' => 'expertise', 'postId' => $expertise->id])
-
+                    @include('includes.comments', ['comments' => $catalog->comments, 'type' => 'catalog', 'postId' => $catalog->id])
                 </div>
                 <div class="rating-show-sidebar">
                     <div class="rating-show-sidebar-wrap">
-                        @include('includes.ad', ['count' => 1])
-                        <h4 class="rating-show-other-themes">Другие темы</h4>
-                        @foreach($expertise->relatedPosts() as $post)
+                        @foreach($catalog->relatedPosts() as $post)
                             <div class="sidebar-other-theme">
                                 <img src="{{$post->img()}}" class="other-theme-img" alt="">
                                 <h3 class="other-theme-title">{{$post->title}}</h3>
@@ -321,7 +298,7 @@
                                     {{mb_substr($post->description, 0, 37)}}
                                     @if(mb_strlen($post->description) > 37)...@endif
                                 </p>
-                                <a href="{{route('expertise.detail', $post->id)}}" class="other-theme-btn">Подробнее</a>
+                                <a href="{{route('catalog.detail', $post->id)}}" class="other-theme-btn">Подробнее</a>
                             </div>
                         @endforeach
                     </div>
@@ -334,20 +311,22 @@
     @include('includes.footer')
 </div>
 
+@include('includes.mobile')
 <div id="photoModal" class="modal">
     <img src="" id="photoModalImg" alt="">
 </div>
-@include('includes.mobile')
+
+<!-- ---- -->
 <script src="/assets/js/main.js"></script>
 <!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-<!-- Initialize Swiper -->
+
 <script>
     $('.comment-btn').click(function(){
         $('.comment-area').toggleClass('display-n');
     });
     //Modal img
-    $('.rating_view_btn').click(function(){
+    $('.rating_view_btn').click(function () {
         let path = $(this).parent().parent().find('img').attr('src');
         $('#photoModalImg').attr('src', path);
     });
@@ -397,6 +376,60 @@
     });
 </script>
 
+<!-- Initialize Swiper -->
+<script>
+    var swiper = new Swiper(".mySwiper", {
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        pagination: {
+            el: ".swiper-pagination",
+            clickable: true,
+            renderBullet: function (index, className) {
+                return '<button class="slider-paginate ' + className + '"></button>';
+            }
+        }
+    });
+
+    var swiper = new Swiper(".posts-slider", {
+        slidesPerView: 3,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            900: {
+                slidesPerView: 1,
+            },
+            650: {
+                slidesPerView: 1,
+            },
+            350: {
+                slidesPerView: 1,
+            }
+        }
+    });
+
+    var swiper = new Swiper(".news-slider", {
+        slidesPerView: 2,
+        spaceBetween: 30,
+        navigation: {
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
+        },
+        breakpoints: {
+            1250: {
+                slidesPerView: 1,
+            },
+            350: {
+                slidesPerView: 1,
+            }
+        }
+    });
+</script>
+
 <script>
     tinymce.init({
         selector: '.comment-field',
@@ -410,7 +443,6 @@
             { value: 'Email', title: 'Email' },
         ]
     });
-
 </script>
 </body>
 

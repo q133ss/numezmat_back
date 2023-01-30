@@ -62,7 +62,7 @@
                         <div class="post-content catalog-post-content">
                             <div class="post-description">
                                 <h3 class="post-title">
-                                    Монеты на оценку
+                                    {{$category->name}}
                                 </h3>
 
                                 <div class="post-categories">
@@ -74,7 +74,7 @@
                                     @endforeach
                                 </div>
 
-                                <a href="" class="post-btn">Подробнее
+                                <a href="{{route('catalog.show', $category->id)}}" class="post-btn">Подробнее
                                     <img src="/assets/img/arrow-left.png" alt="">
                                 </a>
                             </div>
