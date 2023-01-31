@@ -62,10 +62,10 @@ class Category extends Model
         return true;
     }
 
-    public function getFiltersForRating()
+    public function getFilters($type)
     {
         return $this->join('filters', 'filters.category_id', 'categories.id')
-            ->where('filters.type', 'App\Models\Rating')
+            ->where('filters.type', $type)
             ->where('filters.category_id', $this->id)
             ->get();
     }
@@ -80,5 +80,23 @@ class Category extends Model
             ->where('characteristics.key', $field)
             ->pluck('characteristics.value')
             ->all();
+    }
+
+    public function getFilterValues($table, $type, $field)
+    {
+        return $this->join($table, $table.'.category_id', 'categories.id')
+            ->where($table.'.category_id', $this->id)
+            ->join('characteristics', 'characteristics.morphable_id', $table.'.id')
+            ->where('characteristics.morphable_type', $type)
+            ->where('characteristics.key', $field)
+            ->pluck('characteristics.value')
+            ->all();
+
+        //"select * from `categories`
+        // inner join `catalogs` on `catalogs`.`category_id` = `categories`.`id`
+        // inner join `characteristics` on `characteristics`.`morphable_id` = `catalogs`.`id`
+        // where `catalogs`.`category_id` = ?
+        // and `characteristics`.`morphable_type` = ?
+        // and `characteristics`.`key` = ? ◀" // app/Models/Category.php:94
     }
 }

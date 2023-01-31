@@ -158,12 +158,12 @@
 {{--                    end items--}}
                 </div>
                 <div class="ads">
-                    @if(!$category->getFiltersForRating()->isEmpty())
+                    @if(!$category->getFilters('App\Models\Rating')->isEmpty())
                     <div class="filter">
                         <h3 class="characteristics-title">Фильтр</h3>
 
                         <form action="" class="form-filter">
-                            @foreach($category->getFiltersForRating() as $filter)
+                            @foreach($category->getFilters('App\Models\Rating') as $filter)
                             <div class="filter-group">
                                 <label for="year" class="characteristics-key">
                                     {{$filter->name}}

@@ -58,7 +58,7 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
-                    <div class="actions" style="display: flex; gap: 30px">
+                    <div class="actions" style="display: flex; gap: 30px; max-height: 50px">
                         @can('create-sections-expertise')
                             @php $args = ['parent_id' => 1]; @endphp
                             <a href="{{route('catalog.create.section', ['parent_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый подраздел</a>
@@ -158,19 +158,19 @@
                     {{--                    end items--}}
                 </div>
                 <div class="ads">
-                    @if(!$category->getFiltersForRating()->isEmpty())
+                    @if(!$category->getFilters('App\Models\Catalog')->isEmpty())
                         <div class="filter">
                             <h3 class="characteristics-title">Фильтр</h3>
 
                             <form action="" class="form-filter">
-                                @foreach($category->getFiltersForRating() as $filter)
+                                @foreach($category->getFilters('App\Models\Catalog') as $filter)
                                     <div class="filter-group">
                                         <label for="year" class="characteristics-key">
                                             {{$filter->name}}
                                         </label>
                                         <select name="{{$filter->db_key}}" id="year" class="filter-select">
                                             <option value="#" selected disabled>Выбрать</option>
-                                            @foreach(array_unique($category->getFilterValuesForRating($filter->db_key)) as $value)
+                                            @foreach(array_unique($category->getFilterValues('catalogs', 'App\Models\Catalog', $filter->db_key)) as $value)
                                                 <option value="{{$value}}" @if(array_key_exists($filter->db_key, \Request()->query()) && \Request()->query()[$filter->db_key] == $value) selected @endif>{{$value}}</option>
                                             @endforeach
                                         </select>

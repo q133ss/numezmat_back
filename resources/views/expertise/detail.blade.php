@@ -8,6 +8,7 @@
     <title>{{$expertise->title}}</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <!-- TinyMCE -->
