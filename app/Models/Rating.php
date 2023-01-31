@@ -98,4 +98,22 @@ class Rating extends Model
         return $this->where('id', '!=', $this->id)->where('is_block', false)->limit($count)->get();
     }
 
+    public function scopeWithOrder($query, $request)
+    {
+        return $query->when($request->query('sort'), function ($query, $sort){
+            $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
+            $sort = str_replace('-','', $sort);
+            switch ($sort){
+                case 'active':
+                    $query->leftJoin('comments', 'comments.morphable_id', 'news.id')
+                        ->orderBy('comments.created_at', $sortDirection)
+                        ->select('ratings.*');
+                    break;
+                case 'date':
+                    $query->orderBy('created_at', $sortDirection);
+                    break;
+            }
+        });
+    }
+
 }

@@ -22,9 +22,9 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $news = News::orderBy('created_at','DESC')->where('is_block', false)->paginate(10);
+        $news = News::withOrder($request)->where('is_block', false)->paginate(10);
         return view('news.index', compact('news'));
     }
 

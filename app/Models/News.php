@@ -30,4 +30,22 @@ class News extends Model
     {
         return $this->morphMany(Comment::class, 'morphable')->where('reply_id', null);
     }
+
+    public function scopeWithOrder($query, $request)
+    {
+        return $query->when($request->query('sort'), function ($query, $sort){
+            $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
+            $sort = str_replace('-','', $sort);
+            switch ($sort){
+                case 'active':
+                    $query->leftJoin('comments', 'comments.morphable_id', 'news.id')
+                        ->orderBy('comments.created_at', $sortDirection)
+                        ->select('news.*');
+                    break;
+                case 'date':
+                    $query->orderBy('created_at', $sortDirection);
+                    break;
+            }
+        });
+    }
 }

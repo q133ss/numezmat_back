@@ -54,6 +54,11 @@
 </div>
 
 <script>
+
+    $('#sortSelect').change(function (){
+        $(this).parent().submit();
+    });
+
     $('.comment-answer').click(function (){
         let post_id = $(this).data('post');
         let type = $(this).data('type');

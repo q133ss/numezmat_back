@@ -27,9 +27,9 @@ class RatingController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::getMainCategories('App\Models\Rating')->paginate(10);
+        $categories = Category::getMainCategories('App\Models\Rating')->withOrder($request, 'ratings', 'App\Models\Rating')->paginate(10);
         return view('rating.index', compact('categories'));
     }
 

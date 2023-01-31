@@ -14,7 +14,7 @@ class Category extends Model
 
     public static function getMainCategories($type)
     {
-        return self::where('type', $type)->where('parent_id', null);
+        return self::where('categories.type', $type)->where('categories.parent_id', null);
     }
 
     public static function getSubCategories($type, $parent_id, $limit = 10000)
@@ -91,12 +91,29 @@ class Category extends Model
             ->where('characteristics.key', $field)
             ->pluck('characteristics.value')
             ->all();
+    }
 
-        //"select * from `categories`
-        // inner join `catalogs` on `catalogs`.`category_id` = `categories`.`id`
-        // inner join `characteristics` on `characteristics`.`morphable_id` = `catalogs`.`id`
-        // where `catalogs`.`category_id` = ?
-        // and `characteristics`.`morphable_type` = ?
-        // and `characteristics`.`key` = ? ◀" // app/Models/Category.php:94
+    public function scopeWithOrder($query, $request, $table, $type)
+    {
+        return $query->when($request->query('sort'), function ($query, $sort) use ($table, $type){
+            $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
+            $sort = str_replace('-','', $sort);
+            switch ($sort){
+                case 'active':
+                    #TODO НАМ НУЖНО КАК-ТО НАЙТИ КАТЕГОРИЮ ПО ПАРЕНТУ ИЗ ЭТОГО ЗАПРОСА
+                    #И ОТСОРТИРОВАТЬ ЕЕ
+//                   $query = $this->where('type', $type)
+//                       ->leftJoin($table, $table.'.category_id', 'categories.id')
+//                       ->leftJoin('comments', 'comments.morphable_id', $table.'.id')
+//                       ->where('comments.morphable_type', 'App\Models\Rating')
+//                       ->orderBy('comments.created_at', $sortDirection)
+//                       //найдем ту, где максимальная дата коммента, потом ее парент
+//                       ->select('categories.*');
+                    break;
+                case 'date':
+                    $query->orderBy('created_at', $sortDirection);
+                    break;
+            }
+        });
     }
 }
