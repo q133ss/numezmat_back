@@ -210,9 +210,16 @@ class CatalogController extends Controller
      */
     public function update(UpdateRequest $request, $id)
     {
-        dd($request->validated());
-        Catalog::findOrFail($id)->update($request->validated());
-        return to_route('expertise.detail', $id);
+        $data = $request->validated();
+        unset($data['characteristics']);
+        //удаляем нахуй все характеристики, потом ебать добавляем их нахуй
+        $catalog = Catalog::findOrFail($id);
+        $catalog->update($data);
+        $catalog->characteristics()->delete();
+        foreach ($request->validated()['characteristics'] as $characteristic){
+            $catalog->characteristics()->create($characteristic);
+        }
+        return to_route('catalog.detail', $id);
     }
 
     /**
