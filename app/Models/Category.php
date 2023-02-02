@@ -93,7 +93,13 @@ class Category extends Model
             ->all();
     }
 
-    public function activeSort($type)
+    /**
+     * @param string $type
+     * @param $model
+     * @return array
+     * Да да, это лучшая сортировка на свете :)
+     */
+    public function activeSort(string $type, $model) : array
     {
         $cats_ids = [];
         //берем главные категории
@@ -113,7 +119,8 @@ class Category extends Model
 
         //тут у нас есть абсалютно все категории
         //теперь ищем все айтемы у которых катеогория одна из этих
-        $items = Rating::whereIn('category_id', $ids_formatted)->pluck('id')->all();
+//        $items = Rating::whereIn('category_id', $ids_formatted)->pluck('id')->all();
+        $items = $model::whereIn('category_id', $ids_formatted)->pluck('id')->all();
 
         $comments = Comment::whereIn('morphable_id',$items)
             ->where('morphable_type', $type)
@@ -122,7 +129,7 @@ class Category extends Model
 
         $sortItems = []; //категории отсортированные
         foreach ($comments as $comment){
-            $sortItems[] = Rating::where('id', $comment)->pluck('category_id')->first();
+            $sortItems[] = $model::where('id', $comment)->pluck('category_id')->first();
         }
         //теперь у нас есть отсортированные подкатегории.
         //теперь нужно найти их родительские в нужном порядке
@@ -141,12 +148,12 @@ class Category extends Model
             ->whereNotIn('id', array_unique($sortMainCategories))
             ->pluck('id')->all();
 
-        return array_unique($sortMainCategories);
+        return array_merge($sortMainCategories, $other_cats);
     }
 
-    public function scopeWithOrder($query, $request, $table, $type)
+    public function scopeWithOrder($query, $request, $table, $type, $model)
     {
-        return $query->when($request->query('sort'), function ($query, $sort) use ($table, $type){
+        return $query->when($request->query('sort'), function ($query, $sort) use ($table, $type, $model){
             $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
             $sort = str_replace('-','', $sort);
             switch ($sort){
@@ -155,8 +162,11 @@ class Category extends Model
                     break;
 
                 case 'active':
-                    $str = implode(",",$this->activeSort($type));
-                    $query->orderByRaw("FIELD(id, $str)");
+                    $activeSort = $this->activeSort($type, $model);
+                    if(!empty($activeSort)) {
+                        $str = implode(",", $this->activeSort($type, $model));
+                        $query->orderByRaw("FIELD(id, $str)");
+                    }
                     break;
             }
         });

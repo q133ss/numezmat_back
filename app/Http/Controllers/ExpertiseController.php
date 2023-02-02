@@ -10,7 +10,6 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\Expertise;
 use App\Models\File;
-use App\Models\Rating;
 use Illuminate\Http\Request;
 
 class ExpertiseController extends Controller
@@ -20,9 +19,11 @@ class ExpertiseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::getMainCategories('App\Models\Expertise')->paginate(10);
+        $categories = Category::getMainCategories('App\Models\Expertise')
+            ->withOrder($request, 'expertise', 'App\Models\Expertise', Expertise::class)
+            ->paginate(10);
         return view('expertise.index', compact('categories'));
     }
 
