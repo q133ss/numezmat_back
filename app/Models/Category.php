@@ -93,25 +93,70 @@ class Category extends Model
             ->all();
     }
 
+    public function activeSort($type)
+    {
+        $cats_ids = [];
+        //берем главные категории
+        $cats_ids[] = $this->getMainCategories($type)->pluck('id')->all();
+
+        while($this->whereIn('parent_id', last($cats_ids))->exists()){
+            $ids = $this->whereIn('parent_id', last($cats_ids))->pluck('id')->all();
+            $cats_ids[] = $ids;
+        }
+
+        ///
+        $ids_formatted = [];
+
+        array_walk_recursive($cats_ids, function ($item, $key) use (&$ids_formatted) {
+            $ids_formatted[] = $item;
+        });
+
+        //тут у нас есть абсалютно все категории
+        //теперь ищем все айтемы у которых катеогория одна из этих
+        $items = Rating::whereIn('category_id', $ids_formatted)->pluck('id')->all();
+
+        $comments = Comment::whereIn('morphable_id',$items)
+            ->where('morphable_type', $type)
+            ->orderBy('created_at', 'DESC')
+            ->pluck('morphable_id')->all();
+
+        $sortItems = []; //категории отсортированные
+        foreach ($comments as $comment){
+            $sortItems[] = Rating::where('id', $comment)->pluck('category_id')->first();
+        }
+        //теперь у нас есть отсортированные подкатегории.
+        //теперь нужно найти их родительские в нужном порядке
+
+        //изначально было 1 2 3 по категориям
+        $sortMainCategories = []; //отсортированные главные категории!
+        foreach ($sortItems as $cat){
+            if($this->find($cat)->getParents()->isEmpty()){
+                $sortMainCategories[] = $cat;
+            }else{
+                $sortMainCategories[] = $this->find($cat)->getParents()->pluck('id')->first();
+            }
+        }
+        //array_unique($sortMainCategories) теперь сюда добавляем все остальные, где ид != тем что уже есть и фсе
+        $other_cats = self::getMainCategories($type)
+            ->whereNotIn('id', array_unique($sortMainCategories))
+            ->pluck('id')->all();
+
+        return array_unique($sortMainCategories);
+    }
+
     public function scopeWithOrder($query, $request, $table, $type)
     {
         return $query->when($request->query('sort'), function ($query, $sort) use ($table, $type){
             $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
             $sort = str_replace('-','', $sort);
             switch ($sort){
-                case 'active':
-                    #TODO НАМ НУЖНО КАК-ТО НАЙТИ КАТЕГОРИЮ ПО ПАРЕНТУ ИЗ ЭТОГО ЗАПРОСА
-                    #И ОТСОРТИРОВАТЬ ЕЕ
-//                   $query = $this->where('type', $type)
-//                       ->leftJoin($table, $table.'.category_id', 'categories.id')
-//                       ->leftJoin('comments', 'comments.morphable_id', $table.'.id')
-//                       ->where('comments.morphable_type', 'App\Models\Rating')
-//                       ->orderBy('comments.created_at', $sortDirection)
-//                       //найдем ту, где максимальная дата коммента, потом ее парент
-//                       ->select('categories.*');
-                    break;
                 case 'date':
                     $query->orderBy('created_at', $sortDirection);
+                    break;
+
+                case 'active':
+                    $str = implode(",",$this->activeSort($type));
+                    $query->orderByRaw("FIELD(id, $str)");
                     break;
             }
         });
