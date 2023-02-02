@@ -8,7 +8,6 @@ use App\Http\Requests\StoreSection;
 use App\Http\Requests\UpdateSection;
 use App\Models\Catalog;
 use App\Models\Category;
-use App\Models\Expertise;
 use App\Models\File;
 use Illuminate\Http\Request;
 
@@ -19,9 +18,11 @@ class CatalogController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $categories = Category::getMainCategories('App\Models\Catalog')->paginate(10);
+        $categories = Category::getMainCategories('App\Models\Catalog')
+            ->withOrder($request, 'catalogs', 'App\Models\Catalog', Catalog::class)
+            ->paginate(10);
         return view('catalog.index', compact('categories'));
     }
 

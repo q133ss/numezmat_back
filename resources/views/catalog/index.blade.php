@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css"/>
+    <!-- Jquery -->
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
+            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
 </head>
 <body>
@@ -43,10 +46,14 @@
                         <input type="text" placeholder="Искать в документах" class="catalog-search-input">
                     </div>
 
-                    <select name="sort" id="" class="page-header-sort">
-                        <option value="#">По активности</option>
-                        <option value="#">По дате</option>
-                    </select>
+                    <form action="" method="GET" style="display: inline-block">
+                        <select name="sort" id="sortSelect" class="page-header-sort">
+                            <option value="" >Сортировка</option>
+                            @php $sort = \Request()->query(); @endphp
+                            <option value="active" @if(in_array('active', $sort)) selected @endif>По активности</option>
+                            <option value="date" @if(in_array('date', $sort)) selected @endif>По дате</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
