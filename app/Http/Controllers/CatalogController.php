@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CatalogController\StoreRequest;
 use App\Http\Requests\RatingController\UpdateImgRequest;
 use App\Http\Requests\CatalogController\UpdateRequest;
 use App\Http\Requests\StoreSection;
@@ -144,7 +145,8 @@ class CatalogController extends Controller
      */
     public function create()
     {
-        //
+        $categories = Category::where('type', 'App\Models\Catalog')->get();
+        return view('catalog.create', compact('categories'));
     }
 
     /**
@@ -153,9 +155,29 @@ class CatalogController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        unset($data['characteristics']);
+
+        $catalog = Catalog::create($data);
+        foreach ($request->validated()['characteristics'] as $characteristic){
+            $catalog->characteristics()->create($characteristic);
+        }
+
+        foreach ($request->img as $img){
+            $path = $img->store('catalogs', 'public');
+            File::create(
+                [
+                    'morphable_type' => 'App\Models\Catalog',
+                    'morphable_id' => $catalog->id,
+                    'category' => 'img',
+                    'src' => '/storage/'.$path
+                ]
+            );
+        }
+
+        return to_route('catalog.detail', $catalog->id);
     }
 
     /**
@@ -229,7 +251,7 @@ class CatalogController extends Controller
     {
         $data = $request->validated();
         unset($data['characteristics']);
-        //удаляем нахуй все характеристики, потом ебать добавляем их нахуй
+
         $catalog = Catalog::findOrFail($id);
         $catalog->update($data);
         $catalog->characteristics()->delete();
