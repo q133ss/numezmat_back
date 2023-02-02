@@ -59,6 +59,7 @@ Route::post('/catalog/change-file', [App\Http\Controllers\CatalogController::cla
 Route::post('/catalog/delete-file', [App\Http\Controllers\CatalogController::class, 'deleteImg']);
 Route::get('/catalog/block/{id}/{action}', [App\Http\Controllers\CatalogController::class, 'block'])->name('catalog.block');
 Route::get('catalog/detail/{id}', [App\Http\Controllers\CatalogController::class, 'detail'])->name('catalog.detail');
+Route::get('/catalog/search', [App\Http\Controllers\CatalogController::class, 'search'])->name('catalog.search');
 Route::resource('catalog', App\Http\Controllers\CatalogController::class);
 
 Route::view('cart', 'cart')->name('cart.index');

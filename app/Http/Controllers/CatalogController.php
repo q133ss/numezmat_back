@@ -26,6 +26,22 @@ class CatalogController extends Controller
         return view('catalog.index', compact('categories'));
     }
 
+    public function search(Request $request)
+    {
+        $category = Category::find(1);
+        $categories = Category::
+            where('name', 'LIKE', '%'.$request->search.'%')
+            ->where('type', 'App\Models\Catalog')
+            ->orWhere('description', 'LIKE', '%'.$request->search.'%')
+            ->where('type', 'App\Models\Catalog')
+            ->paginate(10);
+        $items = Catalog::where('title', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('description', 'LIKE', '%'.$request->search.'%')
+            ->paginate(10);
+
+        return view('catalog.show', compact('category','categories', 'items'));
+    }
+
     public function createSection(Request $request)
     {
         return view('general.createSection', ['route' => 'catalog.store.section', 'parent_id' => $request->parent_id]);

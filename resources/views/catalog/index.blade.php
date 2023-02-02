@@ -41,10 +41,12 @@
                 </div>
                 <div class="page-header-right">
 
+                    <form action="{{route('catalog.search')}}" method="GET" style="display: inline-block">
                     <div class="catalog-search">
                         <img src="/assets/img/Search_fill.png" class="catalog-search-icon" alt="">
-                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">
+                        <input type="text" name="search" onchange="$(this).parent().parent().submit()" placeholder="Искать в документах" class="catalog-search-input">
                     </div>
+                    </form>
 
                     <form action="" method="GET" style="display: inline-block">
                         <select name="sort" id="sortSelect" class="page-header-sort">
