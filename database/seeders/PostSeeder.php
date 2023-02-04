@@ -8,6 +8,7 @@ use App\Models\Characteristic;
 use App\Models\Expertise;
 use App\Models\File;
 use App\Models\News;
+use App\Models\Product;
 use App\Models\Rating;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -361,6 +362,69 @@ class PostSeeder extends Seeder
             $char['morphable_type'] = 'App\Models\Catalog';
             $char['morphable_id'] = Catalog::where('title', '2 рубля 1725 года ')->pluck('id')->first();
             Characteristic::create($char);
+        }
+
+        //Shop cats
+        $shop_cats = [
+            ['name' => 'Аксессуары', 'description' => 'Аксессуары'],
+            ['name' => 'Прочее', 'description' => 'Прочее']
+        ];
+
+        foreach ($shop_cats as $cat){
+            $cat['type'] = 'App\Models\Shop';
+            Category::create($cat);
+        }
+
+        $shop_subs = [
+            ['name' => 'Альбомы', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Аксессуары')->pluck('id')->first()],
+            ['name' => 'Весы', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Аксессуары')->pluck('id')->first()],
+            ['name' => 'Кофры/Боксы', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Аксессуары')->pluck('id')->first()],
+            ['name' => 'Оптика', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Аксессуары')->pluck('id')->first()],
+
+            ['name' => 'Лупы', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Прочее')->pluck('id')->first()],
+            ['name' => 'Пинцеты', 'parent_id' => Category::where('type', 'App\Models\Shop')->where('name', 'Прочее')->pluck('id')->first()],
+        ];
+
+        foreach ($shop_subs as $cat){
+            $cat['type'] = 'App\Models\Shop';
+            Category::create($cat);
+        }
+
+        foreach (Category::where('type', 'App\Models\Shop')->get() as $cat) {
+            File::create([
+                'morphable_type' => 'App\Models\Category',
+                'morphable_id' => $cat->id,
+                'src' => '/assets/img/just-rub.jpg',
+                'category' => 'img'
+            ]);
+        }
+
+        $products = [
+            ['title' => 'Альбом', 'description' => 'Альбом для монет', 'price' => '1299', 'category_id' => Category::where('name', 'Альбомы')->where('type', 'App\Models\Shop')->pluck('id')->first()],
+            ['title' => 'Альбом для монет', 'description' => 'Альбом для монет', 'price' => '1599', 'category_id' => Category::where('name', 'Альбомы')->where('type', 'App\Models\Shop')->pluck('id')->first()],
+
+            ['title' => 'Весы', 'description' => 'Весы для монет', 'price' => '2599', 'category_id' => Category::where('name', 'Весы')->where('type', 'App\Models\Shop')->pluck('id')->first()],
+
+            ['title' => 'Лупа', 'description' => 'Лупа ', 'price' => '1200', 'category_id' => Category::where('name', 'Лупы')->where('type', 'App\Models\Shop')->pluck('id')->first()],
+            ['title' => 'Еще одна лупа', 'description' => 'Лупа ', 'price' => '1500', 'category_id' => Category::where('name', 'Лупы')->where('type', 'App\Models\Shop')->pluck('id')->first()]
+        ];
+
+        foreach ($products as $product){
+            Product::create($product);
+        }
+
+        $imgs = [
+            'just-coin.jpg',
+            'just-penny.jpg',
+            'just-rub.jpg'
+        ];
+        foreach (\App\Models\Product::get() as $product){
+            File::create([
+                'morphable_type' => 'App\Models\Product',
+                'morphable_id' => $product->id,
+                'src' => '/assets/img/'.$imgs[rand(0,2)],
+                'category' => 'img'
+            ]);
         }
     }
 }

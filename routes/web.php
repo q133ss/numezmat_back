@@ -13,16 +13,15 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-//Директивы @role и @can!!!!
-
 Route::get('/', function () {
     return view('index');
 });
 
+//News
 Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);
 Route::resource('news', App\Http\Controllers\NewsController::class);
 
-
+//Rating
 Route::get('rating/detail/{id}', [App\Http\Controllers\RatingController::class, 'detail'])->name('rating.detail');
 Route::post('/rating/change-file', [App\Http\Controllers\RatingController::class, 'updateImg']);
 Route::post('/rating/delete-file', [App\Http\Controllers\RatingController::class, 'deleteImg']);
@@ -37,7 +36,7 @@ Route::resource('rating', App\Http\Controllers\RatingController::class);
 
 Route::get('user/{id}', [App\Http\Controllers\UserController::class, 'show'])->name('users.show');
 
-
+//Expertise
 Route::get('/expertise/create/section', [App\Http\Controllers\ExpertiseController::class, 'createSection'])->name('expertise.create.section');
 Route::post('/expertise/store-section', [App\Http\Controllers\ExpertiseController::class, 'storeSection'])->name('expertise.store.section');
 Route::get('expertise/detail/{id}', [App\Http\Controllers\ExpertiseController::class, 'detail'])->name('expertise.detail');
@@ -49,7 +48,7 @@ Route::post('/expertise/delete-file', [App\Http\Controllers\ExpertiseController:
 Route::get('/expertise/delete-section/{id}', [App\Http\Controllers\ExpertiseController::class, 'deleteSection'])->name('expertise.delete.section');
 Route::resource('expertise', App\Http\Controllers\ExpertiseController::class);
 
-
+//Catalog
 Route::get('/catalog/create/section', [App\Http\Controllers\CatalogController::class, 'createSection'])->name('catalog.create.section');
 Route::post('/catalog/store-section', [App\Http\Controllers\CatalogController::class, 'storeSection'])->name('catalog.store.section');
 Route::get('/catalog/edit-section/{id}', [App\Http\Controllers\CatalogController::class, 'editSection'])->name('catalog.edit.section');
@@ -61,6 +60,21 @@ Route::get('/catalog/block/{id}/{action}', [App\Http\Controllers\CatalogControll
 Route::get('catalog/detail/{id}', [App\Http\Controllers\CatalogController::class, 'detail'])->name('catalog.detail');
 Route::get('/catalog/search', [App\Http\Controllers\CatalogController::class, 'search'])->name('catalog.search');
 Route::resource('catalog', App\Http\Controllers\CatalogController::class);
+
+
+//Shop
+Route::get('/shop/create/section', [App\Http\Controllers\ShopController::class, 'createSection'])->name('shop.create.section');
+Route::post('/shop/store-section', [App\Http\Controllers\ShopController::class, 'storeSection'])->name('shop.store.section');
+Route::get('/shop/edit-section/{id}', [App\Http\Controllers\ShopController::class, 'editSection'])->name('shop.edit.section');
+Route::post('/shop/update-section/{id}', [App\Http\Controllers\ShopController::class, 'updateSection'])->name('shop.update.section');
+Route::get('/shop/delete-section/{id}', [App\Http\Controllers\ShopController::class, 'deleteSection'])->name('shop.delete.section');
+Route::post('/shop/change-file', [App\Http\Controllers\ShopController::class, 'updateImg']);
+Route::post('/shop/delete-file', [App\Http\Controllers\ShopController::class, 'deleteImg']);
+Route::get('/shop/block/{id}/{action}', [App\Http\Controllers\ShopController::class, 'block'])->name('shop.block');
+Route::get('shop/detail/{id}', [App\Http\Controllers\ShopController::class, 'detail'])->name('shop.detail');
+Route::get('/shop/search', [App\Http\Controllers\ShopController::class, 'search'])->name('shop.search');
+Route::resource('shop', App\Http\Controllers\ShopController::class);
+
 
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');

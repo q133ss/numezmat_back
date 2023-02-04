@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('title');
             $table->text('description');
             $table->integer('price');
+            $table->foreignId('category_id');
+            $table->boolean('is_block')->default(false);
             $table->timestamps();
         });
     }
