@@ -75,6 +75,7 @@ Route::get('shop/detail/{id}', [App\Http\Controllers\ShopController::class, 'det
 Route::get('/shop/search', [App\Http\Controllers\ShopController::class, 'search'])->name('shop.search');
 Route::resource('shop', App\Http\Controllers\ShopController::class);
 
+Route::get('add-to-cart/{id}', [App\Http\Controllers\CartController::class, 'add']);
 
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');

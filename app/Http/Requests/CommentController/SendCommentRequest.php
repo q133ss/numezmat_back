@@ -24,7 +24,7 @@ class SendCommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'type' => 'required|in:news,rating,expertise,catalog,shop,library,forum',
+            'type' => 'required|in:news,rating,expertise,catalog,product,library,forum',
             'post_id' => 'required|integer',
             'coin_id' => 'nullable|integer|exists:coins,id', #TODO проверка принадлежность к юзеру!!!
             'reply_id' => 'nullable|integer|exists:comments,id',

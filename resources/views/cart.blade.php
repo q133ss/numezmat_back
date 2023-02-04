@@ -50,27 +50,36 @@
                     <th style="width:80px">Колличество</th>
                     <th>Удалить</th>
                 </tr>
-                <tr>
-                    <td>
-                        <img class="cart-img" src="/assets/img/cart-place.png" alt="">
-                    </td>
-                    <td>
-                        <span class="cart-title">Пинцет для монет LUXUS</span>
-                    </td>
-                    <td><span class="cart-title">1350 ₽</span></td>
-                    <td>
-                        <div class="cart-qty-wrap">
-                            <button class="cart-qty-btn" data-action="plus">+</button>
-                            <input type="text" class="cart-qty" value="1">
-                            <button class="cart-qty-btn" data-action="minus">-</button>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button">
-                            <img src="/assets/img/cart-close.png" alt="">
-                        </button>
-                    </td>
-                </tr>
+
+                @php $total = 0; @endphp
+                @if(session('cart'))
+                    @foreach(session('cart') as $id => $details)
+                        @php
+                            $total += $details['price'] * $details['qty']
+                        @endphp
+                        <tr>
+                            <td>
+                                <img class="cart-img" src="{{$details['img']}}" alt="">
+                            </td>
+                            <td>
+                                <span class="cart-title">{{$details['name']}}</span>
+                            </td>
+                            <td><span class="cart-title">{{$details['price']}} ₽</span></td>
+                            <td>
+                                <div class="cart-qty-wrap">
+                                    <button class="cart-qty-btn" onclick="location.href='/add-to-cart/{{$id}}'" data-action="plus">+</button>
+                                    <input type="text" disabled class="cart-qty" value="{{$details['qty']}}">
+                                    <button class="cart-qty-btn" data-action="minus">-</button>
+                                </div>
+                            </td>
+                            <td>
+                                <button type="button">
+                                    <img src="/assets/img/cart-close.png" alt="">
+                                </button>
+                            </td>
+                        </tr>
+                    @endforeach
+                @endif
 
                 <tr>
                     <td>
@@ -120,7 +129,7 @@
                 </div>
 
                 <div class="cart-total">
-                    Итого: <span class="cart-total-sum">1350 ₽</span>
+                    Итого: <span class="cart-total-sum">{{$total}} ₽</span>
                 </div>
 
                 <button class="comment-form-btn cart-payment-btn">Оплатить</button>

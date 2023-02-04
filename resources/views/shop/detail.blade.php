@@ -160,7 +160,7 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('shop.index')}}">Каталог</a></li>
+                        <li><a href="{{route('shop.index')}}">Магазин</a></li>
                         @foreach($product->category->getParents() as $cat)
                             <li><a href="{{route('shop.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
@@ -236,6 +236,10 @@
                                 @endforeach
                             </div>
                             @endforeach
+
+                            <h3>Описание</h3>
+                            {!! $product->description !!}
+                            <button class="other-theme-btn" style="margin-top: 20px">Добавить в корзину</button>
                         </div>
                     </div>
                 </div>
@@ -269,7 +273,7 @@
                                     {{'@'.Auth()->user()->name}}
                                 </div>
                             </div>
-                            <form action="{{route('comment.send', ['type' => 'catalog','post_id' => $product->id])}}" method="POST" class="comment-form">
+                            <form action="{{route('comment.send', ['type' => 'product','post_id' => $product->id])}}" method="POST" class="comment-form">
                                 @csrf
                                 <select name="coin_id" id="" class="comment-select-coin">
                                     <option value="" selected disabled>Прикрепить монету</option>
@@ -287,7 +291,7 @@
                             <span class="comment-text">Необходимо <a href="{{route('login')}}">войти</a>, что бы оставлять комментарии</span>
                         @endif
                     </div>
-                    @include('includes.comments', ['comments' => $product->comments, 'type' => 'catalog', 'postId' => $product->id])
+                    @include('includes.comments', ['comments' => $product->comments, 'type' => 'product', 'postId' => $product->id])
                 </div>
                 <div class="rating-show-sidebar">
                     <div class="rating-show-sidebar-wrap">

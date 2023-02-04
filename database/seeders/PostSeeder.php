@@ -418,6 +418,30 @@ class PostSeeder extends Seeder
             'just-penny.jpg',
             'just-rub.jpg'
         ];
+
+        $product_charateristics = [
+            [
+                'name' => 'Страна',
+                'key' => 'country',
+                'value' => 'Россия'
+            ],
+            [
+                'name' => 'Год',
+                'key' => 'year',
+                'value' => '2023'
+            ],
+            [
+                'name' => 'Материал',
+                'key' => 'material',
+                'value' => 'Мельхиор'
+            ],
+            [
+                'name' => 'Вес (г)',
+                'key' => 'weight',
+                'value' => '200'
+            ]
+        ];
+
         foreach (\App\Models\Product::get() as $product){
             File::create([
                 'morphable_type' => 'App\Models\Product',
@@ -425,6 +449,12 @@ class PostSeeder extends Seeder
                 'src' => '/assets/img/'.$imgs[rand(0,2)],
                 'category' => 'img'
             ]);
+
+            foreach ($product_charateristics as $char){
+                $char['morphable_type'] = 'App\Models\Product';
+                $char['morphable_id'] = $product->id;
+                Characteristic::create($char);
+            }
         }
     }
 }

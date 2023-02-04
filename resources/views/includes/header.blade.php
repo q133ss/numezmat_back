@@ -58,7 +58,7 @@
                     </li>
 
                     <li class="menu-item has-child">
-                        <a href="#">Магазин</a>
+                        <a href="{{route('shop.index')}}">Магазин</a>
                         <i class="fa fa-angle-down"></i>
 
                         <ul class="sub-menu">
@@ -87,8 +87,8 @@
                         <button class="header-cart" onclick="location.href='{{route('cart.index')}}'">
                             <i class="fa fa-shopping-cart"></i>
                             <span>
-                                    0
-                                </span>
+                                0
+                            </span>
                         </button>
                     </li>
 
