@@ -4,6 +4,7 @@ namespace App\Services;
 use App\Models\Product;
 use Illuminate\Support\Collection;
 use Illuminate\Session\SessionManager;
+use Illuminate\Http\Request;
 
 class CartService{
     public function addToCart($id)
@@ -45,7 +46,7 @@ class CartService{
             "name" => $product->title,
             "qty" => 1,
             "price" => $product->price,
-            "photo" => $product->img()
+            "img" => $product->img()
         ];
 
         session()->put('cart', $cart);
@@ -53,16 +54,27 @@ class CartService{
         return redirect()->back();
     }
 
+    public function getTotal()
+    {
+        $total = 0;
+        if(session('cart')) {
+            foreach (session('cart') as $id => $details) {
+                $total += $details['price'] * $details['qty'];
+            }
+        }
+        return $total;
+    }
+
     public function update(Request $request)
     {
-        if($request->id and $request->qty)
+        if($request->id)
         {
             $cart = session()->get('cart');
+            if($cart[$request->id]["qty"] > 1) {
+                $cart[$request->id]["qty"] = $cart[$request->id]["qty"] - 1;
 
-            $cart[$request->id]["qty"] = $request->qty;
-
-            session()->put('cart', $cart);
-
+                session()->put('cart', $cart);
+            }
             session()->flash('success', 'Cart updated successfully');
         }
     }

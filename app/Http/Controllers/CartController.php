@@ -12,8 +12,23 @@ class CartController extends Controller
         return (new CartService())->addToCart($id);
     }
 
+    public function getTotal()
+    {
+        return (new CartService())->getTotal();
+    }
+
     public function update(Request $request)
     {
         return (new CartService())->update($request);
+    }
+
+    public function getCartCount()
+    {
+        return count(session('cart'));
+    }
+
+    public function delete(Request $request)
+    {
+        return (new CartService())->remove($request);
     }
 }

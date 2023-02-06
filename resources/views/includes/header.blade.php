@@ -86,8 +86,8 @@
                     <li class="menu-item">
                         <button class="header-cart" onclick="location.href='{{route('cart.index')}}'">
                             <i class="fa fa-shopping-cart"></i>
-                            <span>
-                                0
+                            <span id="cart-count">
+                                {{count(session('cart'))}}
                             </span>
                         </button>
                     </li>

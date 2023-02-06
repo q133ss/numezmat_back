@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 
 <body>
@@ -57,7 +58,7 @@
                         @php
                             $total += $details['price'] * $details['qty']
                         @endphp
-                        <tr>
+                        <tr id="cart-item_{{$id}}">
                             <td>
                                 <img class="cart-img" src="{{$details['img']}}" alt="">
                             </td>
@@ -67,41 +68,19 @@
                             <td><span class="cart-title">{{$details['price']}} ₽</span></td>
                             <td>
                                 <div class="cart-qty-wrap">
-                                    <button class="cart-qty-btn" onclick="location.href='/add-to-cart/{{$id}}'" data-action="plus">+</button>
+                                    <button class="cart-qty-btn" onclick="addToCart('{{$id}}')" data-action="plus">+</button>
                                     <input type="text" disabled class="cart-qty" value="{{$details['qty']}}">
-                                    <button class="cart-qty-btn" data-action="minus">-</button>
+                                    <button class="cart-qty-btn" onclick="removeFromCart('{{$id}}')">-</button>
                                 </div>
                             </td>
                             <td>
-                                <button type="button">
+                                <button type="button" onclick="removeCartItem('{{$id}}')">
                                     <img src="/assets/img/cart-close.png" alt="">
                                 </button>
                             </td>
                         </tr>
                     @endforeach
                 @endif
-
-                <tr>
-                    <td>
-                        <img class="cart-img" src="/assets/img/cart-place.png" alt="">
-                    </td>
-                    <td>
-                        <span class="cart-title">Пинцет для монет LUXUS</span>
-                    </td>
-                    <td><span class="cart-title">1350 ₽</span></td>
-                    <td>
-                        <div class="cart-qty-wrap">
-                            <button class="cart-qty-btn" data-action="plus">+</button>
-                            <input type="text" class="cart-qty" value="1">
-                            <button class="cart-qty-btn" data-action="minus">-</button>
-                        </div>
-                    </td>
-                    <td>
-                        <button type="button">
-                            <img src="/assets/img/cart-close.png" alt="">
-                        </button>
-                    </td>
-                </tr>
             </table>
 
             <form action="" class="cart-form">
@@ -154,6 +133,62 @@
             }
         }
     });
+
+    function addToCart(id){
+        $.ajax({
+            url:"add-to-cart/"+id,
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        }).done(function (data){
+            getTotal();
+        });
+    }
+
+    function removeFromCart(id){
+        $.ajax({
+            url:"update-cart",
+            type: "POST",
+            data: {
+                "id": id,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        }).done(function (data){
+            getTotal();
+        });
+    }
+
+    function getTotal(){
+        //get-total-cart
+        $.ajax({
+            url:"get-total-cart",
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        }).done(function (data){
+            $('.cart-total-sum').html(data+' ₽');
+        });
+    }
+
+    function removeCartItem(id){
+        $.ajax({
+            url:"delete-from-cart/"+id,
+            type: "POST",
+            data: {
+                "id": id,
+            },
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            }
+        }).done(function (data){
+            $('#cart-item_'+id).remove()
+            getTotal();
+        });
+    }
 </script>
 </body>
 

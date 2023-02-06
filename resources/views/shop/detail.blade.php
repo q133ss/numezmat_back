@@ -239,7 +239,7 @@
 
                             <h3>Описание</h3>
                             {!! $product->description !!}
-                            <button class="other-theme-btn" style="margin-top: 20px">Добавить в корзину</button>
+                            <button class="other-theme-btn" style="margin-top: 20px" id="add-to-cart-btn">Добавить в корзину</button>
                         </div>
                     </div>
                 </div>
@@ -327,6 +327,31 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 
 <script>
+    function updateCartCount(){
+        $.ajax({
+            url: "/get-cart-count",
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+        }).done(function(data) {
+            $('#cart-count').text(data);
+        });
+    }
+
+    $('#add-to-cart-btn').click(function (){
+        $.ajax({
+            url: "/add-to-cart/{{$product->id}}",
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+        }).done(function(data) {
+            updateCartCount()
+            $('#add-to-cart-btn').text('Добавлено в корзину!')
+        });
+    });
+
     $('.comment-btn').click(function(){
         $('.comment-area').toggleClass('display-n');
     });

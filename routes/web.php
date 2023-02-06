@@ -75,7 +75,11 @@ Route::get('shop/detail/{id}', [App\Http\Controllers\ShopController::class, 'det
 Route::get('/shop/search', [App\Http\Controllers\ShopController::class, 'search'])->name('shop.search');
 Route::resource('shop', App\Http\Controllers\ShopController::class);
 
-Route::get('add-to-cart/{id}', [App\Http\Controllers\CartController::class, 'add']);
+Route::post('add-to-cart/{id}', [App\Http\Controllers\CartController::class, 'add']);
+Route::post('get-total-cart', [App\Http\Controllers\CartController::class, 'getTotal']);
+Route::post('get-cart-count', [App\Http\Controllers\CartController::class, 'getCartCount']);
+Route::post('update-cart', [App\Http\Controllers\CartController::class, 'update']);
+Route::post('delete-from-cart/{id}', [App\Http\Controllers\CartController::class, 'delete']);
 
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');
