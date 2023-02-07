@@ -153,5 +153,68 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Изменить категории в "Каталог"';
         $manageUser->slug = 'catalog.delete.section';
         $manageUser->save();
+
+        //Shop
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять разделы в "Магазин"';
+        $manageUser->slug = 'create-sections-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Магазин"';
+        $manageUser->slug = 'create-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Магазин"';
+        $manageUser->slug = 'edit-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать и удалять записи в "Магазин"';
+        $manageUser->slug = 'block-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять разделы в "Магазин"';
+        $manageUser->slug = 'edit-sections-shop';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Удалять разделы в "Магазин"';
+        $manageUser->slug = 'delete-sections-shop';
+        $manageUser->save();
+
+
+        //Library
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять разделы в "Библиотека"';
+        $manageUser->slug = 'create-sections-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Библиотека"';
+        $manageUser->slug = 'create-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Библиотека"';
+        $manageUser->slug = 'edit-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать и удалять записи в "Библиотека"';
+        $manageUser->slug = 'block-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять разделы в "Библиотека"';
+        $manageUser->slug = 'edit-sections-library';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Удалять разделы в "Библиотека"';
+        $manageUser->slug = 'delete-sections-library';
+        $manageUser->save();
     }
 }

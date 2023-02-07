@@ -69,7 +69,7 @@
                     </li>
 
                     <li class="menu-item has-child">
-                        <a href="#">Библиотека</a>
+                        <a href="{{route('library.index')}}">Библиотека</a>
                         <i class="fa fa-angle-down"></i>
 
                         <ul class="sub-menu">
@@ -87,7 +87,11 @@
                         <button class="header-cart" onclick="location.href='{{route('cart.index')}}'">
                             <i class="fa fa-shopping-cart"></i>
                             <span id="cart-count">
+                                @if(session('cart') != null)
                                 {{count(session('cart'))}}
+                                @else
+                                    0
+                                @endif
                             </span>
                         </button>
                     </li>

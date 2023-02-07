@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$category->name}} | Каталог</title>
+    <title>{{$category->name}} | Библиотека</title>
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
     <!-- Swiper -->
@@ -22,27 +22,22 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('catalog.index')}}">Каталог</a></li>
+                        <li><a href="{{route('library.index')}}">Библиотека</a></li>
                         @foreach($category->getParents() as $cat)
-                            <li><a href="{{route('catalog.show', $cat)}}">{{$cat->name}}</a></li>
+                            <li><a href="{{route('library.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
                         <li>{{$category->name}}</li>
                     </ul>
                     <div class="page-title-block">
                         <h3 class="page-title">
-                            Каталог
+                            Библиотека
                         </h3>
                         <span class="page-sub-title">
-                                {{$category->name}}
+                            {{$category->name}}
                         </span>
                     </div>
                 </div>
                 <div class="page-header-right">
-
-                    {{--                    <div class="catalog-search">--}}
-                    {{--                        <img src="/assets/img/Search_fill.png" class="catalog-search-icon" alt="">--}}
-                    {{--                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">--}}
-                    {{--                    </div>--}}
 
                     <select name="sort" onchange="sort($(this).val())" class="page-header-sort">
                         <option value="" disabled selected>Сортировка</option>
@@ -59,23 +54,23 @@
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
                     <div class="actions" style="display: flex; gap: 30px; max-height: 50px">
-                        @can('create-sections-expertise')
+                        @can('create-sections-library')
                             @php $args = ['parent_id' => 1]; @endphp
-                            <a href="{{route('catalog.create.section', ['parent_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый подраздел</a>
+                            <a href="{{route('library.create.section', ['parent_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый подраздел</a>
                         @endcan
 
-                        @can('edit-sections-expertise')
+                        @can('edit-sections-library')
                             @php $args = ['parent_id' => 1]; @endphp
-                            <a href="{{route('catalog.edit.section', [$category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Изменить раздел</a>
+                            <a href="{{route('library.edit.section', [$category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Изменить раздел</a>
                         @endcan
 
-                        @can('delete-sections-expertise')
+                        @can('delete-sections-library')
                             @php $args = ['parent_id' => 1]; @endphp
-                            <a href="{{route('catalog.delete.section', [$category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
+                            <a href="{{route('library.delete.section', [$category->id])}}" class="rating-show-block-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Удалить раздел</a>
                         @endcan
 
-                        @can('create-expertise')
-                            <a href="{{route('catalog-create', ['category_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить каталог</a>
+                        @can('create-library')
+                            <a href="{{route('library.create', ['category_id' => $category->id])}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить библиотеку</a>
                         @endcan
                     </div>
 
@@ -91,14 +86,14 @@
                                         {{$category->description}}
                                     </p>
 
-                                    <a href="{{route('catalog.show', $category->id)}}" class="post-btn">Подробнее
+                                    <a href="{{route('library.show', $category->id)}}" class="post-btn">Подробнее
                                         <img src="/assets/img/arrow-left.png" alt="">
                                     </a>
                                 </div>
 
                                 <div class="post-info">
                                     <span class="post-info-item">
-                                        Экспертизы:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
+                                        Экспертизы:  <span class="post-info-item-count">{{$category->getItems('libraries', $category->id)->count()}}</span>
                                     </span>
                                     <span class="post-info-item">
                                         Просмотры:  <span class="post-info-item-count">{{$category->views_count ?? '0'}}</span>
@@ -119,7 +114,7 @@
                                 <div class="post-content">
                                     <div class="post-description">
                                         <h3 class="post-title">
-                                            {{$item->title}}
+                                            {{$item->name}}
                                         </h3>
                                         <p class="post-except">
                                             {{ strip_tags(mb_substr($item->description, 0, 100)) }}
@@ -128,7 +123,7 @@
                                             @endif
                                         </p>
 
-                                        <a href="{{route('catalog.detail', $item->id)}}" class="post-btn">Подробнее
+                                        <a href="{{route('library.detail', $item->id)}}" class="post-btn">Подробнее
                                             <img src="/assets/img/arrow-left.png" alt="">
                                         </a>
                                     </div>
@@ -138,14 +133,6 @@
                                         </span>
                                         <span class="post-info-item">
                                             <!-- Просмотры:  <span class="post-info-item-count">64</span> -->
-                                        </span>
-                                        <span class="post-date">
-                                                @if(!$item->characteristics->where('key', 'year')->isEmpty())
-                                                Год - <span class="search-val">{{$item->characteristics->where('key', 'year')->pluck('value')->first()}}</span>
-                                            @endif
-                                            @if(!$item->characteristics->where('key', 'condition')->isEmpty())
-                                                Состояние - <span class="search-val">{{$item->characteristics->where('key', 'condition')->pluck('value')->first()}}</span>
-                                            @endif
                                         </span>
                                     </div>
                                 </div>
@@ -158,19 +145,19 @@
                     {{--                    end items--}}
                 </div>
                 <div class="ads">
-                    @if(!$category->getFilters('App\Models\Catalog')->isEmpty())
+                    @if(!$category->getFilters('App\Models\Shop')->isEmpty())
                         <div class="filter">
                             <h3 class="characteristics-title">Фильтр</h3>
 
                             <form action="" class="form-filter">
-                                @foreach($category->getFilters('App\Models\Catalog') as $filter)
+                                @foreach($category->getFilters('App\Models\Shop') as $filter)
                                     <div class="filter-group">
                                         <label for="year" class="characteristics-key">
                                             {{$filter->name}}
                                         </label>
                                         <select name="{{$filter->db_key}}" id="year" class="filter-select">
                                             <option value="#" selected disabled>Выбрать</option>
-                                            @foreach(array_unique($category->getFilterValues('catalogs', 'App\Models\Catalog', $filter->db_key)) as $value)
+                                            @foreach(array_unique($category->getFilterValues('catalogs', 'App\Models\Shop', $filter->db_key)) as $value)
                                                 <option value="{{$value}}" @if(array_key_exists($filter->db_key, \Request()->query()) && \Request()->query()[$filter->db_key] == $value) selected @endif>{{$value}}</option>
                                             @endforeach
                                         </select>

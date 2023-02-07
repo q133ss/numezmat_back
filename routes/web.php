@@ -72,7 +72,6 @@ Route::post('/shop/change-file', [App\Http\Controllers\ShopController::class, 'u
 Route::post('/shop/delete-file', [App\Http\Controllers\ShopController::class, 'deleteImg']);
 Route::get('/shop/block/{id}/{action}', [App\Http\Controllers\ShopController::class, 'block'])->name('shop.block');
 Route::get('shop/detail/{id}', [App\Http\Controllers\ShopController::class, 'detail'])->name('shop.detail');
-Route::get('/shop/search', [App\Http\Controllers\ShopController::class, 'search'])->name('shop.search');
 Route::resource('shop', App\Http\Controllers\ShopController::class);
 
 Route::post('add-to-cart/{id}', [App\Http\Controllers\CartController::class, 'add']);
@@ -83,6 +82,20 @@ Route::post('delete-from-cart/{id}', [App\Http\Controllers\CartController::class
 
 Route::view('cart', 'cart')->name('cart.index');
 Route::view('search', 'search')->name('search');
+
+
+//Library
+Route::get('/library/create/section', [App\Http\Controllers\LibraryController::class, 'createSection'])->name('library.create.section');
+Route::post('/library/store-section', [App\Http\Controllers\LibraryController::class, 'storeSection'])->name('library.store.section');
+Route::get('/library/edit-section/{id}', [App\Http\Controllers\LibraryController::class, 'editSection'])->name('library.edit.section');
+Route::post('/library/update-section/{id}', [App\Http\Controllers\LibraryController::class, 'updateSection'])->name('library.update.section');
+Route::get('/library/delete-section/{id}', [App\Http\Controllers\LibraryController::class, 'deleteSection'])->name('library.delete.section');
+Route::post('/library/change-file', [App\Http\Controllers\LibraryController::class, 'updateImg']);
+Route::post('/library/delete-file', [App\Http\Controllers\LibraryController::class, 'deleteImg']);
+Route::get('/library/block/{id}/{action}', [App\Http\Controllers\LibraryController::class, 'block'])->name('library.block');
+Route::get('library/detail/{id}', [App\Http\Controllers\LibraryController::class, 'detail'])->name('library.detail');
+Route::resource('library', App\Http\Controllers\LibraryController::class);
+
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
 Route::post('/comment/action', [App\Http\Controllers\CommentController::class, 'actionComment'])->name('comment.action');
 

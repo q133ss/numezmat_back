@@ -43,6 +43,7 @@
 
     <section class="content-wrap">
         <div class="container">
+            @if(session('cart'))
             <table class="cart-table">
                 <tr>
                     <th style="width: 275px;">Изображение</th>
@@ -53,7 +54,6 @@
                 </tr>
 
                 @php $total = 0; @endphp
-                @if(session('cart'))
                     @foreach(session('cart') as $id => $details)
                         @php
                             $total += $details['price'] * $details['qty']
@@ -80,7 +80,6 @@
                             </td>
                         </tr>
                     @endforeach
-                @endif
             </table>
 
             <form action="" class="cart-form">
@@ -113,6 +112,9 @@
 
                 <button class="comment-form-btn cart-payment-btn">Оплатить</button>
             </form>
+            @else
+                <div class="post-title">В корзине пусто.</div><a class="page-header-sort" href="{{route('shop.index')}}">В магазин</a>
+            @endif
         </div>
     </section>
 
@@ -122,6 +124,18 @@
 @include('includes.mobile')
 <script src="/assets/js/main.js"></script>
 <script>
+    function updateCartCount(){
+        $.ajax({
+            url: "/get-cart-count",
+            type: "POST",
+            headers: {
+                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+            },
+        }).done(function(data) {
+            $('#cart-count').text(data);
+        });
+    }
+
     $('.cart-qty-btn').click(function () {
         let input = $(this).parent().find('input');
         let cur = parseInt(input.val())
@@ -186,6 +200,7 @@
             }
         }).done(function (data){
             $('#cart-item_'+id).remove()
+            updateCartCount();
             getTotal();
         });
     }

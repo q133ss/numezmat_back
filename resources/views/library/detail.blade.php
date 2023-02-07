@@ -5,22 +5,23 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$product->title}}</title>
+    <title>{{$library->name}}</title>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- Swiper -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
     <!-- TinyMCE -->
     <script src="https://cdn.tiny.cloud/1/752l8byduhddjuj8adfjo4ntwolgqwjrr1bhlxn26marh09g/tinymce/6/tinymce.min.js"
             referrerpolicy="origin"></script>
+
     <!-- Jquery -->
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js"
-            integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+
     <style>
         .detail_slider {
             padding: 10px 16px;
@@ -145,6 +146,10 @@
                 width: 32px;
             }
         }
+
+        .detail_slider .container p{
+            color: #4A4A4A;
+        }
     </style>
 </head>
 
@@ -155,21 +160,24 @@
 <div class="page-content">
 
     <section class="page-header">
-        <div class="container">
+        <div class="sw_container">
             <div class="page-header-wrap">
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('shop.index')}}">Магазин</a></li>
-                        @foreach($product->category->getParents() as $cat)
-                            <li><a href="{{route('shop.show', $cat)}}">{{$cat->name}}</a></li>
+                        <li><a href="{{route('library.index')}}">Библиотека</a></li>
+                        @foreach($library->category->getParents() as $cat)
+                            <li><a href="{{route('library.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
-                        <li><a href="{{route('shop.show', $product->category->id)}}">{{$product->category->name}}</a></li>
-                        <li>{{$product->title}}</li>
+                        <li><a href="{{route('library.show', $library->category->id)}}">{{$library->category->name}}</a></li>
+                        <li>{{$library->name}}</li>
                     </ul>
                     <div class="page-title-block">
+                        <div class="page-img">
+                            <img src="/assets/img/revMyMoney.png" alt="">
+                        </div>
                         <h3 class="page-title">
-                            {{$product->title}}
+                            {{$library->name}}
                         </h3>
                     </div>
                 </div>
@@ -180,112 +188,56 @@
 
     <section class="rating-show">
         <div class="container">
-            <div class="rating-show-content">
-                <div class="rating-show-info">
-                    <!-- SWIPER GALLERY -->
-                    <section class="detail_slider">
-                        <div class="container">
-                            <div class="slider__flex">
-                                <div class="slider__images">
-                                    <div class="swiper-container"> <!-- Слайдер с изображениями -->
-                                        <div class="swiper-wrapper">
-                                            @foreach($product->images() as $img)
-                                            <div class="swiper-slide">
-                                                <div class="slider__image">
-                                                    <img src="{{$img}}" alt="" />
-                                                    <div class="rating_view_btn"><a rel="modal:open"
-                                                                                    href="#photoModal">Быстрый просмотр</a></div>
-                                                </div>
-                                            </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="slider__col">
-
-                                    <div class="slider__thumbs">
-                                        <div class="swiper-container"> <!-- Слайдер с превью -->
-                                            <div class="swiper-wrapper">
-                                                @foreach($product->images() as $img)
-                                                <div class="swiper-slide">
-                                                    <div class="slider__image"><img
-                                                            src="{{$img}}" alt="" />
-                                                    </div>
-                                                </div>
-                                                @endforeach
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
-                    </section>
-                    <!-- END SWIPER GALLERY -->
-                    <div class="rating-show-info-block">
-                        <div class="catalog-data">
-                            <h3>Характеристики</h3>
-                            @foreach($product->characteristics->chunk(2) as $chunk)
-                            <div class="catalog-char-wrap">
-                                @foreach($chunk as $characteristic)
-                                <div class="catalog-char-item">
-                                    <div class="cat-char-key">{{$characteristic->name}}:</div>
-                                    <div class="cat-char-val">{{$characteristic->value}}</div>
-                                </div>
-                                @endforeach
-                            </div>
-                            @endforeach
-
-                            <div class="catalog-char-wrap">
-                                <div class="catalog-char-item">
-                                    <div class="cat-char-key">Цена:</div>
-                                    <div class="cat-char-val">{{$product->price}}</div>
-                                </div>
-                            </div>
-
-                            <h3>Описание</h3>
-                            {!! $product->description !!}
-                            <button class="other-theme-btn" style="margin-top: 20px" id="add-to-cart-btn">Добавить в корзину</button>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="rating-show-control">
-                    @can('edit-shop')
-                        <a href="{{route('shop.edit', $product->id)}}" class="rating-show-edit-btn">Редактировать тему <img src="/assets/img/Edit_fill.png" alt=""></a>
-                    @endcan
-
-                    @can('block-shop')
-                        @if($product->is_block == 0)
-                            <a href="{{route('shop.block', ['id' => $product->id, 'action' => 1])}}" class="rating-show-block-btn">Заблокировать тему</a>
-                        @else
-                            <a href="{{route('shop.block', ['id' => $product->id, 'action' => 0])}}" class="rating-show-block-btn comment-form-btn">Разблокировать тему</a>
-                        @endif
-                    @endcan
-                </div>
-
-            </div>
             <div class="rating-show-wrapper">
                 <div class="rating-show-content">
 
+                    <div class="rating-show-info">
+                        <!-- <img src="/assets/img/post2.png" class="rating-show-img" alt=""> -->
+                        <!-- SWIPER GALLERY -->
+                        <section class="detail_slider">
+                            <div class="container">
+                                <div class="news-img" style="text-align: center">
+                                    <img src="{{$library->img()}}" alt="">
+                                </div>
+                                <div style="color:#4A4A4A;margin-top: 18px">
+                                    {!! $library->description !!}
+                                </div>
+                            </div>
+                        </section>
+                        <!-- END SWIPER GALLERY -->
+
+                    </div>
+
+                    <div class="rating-show-control">
+                        @can('edit-news')
+                            <a href="{{route('library.edit', $library->id)}}" class="rating-show-edit-btn">
+                                Редактировать новость
+                                <img src="/assets/img/Edit_fill.png" alt="">
+                            </a>
+                        @endcan
+
+                        @can('block-news')
+                            <a href="#" onclick="block()" class="rating-show-block-btn">Заблокировать</a>
+                        @endcan
+                    </div>
 
                     <h4 class="rating-show-other-themes">Добавить комментарий</h4>
+
                     <button class="comment-form-btn comment-btn">Прокоментировать</button>
                     <div class="comment-area display-n">
                         @if(Auth()->check())
                             <div class="comment-avatar-block">
                                 <img src="/assets/img/Ellipse66.png" class="comment-avatar" alt="">
                                 <div class="comment-nick">
-                                    {{'@'.Auth()->user()->name}}
+                                    {{ '@'.Auth()->user()->name }}
                                 </div>
                             </div>
-                            <form action="{{route('comment.send', ['type' => 'product','post_id' => $product->id])}}" method="POST" class="comment-form">
+                            <form action="{{route('comment.send', ['type' => 'news','post_id' => $library->id])}}" method="POST" class="comment-form">
                                 @csrf
                                 <select name="coin_id" id="" class="comment-select-coin">
                                     <option value="" selected disabled>Прикрепить монету</option>
                                     @foreach(Auth()->user()->coins as $coin)
-                                        <option value="{{$coin->id}}">{{$coin->title}}</option>
+                                        <option value="{{$coin->id}}">{{$coin->name}}</option>
                                     @endforeach
                                 </select>
                                 <textarea name="text" id="" class="comment-field" cols="100" rows="10"
@@ -298,19 +250,22 @@
                             <span class="comment-text">Необходимо <a href="{{route('login')}}">войти</a>, что бы оставлять комментарии</span>
                         @endif
                     </div>
-                    @include('includes.comments', ['comments' => $product->comments, 'type' => 'product', 'postId' => $product->id])
+
+                    @include('includes.comments', ['comments' => $library->comments, 'type' => 'news', 'postId' => $library->id])
                 </div>
                 <div class="rating-show-sidebar">
                     <div class="rating-show-sidebar-wrap">
-                        @foreach($product->relatedPosts() as $post)
+                        @include('includes.ad', ['count' => 1])
+                        <h4 class="rating-show-other-themes">Другие темы</h4>
+
+                        @foreach($library->relatedPosts() as $post)
                             <div class="sidebar-other-theme">
                                 <img src="{{$post->img()}}" class="other-theme-img" alt="">
-                                <h3 class="other-theme-title">{{$post->title}}</h3>
+                                <h3 class="other-theme-title">{{$post->name}}</h3>
                                 <p class="other-theme-text">
-                                    {{mb_substr($post->description, 0, 37)}}
-                                    @if(mb_strlen($post->description) > 37)...@endif
+                                    {{$post->except}}
                                 </p>
-                                <a href="{{route('shop.detail', $post->id)}}" class="other-theme-btn">Подробнее</a>
+                                <a href="{{route('library.detail', $post->id)}}" class="other-theme-btn">Подробнее</a>
                             </div>
                         @endforeach
                     </div>
@@ -323,50 +278,42 @@
     @include('includes.footer')
 </div>
 
-@include('includes.mobile')
 <div id="photoModal" class="modal">
     <img src="" id="photoModalImg" alt="">
 </div>
 
-<!-- ---- -->
+@include('includes.mobile')
 <script src="/assets/js/main.js"></script>
 <!-- Swiper -->
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
-
+<!-- Initialize Swiper -->
 <script>
-    function updateCartCount(){
-        $.ajax({
-            url: "/get-cart-count",
-            type: "POST",
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-        }).done(function(data) {
-            $('#cart-count').text(data);
-        });
-    }
-
-    $('#add-to-cart-btn').click(function (){
-        $.ajax({
-            url: "/add-to-cart/{{$product->id}}",
-            type: "POST",
-            headers: {
-                'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-            },
-        }).done(function(data) {
-            updateCartCount()
-            $('#add-to-cart-btn').text('Добавлено в корзину!')
-        });
-    });
-
     $('.comment-btn').click(function(){
         $('.comment-area').toggleClass('display-n');
     });
     //Modal img
-    $('.rating_view_btn').click(function () {
+    $('.rating_view_btn').click(function(){
         let path = $(this).parent().parent().find('img').attr('src');
         $('#photoModalImg').attr('src', path);
     });
+
+    function block(){
+        if(confirm('Вы уверены?')){
+            let post_id = '{{$post->id}}';
+            $.ajax({
+                url: "/news/block",
+                type: "POST",
+                data: {'post_id':post_id},
+                headers: {
+                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
+                },
+            }).done(function() {
+                location.href='{{route('library.index')}}';
+            });
+        }else{
+            return false;
+        }
+    }
 
     //Swiper
     // Инициализация превью слайдера
@@ -413,60 +360,6 @@
     });
 </script>
 
-<!-- Initialize Swiper -->
-<script>
-    var swiper = new Swiper(".mySwiper", {
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
-            renderBullet: function (index, className) {
-                return '<button class="slider-paginate ' + className + '"></button>';
-            }
-        }
-    });
-
-    var swiper = new Swiper(".posts-slider", {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            900: {
-                slidesPerView: 1,
-            },
-            650: {
-                slidesPerView: 1,
-            },
-            350: {
-                slidesPerView: 1,
-            }
-        }
-    });
-
-    var swiper = new Swiper(".news-slider", {
-        slidesPerView: 2,
-        spaceBetween: 30,
-        navigation: {
-            nextEl: ".swiper-button-next",
-            prevEl: ".swiper-button-prev",
-        },
-        breakpoints: {
-            1250: {
-                slidesPerView: 1,
-            },
-            350: {
-                slidesPerView: 1,
-            }
-        }
-    });
-</script>
-
 <script>
     tinymce.init({
         selector: '.comment-field',
@@ -480,6 +373,7 @@
             { value: 'Email', title: 'Email' },
         ]
     });
+
 </script>
 </body>
 

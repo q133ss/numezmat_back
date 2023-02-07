@@ -10,6 +10,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function characteristics()
     {
         return $this->morphMany(Characteristic::class, 'morphable');
