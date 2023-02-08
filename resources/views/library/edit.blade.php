@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{$post->title}}</title>
+    <title>{{$post->name}}</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
@@ -30,64 +30,6 @@
         display: block;
         margin-top: 25px;
     }
-
-    /*swiper*/
-
-      .swiper {
-          width: 100%;
-          height: 100%;
-      }
-
-    .swiper-slide {
-        text-align: center;
-        font-size: 18px;
-        background: #fff;
-
-        /* Center slide text vertically */
-        display: -webkit-box;
-        display: -ms-flexbox;
-        display: -webkit-flex;
-        display: flex;
-        -webkit-box-pack: center;
-        -ms-flex-pack: center;
-        -webkit-justify-content: center;
-        justify-content: center;
-        -webkit-box-align: center;
-        -ms-flex-align: center;
-        -webkit-align-items: center;
-        align-items: center;
-    }
-
-    .swiper-slide img {
-        display: block;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .edit-slide{
-        display: grid;
-    }
-
-    .edit-slide-edit-btn{
-        background-color: #CB3631;
-    }
-
-    .edit-imgs{
-        max-width: 300px;
-    }
-
-    .mySwiper{
-        margin-top: 20px;
-    }
-
-    .swiper-pagination{
-        margin-top: 25px;
-    }
-
-    .swiper-pagination-bullet-active{
-        background-color:#3F6695 !important;
-    }
 </style>
 
 @include('includes.header')
@@ -100,19 +42,19 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('shop.index')}}">Магазин</a></li>
-                        @foreach($post->category->getParents() as $category)
-                            <li><a href="{{route('catalog.show', $category)}}">{{$category->name}}</a></li>
+                        <li><a href="{{route('library.index')}}">Библиотека</a></li>
+                        @foreach($post->category->getParents() as $cat)
+                            <li><a href="{{route('library.show', $cat)}}">{{$cat->name}}</a></li>
                         @endforeach
-                        <li><a href="{{route('shop.show', $post->category->id)}}">{{$post->category->name}}</a></li>
-                        <li>{{$post->title}}</li>
+                        <li><a href="{{route('library.show', $post->category->id)}}">{{$post->category->name}}</a></li>
+                        <li>{{$post->name}}</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/revMyMoney.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            {{$post->title}}
+                            {{$post->name}}
                         </h3>
                     </div>
                 </div>
@@ -120,9 +62,10 @@
             </div>
         </div>
     </section>
+
     <section class="rating-show">
         <div class="container">
-            <form action="{{route('shop.update', $post->id)}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('library.update', $post->id)}}" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
                 @method('PUT')
 
@@ -132,43 +75,16 @@
                     @endforeach
                 @endif
 
-                <label for="title" class="search-header news-edit-label">Изображения</label>
-                <!-- Swiper -->
-                <div class="swiper mySwiper">
-                    <div class="swiper-wrapper">
-                        @foreach($post->images() as $img)
-                        <div class="swiper-slide edit-slide">
-                            <img src="{{$img}}" alt="" style="cursor: pointer" class="edit-imgs">
-                            <div class="slider-btns">
-                                <button class="comment-form-btn slider-edit-btn" type="button">Изменить</button>
-                                <button class="comment-form-btn edit-slide-edit-btn" type="button">Удалить</button>
-                                <input type="file" class="display-n sliders-file">
-                            </div>
-                        </div>
-                        @endforeach
-                    </div>
-                    <div class="swiper-pagination"></div>
-                </div>
-{{--                end Swiper--}}
-
-                <label for="title" class="search-header news-edit-label">Категория</label>
-                <select name="category_id" class="search-request" id="">
-                    @foreach($categories as $category)
-                        <option value="{{$category->id}}" @if($post->category_id == $category->id) selected @endif>{{$category->name}}</option>
-                    @endforeach
-                </select>
-
-                <label for="title" class="search-header news-edit-label">Заголовок</label>
-                <input type="text" class="search-request" name="title" value="{{$post->title}}">
+                <label for="title" class="search-header news-edit-label">Изображение</label>
+                <img src="{{$post->img()}}" style="margin-top: 15px; display: block;" alt="">
+                <input type="file" class="search-request" name="img">
+                <label for="name" class="search-header news-edit-label">Заголовок</label>
+                <input type="text" class="search-request" name="name" value="{{$post->name}}">
 
                 <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
                     {{$post->description}}
                 </textarea>
-
-                <label for="title" class="search-header news-edit-label">Цена</label>
-                <input type="text" class="search-request" name="price" value="{{$post->price}}">
-
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>
@@ -188,18 +104,6 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <!-- Initialize Swiper -->
 <script>
-
-    function deleteCharBtn (id){
-        $('#char_'+id).remove();
-    }
-
-    function appendChars(){
-        let id = Math.random().toString(36).slice(-5);
-        $('#chars').append('<div class="char-wrap" id="char_'+id+'"><input type="text" style=\'background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;\' name="char_name[]" value="" placeholder="Название"> <input type="text" style=\'background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;\' name="char_key[]" value="" placeholder="Ключ"> <input type="text" style=\'background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;\' name="char_value[]" value="" placeholder="Значение"> <button type="button" onclick="deleteCharBtn(\''+id+'\')" style=\'background-color: #F3F7FA; padding: 15px 24px;font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;\'>X</button> </div>');
-    }
-
-    /////
-
     $('.comment-btn').click(function(){
         $('.comment-area').toggleClass('display-n');
     });
@@ -210,87 +114,48 @@
     });
 
     //Swiper
-    var swiper = new Swiper(".mySwiper", {
-        slidesPerView: 3,
-        spaceBetween: 30,
-        freeMode: true,
-        pagination: {
-            el: ".swiper-pagination",
-            clickable: true,
+    // Инициализация превью слайдера
+    const sliderThumbs = new Swiper('.slider__thumbs .swiper-container', { // ищем слайдер превью по селектору
+        // задаем параметры
+        direction: 'vertical', // вертикальная прокрутка
+        slidesPerView: 3, // показывать по 3 превью
+        spaceBetween: 24, // расстояние между слайдами
+        mousewheel: true,
+        navigation: { // задаем кнопки навигации
+            nextEl: '.slider__next', // кнопка Next
+            prevEl: '.slider__prev' // кнопка Prev
         },
-    });
-
-    //Edit photos
-    $('.slider-edit-btn').click(function (){
-        $(this).parent().find('input').click();
-    });
-
-    $('.sliders-file').change(function (){
-        let img = $(this).parent().parent().find('img');
-        let _this = $(this);
-
-        let file_data = _this.prop('files')[0];
-        if(file_data != undefined) {
-            let form_data = new FormData();
-            form_data.append('file', file_data);
-            form_data.append('src', img.attr('src'));
-            form_data.append('id', '{{$post->id}}');
-
-            $.ajax({
-                url: "/shop/change-file",
-                type: "POST",
-                processData: false,
-                contentType: false,
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: form_data,
-                success: function (response) {
-                    img.attr('src', response);
-                },
-                error: function(data) {
-                    console.log(data);
-                    var response = JSON.parse(data.responseText);
-                    var errorString = '';
-                    $.each( response.errors, function( key, value) {
-                        errorString += value;
-                    });
-                    console.log(errorString);
-                }
-            });
+        freeMode: true, // при перетаскивании превью ведет себя как при скролле
+        breakpoints: { // условия для разных размеров окна браузера
+            0: { // при 0px и выше
+                direction: 'horizontal', // горизонтальная прокрутка
+            },
+            768: { // при 768px и выше
+                direction: 'vertical', // вертикальная прокрутка
+            }
         }
     });
+    // Инициализация слайдера изображений
+    const sliderImages = new Swiper('.slider__images .swiper-container', { // ищем слайдер превью по селектору
+        // задаем параметры
+        direction: 'vertical', // вертикальная прокрутка
+        slidesPerView: 1, // показывать по 1 изображению
+        spaceBetween: 72, // расстояние между слайдами
+        mousewheel: true, // можно прокручивать изображения колёсиком мыши
 
-    $('.edit-slide-edit-btn').click(function (){
-        let conf = confirm('Вы уверены?');
-
-        let img = $(this).parent().parent().find('img');
-        let _this = $(this);
-        let block = _this.parent().parent();
-
-        let src = img.attr('src');
-
-        if(conf){
-            $.ajax({
-                url: "/shop/delete-file",
-                type: "POST",
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                data: {
-                    'src': src,
-                    'id': '{{$post->id}}'
-                },
-                success: function (response) {
-                    block.remove();
-                },
-                error: function(data) {
-                    //
-                }
-            });
+        grabCursor: true, // менять иконку курсора
+        thumbs: { // указываем на превью слайдер
+            swiper: sliderThumbs // указываем имя превью слайдера
+        },
+        breakpoints: { // условия для разных размеров окна браузера
+            0: { // при 0px и выше
+                direction: 'horizontal', // горизонтальная прокрутка
+            },
+            768: { // при 768px и выше
+                direction: 'vertical', // вертикальная прокрутка
+            }
         }
     });
-    //end edit photos
 </script>
 
 <script>

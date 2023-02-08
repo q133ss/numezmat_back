@@ -10,6 +10,8 @@ class Library extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function img()
     {
         return $this->morphOne(File::class, 'morphable')->where('category','img')->orderBy('created_at','DESC')->pluck('src')->first();
@@ -23,6 +25,11 @@ class Library extends Model
     public function category()
     {
         return $this->hasOne(Category::class, 'id', 'category_id');
+    }
+
+    public function file()
+    {
+        return $this->morphOne(File::class, 'morphable');
     }
 
     public function relatedPosts($count = 4)

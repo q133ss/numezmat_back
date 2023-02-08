@@ -209,15 +209,19 @@
                     </div>
 
                     <div class="rating-show-control">
-                        @can('edit-news')
+                        @can('edit-library')
                             <a href="{{route('library.edit', $library->id)}}" class="rating-show-edit-btn">
-                                Редактировать новость
+                                Редактировать
                                 <img src="/assets/img/Edit_fill.png" alt="">
                             </a>
                         @endcan
 
-                        @can('block-news')
-                            <a href="#" onclick="block()" class="rating-show-block-btn">Заблокировать</a>
+                        @can('block-library')
+                            @if($library->is_block == 0)
+                                <a href="{{route('library.block', ['id' => $library->id, 'action' => 1])}}" class="rating-show-block-btn">Заблокировать</a>
+                            @else
+                                <a href="{{route('library.block', ['id' => $library->id, 'action' => 0])}}" class="rating-show-block-btn comment-form-btn">Разблокировать</a>
+                            @endif
                         @endcan
                     </div>
 
@@ -232,7 +236,7 @@
                                     {{ '@'.Auth()->user()->name }}
                                 </div>
                             </div>
-                            <form action="{{route('comment.send', ['type' => 'news','post_id' => $library->id])}}" method="POST" class="comment-form">
+                            <form action="{{route('comment.send', ['type' => 'library','post_id' => $library->id])}}" method="POST" class="comment-form">
                                 @csrf
                                 <select name="coin_id" id="" class="comment-select-coin">
                                     <option value="" selected disabled>Прикрепить монету</option>
@@ -251,7 +255,7 @@
                         @endif
                     </div>
 
-                    @include('includes.comments', ['comments' => $library->comments, 'type' => 'news', 'postId' => $library->id])
+                    @include('includes.comments', ['comments' => $library->comments, 'type' => 'library', 'postId' => $library->id])
                 </div>
                 <div class="rating-show-sidebar">
                     <div class="rating-show-sidebar-wrap">
@@ -297,23 +301,6 @@
         $('#photoModalImg').attr('src', path);
     });
 
-    function block(){
-        if(confirm('Вы уверены?')){
-            let post_id = '{{$post->id}}';
-            $.ajax({
-                url: "/news/block",
-                type: "POST",
-                data: {'post_id':post_id},
-                headers: {
-                    'X-CSRF-Token': $('meta[name="csrf-token"]').attr('content')
-                },
-            }).done(function() {
-                location.href='{{route('library.index')}}';
-            });
-        }else{
-            return false;
-        }
-    }
 
     //Swiper
     // Инициализация превью слайдера

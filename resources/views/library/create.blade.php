@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Добавить товар</title>
+    <title>Добавить запить в библиотеку</title>
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="/assets/css/main.css">
     <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
@@ -35,14 +35,14 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li>Добавить товар</li>
+                        <li>Добавить запись в библиотеку</li>
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
                             <img src="/assets/img/revMyMoney.png" alt="">
                         </div>
                         <h3 class="page-title">
-                            Добавить товар
+                            Добавить запись
                         </h3>
                     </div>
                 </div>
@@ -52,7 +52,7 @@
     </section>
     <section class="rating-show">
         <div class="container">
-            <form action="{{route('shop.store')}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('library.store')}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
 
                 @if ($errors->any())
@@ -61,7 +61,7 @@
                     @endforeach
                 @endif
 
-                <label for="title" class="search-header news-edit-label">Изображения</label>
+                <label for="title" class="search-header news-edit-label">Изображение</label>
                 <input type="file" class="search-request" multiple name="img[]" value="{{old('img[]')}}">
 
                 <label for="title" class="search-header news-edit-label">Категория</label>
@@ -71,14 +71,11 @@
                     @endforeach
                 </select>
 
-                <label for="title" class="search-header news-edit-label">Заголовок</label>
-                <input type="text" class="search-request" name="title" value="{{old('title')}}">
+                <label for="name" class="search-header news-edit-label">Заголовок</label>
+                <input type="text" class="search-request" name="name" value="{{old('name')}}">
 
                 <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">{{old('description')}}</textarea>
-
-                <label for="title" class="search-header news-edit-label">Цена</label>
-                <input type="text" class="search-request" name="price" value="{{old('price')}}">
 
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>

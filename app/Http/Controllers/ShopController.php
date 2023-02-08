@@ -127,17 +127,17 @@ class ShopController extends Controller
 
         $item_ids = [];
         //Добавляем текущую категорию
-        foreach (Catalog::where('category_id', $id)->get() as $rating) {
+        foreach (Product::where('category_id', $id)->get() as $rating) {
             $item_ids[] = $rating->id;
         }
 
         while(true){
-            $item = Category::where('parent_id', last($category_ids));
+            $item = Product::where('parent_id', last($category_ids));
             if($item->exists()) {
                 $category_id = $item->pluck('id')->first();
 
                 $category_ids[] = $category_id;
-                foreach (Catalog::where('category_id', $category_id)->get() as $rating) {
+                foreach (Product::where('category_id', $category_id)->get() as $rating) {
                     $item_ids[] = $rating->id;
                 }
             }else{
@@ -153,7 +153,7 @@ class ShopController extends Controller
         }
         //Удаляем все и делаем редирект
         #TODO Добавить удаление файлов!
-        Catalog::whereIn('id', $item_ids)->delete();
+        Product::whereIn('id', $item_ids)->delete();
         Category::whereIn('id', $category_ids)->delete();
 
         return redirect($route);
