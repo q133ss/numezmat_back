@@ -135,9 +135,13 @@ class RatingController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->addView();
-        $categories = Category::getSubCategories('App\Models\Rating', $id)->paginate(10);
-        $items = Rating::where('ratings.category_id', $category->id)->where('is_block', false)->withFilter($request)->paginate(10);
-
+        $categories = Category::getSubCategories('App\Models\Rating', $id)
+            ->withSubOrder($request, 'App\Models\Rating', Rating::class, $id)
+            ->paginate(10);
+        $items = Rating::where('ratings.category_id', $category->id)
+            ->where('is_block', false)
+            ->withFilter($request)
+            ->paginate(10);
         return view('rating.show', compact('category','categories', 'items'));
     }
 

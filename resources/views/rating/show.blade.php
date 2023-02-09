@@ -44,11 +44,14 @@
 {{--                        <input type="text" placeholder="Искать в документах" class="catalog-search-input">--}}
 {{--                    </div>--}}
 
-                    <select name="sort" onchange="sort($(this).val())" class="page-header-sort">
-                        <option value="" disabled selected>Сортировка</option>
-                        <option value="active">По активности</option>
-                        <option value="date">По дате</option>
-                    </select>
+                    <form action="" method="GET">
+                        <select name="sort" id="sortSelect" class="page-header-sort">
+                            <option value="" >Сортировка</option>
+                            @php $sort = \Request()->query(); @endphp
+                            <option value="active" @if(in_array('active', $sort)) selected @endif>По активности</option>
+                            <option value="date" @if(in_array('date', $sort)) selected @endif>По дате</option>
+                        </select>
+                    </form>
                 </div>
             </div>
         </div>
@@ -197,10 +200,6 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <!-- Initialize Swiper -->
 <script>
-
-    function sort(val){
-        $('#sort-field').val(val)
-    }
 
     var swiper = new Swiper(".mySwiper", {
         navigation: {

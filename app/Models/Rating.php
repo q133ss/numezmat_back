@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CommentsSort;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Builder;
 
 class Rating extends Model
 {
-    use HasFactory;
+    use HasFactory, CommentsSort;
 
     protected $guarded = [];
 
@@ -67,9 +68,15 @@ class Rating extends Model
                     $sort = str_replace('-','', $sort);
                     switch ($sort){
                         case 'active':
-                            $query->with('comments', function ($query) use ($sortDirection){
-                                $query->orderBy('created_at', 'ASC');
-                            });
+                            //Мой любимый способ :D
+                            $activeSort = $this->commentsSortIds('ratings', 'App\Models\Rating');
+
+                            if(!empty($activeSort)) {
+                                $str = implode(",", $activeSort);
+                                $query->orderByRaw("FIELD(id, $str)");
+                            }
+
+
                             break;
                         case 'date':
                             $query->orderBy('created_at', $sortDirection);

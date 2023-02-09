@@ -151,6 +151,69 @@ class Category extends Model
         return array_merge($sortMainCategories, $other_cats);
     }
 
+    //Sort for subcats
+    public function activeSortSub(string $type, $model, $parent_id) : array
+    {
+        $cats_ids = [];
+        //берем главные категории
+        $cats_ids[] = $this->getSubCategories($type, $parent_id)->pluck('id')->all();
+
+        while($this->whereIn('parent_id', last($cats_ids))->exists()){
+            $ids = $this->whereIn('parent_id', last($cats_ids))->pluck('id')->all();
+            $cats_ids[] = $ids;
+        }
+
+        ///
+        $ids_formatted = [];
+
+        array_walk_recursive($cats_ids, function ($item, $key) use (&$ids_formatted) {
+            $ids_formatted[] = $item;
+        });
+
+        //тут у нас есть абсалютно все категории
+        //теперь ищем все айтемы у которых катеогория одна из этих
+//        $items = Rating::whereIn('category_id', $ids_formatted)->pluck('id')->all();
+        $items = $model::whereIn('category_id', $ids_formatted)->pluck('id')->all();
+        $items += $model::where('category_id', $parent_id)->pluck('id')->all();
+
+        $comments = Comment::whereIn('morphable_id',$items)
+            ->where('morphable_type', $type)
+            ->orderBy('created_at', 'DESC')
+            ->pluck('morphable_id')->all();
+
+        $sortItems = []; //категории отсортированные
+        foreach ($comments as $comment){
+            $sortItems[] = $model::where('category_id', '!=', $parent_id)->where('id', $comment)->pluck('category_id')->first();
+        }
+        //тут мы сортируем категории, нужен еще 1 метод для сортировки постов
+        $other_cats = self::getSubCategories($type, $parent_id)
+            ->where('id', '!=', $sortItems)
+            ->pluck('id')->all();
+
+        return array_merge($sortItems, $other_cats);
+    }
+
+    public function scopeWithSubOrder($query, $request, $type, $model, $parent_id)
+    {
+        return $query->when($request->query('sort'), function ($query, $sort) use ($type, $model, $parent_id){
+            $sortDirection = str_starts_with($sort, '-') ? 'ASC' : 'DESC';
+            $sort = str_replace('-','', $sort);
+            switch ($sort){
+                case 'date':
+                    $query->orderBy('created_at', $sortDirection);
+                    break;
+
+                case 'active':
+                    $activeSort = $this->activeSortSub($type, $model, $parent_id);
+                    if(!empty($activeSort)) {
+                        $str = implode(",", $this->activeSortSub($type, $model, $parent_id));
+                        $query->orderByRaw("FIELD(id, $str)");
+                    }
+                    break;
+            }
+        });
+    }
+
     public function scopeWithOrder($query, $request, $table, $type, $model)
     {
         return $query->when($request->query('sort'), function ($query, $sort) use ($table, $type, $model){

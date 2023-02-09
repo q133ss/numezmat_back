@@ -21,7 +21,7 @@ class LibraryController extends Controller
     public function index(Request $request)
     {
         $categories = Category::getMainCategories('App\Models\Library')
-            ->withOrder($request, 'catalogs', 'App\Models\Catalog', Library::class)
+            ->withOrder($request, 'catalogs', 'App\Models\Library', Library::class)
             ->paginate(10);
         return view('library.index', compact('categories'));
     }
@@ -92,7 +92,9 @@ class LibraryController extends Controller
     {
         $category = Category::findOrFail($id);
         $category->addView();
-        $categories = Category::getSubCategories('App\Models\Library', $id)->paginate(10);
+        $categories = Category::getSubCategories('App\Models\Library', $id)
+            ->withOrder($request, 'catalogs', 'App\Models\Library', Library::class)
+            ->paginate(10);
         $items = Library::where('libraries.category_id', $category->id)->where('is_block', false)->withFilter($request)->paginate(10);
 
         return view('library.show', compact('category','categories', 'items'));
