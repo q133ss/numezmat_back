@@ -12,8 +12,12 @@
         <div class="before-header-right">
             <ul>
                 <li>Телефон: <em>+7(495)123-45-67</em></li>
-                <li><a href="{{route('login')}}">Вход</a></li>
-                <li><a href="{{route('register')}}">Регистрация</a></li>
+                @if(Auth()->check())
+                    <li><a href="{{route('profile.index')}}">{{Auth()->user()->name}}</a></li>
+                @else
+                    <li><a href="{{route('login')}}">Вход</a></li>
+                    <li><a href="{{route('register')}}">Регистрация</a></li>
+                @endif
             </ul>
         </div>
     </div>

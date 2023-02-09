@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\File;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
@@ -54,5 +55,18 @@ class UserSeeder extends Seeder
 
         $admin->roles()->attach($adminRole);
         $user->roles()->attach($userRole);
+
+
+        $imgs = [
+            'just-coin.jpg',
+            'just-penny.jpg',
+            'just-rub.jpg'
+        ];
+        File::create([
+            'morphable_type' => 'App\Models\User',
+            'morphable_id' => $admin->id,
+            'src' => '/assets/img/'.$imgs[rand(0,2)],
+            'category' => 'avatar'
+        ]);
     }
 }

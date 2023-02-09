@@ -79,7 +79,7 @@
                             </div>
                             <div class="post-info">
                                     <span class="post-info-item">
-                                        Оценки:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
+                                        Экспертизы:  <span class="post-info-item-count">{{$category->getItems('ratings', $category->id)->count()}}</span>
                                     </span>
                                 <span class="post-info-item">
                                         Просмотры:  <span class="post-info-item-count">{{$category->views_count ?? '0'}}</span>

@@ -96,6 +96,13 @@ Route::get('/library/block/{id}/{action}', [App\Http\Controllers\LibraryControll
 Route::get('library/detail/{id}', [App\Http\Controllers\LibraryController::class, 'detail'])->name('library.detail');
 Route::resource('library', App\Http\Controllers\LibraryController::class);
 
+
+//Profile
+Route::middleware('auth')->group(function(){
+    Route::get('profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::post('profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
+});
+
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
 Route::post('/comment/action', [App\Http\Controllers\CommentController::class, 'actionComment'])->name('comment.action');
 

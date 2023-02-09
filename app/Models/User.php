@@ -43,6 +43,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    public function avatar()
+    {
+        return $this->morphOne(File::class, 'morphable')->where('category', 'avatar')->pluck('src')->first();
+    }
+
     public function coins()
     {
         return $this->hasMany(Coin::class, 'user_id', 'id');

@@ -96,7 +96,7 @@
 
                                 <div class="post-info">
                                     <span class="post-info-item">
-                                        Экспертизы:  <span class="post-info-item-count">{{$category->getItems('libraries', $category->id)->count()}}</span>
+                                        Статьи:  <span class="post-info-item-count">{{$category->getItems('libraries', $category->id)->count()}}</span>
                                     </span>
                                     <span class="post-info-item">
                                         Просмотры:  <span class="post-info-item-count">{{$category->views_count ?? '0'}}</span>
