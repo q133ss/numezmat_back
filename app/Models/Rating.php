@@ -75,8 +75,6 @@ class Rating extends Model
                                 $str = implode(",", $activeSort);
                                 $query->orderByRaw("FIELD(id, $str)");
                             }
-
-
                             break;
                         case 'date':
                             $query->orderBy('created_at', $sortDirection);

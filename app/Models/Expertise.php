@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\CommentsSort;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Http\Request;
 
 class Expertise extends Model
 {
-    use HasFactory;
+    use HasFactory, CommentsSort;
 
     protected $guarded = [];
 
@@ -35,9 +36,12 @@ class Expertise extends Model
                 $sort = str_replace('-','', $sort);
                 switch ($sort){
                     case 'active':
-                        $query->with('comments', function ($query) use ($sortDirection){
-                            $query->orderBy('created_at', 'ASC');
-                        });
+                        $activeSort = $this->commentsSortIds('expertises', 'App\Models\Expertise');
+
+                        if(!empty($activeSort)) {
+                            $str = implode(",", $activeSort);
+                            $query->orderByRaw("FIELD(id, $str)");
+                        }
                         break;
                     case 'date':
                         $query->orderBy('created_at', $sortDirection);
