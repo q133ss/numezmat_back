@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Coin;
+use App\Models\File;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -44,8 +45,21 @@ class CoinSeeder extends Seeder
             ],
         ];
 
+        $imgs = [
+            'just-coin.jpg',
+            'just-penny.jpg',
+            'just-rub.jpg'
+        ];
+
         foreach ($coins as $coin){
-            Coin::create($coin);
+            $coin = Coin::create($coin);
+
+            File::create([
+                'morphable_type' => 'App\Models\Coin',
+                'morphable_id' => $coin->id,
+                'src' => '/assets/img/'.$imgs[rand(0,2)],
+                'category' => 'img'
+            ]);
         }
     }
 }

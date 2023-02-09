@@ -43,19 +43,19 @@
             <div class="profile-wrap">
                 <ul class="profile-menu">
                     <li>
-                        <a href="#">
+                        <a href="{{route('profile.index')}}">
                             Настройки профиля
                         </a>
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="{{route('profile.money')}}">
                             Мои монеты
                         </a>
                     </li>
 
                     <li>
-                        <a href="#">
+                        <a href="{{route('profile.orders')}}">
                             Мои заказы
                         </a>
                     </li>
