@@ -92,9 +92,13 @@
                                         <a onclick="getCoin('{{$coin->id}}')" rel="modal:open" href="#edit" style="color: #3f6695;padding-right: 10px;">
                                             Изменить
                                         </a>
-                                        <button type="button">
+                                        <form action="{{route('profile.coin.delete', $coin->id)}}" method="POST" style="display: flex">
+                                            @method('DELETE')
+                                            @csrf
+                                        <button type="submit">
                                             <img src="/assets/img/cart-close.png" alt="">
                                         </button>
+                                        </form>
                                     </div>
                                 </td>
                             </tr>

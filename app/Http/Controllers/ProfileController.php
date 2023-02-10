@@ -95,4 +95,20 @@ class ProfileController extends Controller
 
         return back();
     }
+
+    public function deleteCoin($id)
+    {
+        $coin = Coin::findOrFail($id);
+        if($coin->user_id == Auth()->id()) {
+            #TODO удалить картинку!
+            File::where('morphable_type', 'App\Models\Rating')
+                ->where('morphable_id', $coin->id)
+                ->delete();
+            $coin->delete();
+        }else{
+            return response('You dont have permissions', 403);
+        }
+
+        return back();
+    }
 }
