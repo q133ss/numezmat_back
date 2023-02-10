@@ -103,7 +103,8 @@ Route::middleware('auth')->group(function(){
     Route::post('profile/update', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 
     Route::get('/profile/money', [App\Http\Controllers\ProfileController::class, 'money'])->name('profile.money');
-    Route::get('/profile/orders', [App\Http\Controllers\ProfileController::class, 'money'])->name('profile.orders');
+    Route::get('/profile/orders', [App\Http\Controllers\ProfileController::class, 'orders'])->name('profile.orders');
+    Route::get('/profile/order/{id}', [App\Http\Controllers\ProfileController::class, 'getOrder']);
     Route::get('/profile/coin/{id}', [App\Http\Controllers\ProfileController::class, 'getCoin']);
     Route::post('/profile/coin/update', [App\Http\Controllers\ProfileController::class, 'updateCoin'])->name('profile.coin.update');
     Route::post('/profile/coin/store', [App\Http\Controllers\ProfileController::class, 'storeCoin'])->name('profile.coin.store');

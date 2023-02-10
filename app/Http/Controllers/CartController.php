@@ -44,9 +44,10 @@ class CartController extends Controller
         }
 
         $data = $request->validated();
-        $data['status'] = 'В процессе';
+        $data['status'] = Order::waitPayment;
         $data['total'] = $total;
         $data['products'] = json_encode($products);
+        $data['user_id'] = Auth()->id() ?? null;
         Order::create($data);
         Session()->forget('cart');
 

@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('address');
             $table->json('products');
+            $table->foreignId('user_id')->nullable();
             $table->timestamps();
         });
     }

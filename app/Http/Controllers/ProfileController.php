@@ -6,8 +6,10 @@ use App\Http\Requests\ProfileController\StoreCoinRequest;
 use App\Http\Requests\ProfileController\UpdateCoinRequest;
 use App\Http\Requests\ProfileController\UpdateRequest;
 use App\Http\Resources\ProfileController\GetCoinResource;
+use App\Http\Resources\ProfileController\GetOrderResource;
 use App\Models\Coin;
 use App\Models\File;
+use App\Models\Order;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -110,5 +112,21 @@ class ProfileController extends Controller
         }
 
         return back();
+    }
+
+    public function orders()
+    {
+        $orders = Auth()->user()->orders;
+        return view('profile.orders', compact('orders'));
+    }
+
+    public function getOrder($id)
+    {
+        $order = Order::findOrFail($id);
+        if($order->user_id == Auth()->id()) {
+            return new GetOrderResource($order);
+        }else{
+            return response('You dont have permissions', 403);
+        }
     }
 }

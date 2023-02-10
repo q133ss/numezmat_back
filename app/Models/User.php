@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Coin::class, 'user_id', 'id');
     }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'id')->orderBy('created_at', 'DESC');
+    }
 }
