@@ -71,7 +71,6 @@
                                 <span class="search-header valid-error">{{ $error }}</span> <br>
                             @endforeach
                         @endif
-                            <a href="#" style="margin-top: 0" class="comment-form-btn">Добавить</a>
                     </div>
                     <table class="cart-table">
                         <tr>
@@ -101,6 +100,7 @@
                             </tr>
                         @endforeach
                     </table>
+                    <a rel="modal:open" href="#create" style="margin-top: 0" class="comment-form-btn">Добавить</a>
                 </div>
             </div>
         </div>
@@ -116,6 +116,19 @@
             <label for="#" style="display:block;margin-top: 10px">Описание</label>
             <input type="text" name="description" id="coin_description" class="search-request">
             <input type="hidden" name="id" id="coin_id">
+            <button type="submit" class="comment-form-btn">Сохранить</button>
+        </form>
+    </div>
+
+    <div id="create" class="modal">
+        <form action="{{route('profile.coin.store')}}" method="POST" enctype="multipart/form-data">
+            @csrf
+            <label for="#">Изображение</label>
+            <input type="file" name="img" class="search-request">
+            <label for="#" style="display:block;margin-top: 10px">Название</label>
+            <input type="text" name="title" value="{{old('title')}}" class="search-request">
+            <label for="#" style="display:block;margin-top: 10px">Описание</label>
+            <input type="text" name="description" value="{{old('description')}}" class="search-request">
             <button type="submit" class="comment-form-btn">Сохранить</button>
         </form>
     </div>

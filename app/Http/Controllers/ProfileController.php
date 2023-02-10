@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProfileController\StoreCoinRequest;
 use App\Http\Requests\ProfileController\UpdateCoinRequest;
 use App\Http\Requests\ProfileController\UpdateRequest;
 use App\Http\Resources\ProfileController\GetCoinResource;
@@ -71,6 +72,27 @@ class ProfileController extends Controller
             $file->src = '/storage/'.$path;
             $file->save();
         }
+        return back();
+    }
+
+    public function storeCoin(StoreCoinRequest $request)
+    {
+        $data = $request->validated();
+        unset($data['img']);
+        $data['user_id'] = Auth()->id();
+
+        $coin = Coin::create($data);
+
+        $path = $request->file('img')->store('coins', 'public');
+        $file = File::create(
+            [
+                'morphable_type' => 'App\Models\Coin',
+                'morphable_id' => $coin->id,
+                'src' => '/storage/'.$path,
+                'category' => 'img'
+            ]
+        );
+
         return back();
     }
 }
