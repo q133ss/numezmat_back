@@ -82,27 +82,34 @@
                     @endforeach
             </table>
 
-            <form action="" class="cart-form">
+                @if ($errors->any())
+                    @foreach ($errors->all() as $error)
+                        <span class="search-header valid-error">{{ $error }}</span> <br>
+                    @endforeach
+                @endif
+
+            <form action="{{route('order.store')}}" method="POST" class="cart-form">
+                @csrf
                 <h3 class="characteristics-title">Оформить заказ</h3>
                 <div class="cart-form-wrap">
                     <div class="login-group">
                         <label>Имя</label>
-                        <input type="text" placeholder="Имя">
+                        <input type="text" name="fio" placeholder="Имя" value="{{old('fio')}}">
                     </div>
 
                     <div class="login-group">
                         <label>Телефон</label>
-                        <input type="text" placeholder="Телефон">
+                        <input type="text" name="phone" placeholder="Телефон" value="{{old('phone')}}">
                     </div>
 
                     <div class="login-group">
                         <label>Email</label>
-                        <input type="text" placeholder="Email">
+                        <input type="text" name="email" placeholder="Email" value="{{old('email')}}">
                     </div>
 
                     <div class="login-group">
                         <label>Адрес</label>
-                        <input type="text" placeholder="Адрес">
+                        <input type="text" name="address" placeholder="Адрес" value="{{old('address')}}">
                     </div>
                 </div>
 
@@ -110,7 +117,7 @@
                     Итого: <span class="cart-total-sum">{{$total}} ₽</span>
                 </div>
 
-                <button class="comment-form-btn cart-payment-btn">Оплатить</button>
+                <button class="comment-form-btn cart-payment-btn" type="submit">Оплатить</button>
             </form>
             @else
                 <div class="post-title">В корзине пусто.</div><a class="page-header-sort" href="{{route('shop.index')}}">В магазин</a>

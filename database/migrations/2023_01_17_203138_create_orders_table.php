@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('total');
             $table->string('phone');
             $table->string('email');
+            $table->string('address');
             $table->json('products');
             $table->timestamps();
         });
