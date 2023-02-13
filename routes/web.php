@@ -82,7 +82,8 @@ Route::post('delete-from-cart/{id}', [App\Http\Controllers\CartController::class
 
 Route::view('cart', 'cart')->name('cart.index');
 Route::post('/orders/store', [App\Http\Controllers\CartController::class, 'storeOrder'])->name('order.store');
-Route::view('search', 'search')->name('search');
+
+Route::get('/search', [App\Http\Controllers\SearchController::class, 'index'])->name('search');
 
 
 //Library

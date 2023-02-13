@@ -57,14 +57,20 @@
             </div>
 
             <div class="search-result-wrap">
+                @foreach($items->first() as $group)
+                @foreach($group as $item)
                 <div class="search-results">
                     <div class="search-result">
                         <div class="news-slide-wrap">
-                            <img src="/assets/img/news1.png" class="news-slide-img" alt="">
+                            <img src="{{$item->img()}}" style="width: 269px" class="news-slide-img" alt="">
                             <div class="news-slide-left-part">
-                                <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                                    ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                                    НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
+                                <h3>
+                                @if(isset($item->title))
+                                    {{$item->title}}
+                                @else
+                                    {{$item->name ?? '11'}}
+                                @endif
+                                </h3>
                                 <a href="#" class="news-slide-btn">Подробнее
                                     <img src="/assets/img/arrow-left.png" alt="">
                                 </a>
@@ -72,41 +78,43 @@
                         </div>
                     </div>
                 </div>
+                @endforeach
+                @endforeach
 
-                <div class="search-results">
-                    <div class="search-result">
-                        <div class="post">
-                            <img src="/assets/img/news1.png" class="post-image" alt="">
-                            <div class="post-content">
-                                <div class="post-description">
-                                    <h3 class="post-title">
-                                        Монеты на оценку
-                                    </h3>
-                                    <p class="post-except">
-                                        Уникальные редкие монеты со всего мира с доставкой прямо в руки
-                                    </p>
+{{--                <div class="search-results">--}}
+{{--                    <div class="search-result">--}}
+{{--                        <div class="post">--}}
+{{--                            <img src="/assets/img/news1.png" class="post-image" alt="">--}}
+{{--                            <div class="post-content">--}}
+{{--                                <div class="post-description">--}}
+{{--                                    <h3 class="post-title">--}}
+{{--                                        Монеты на оценку--}}
+{{--                                    </h3>--}}
+{{--                                    <p class="post-except">--}}
+{{--                                        Уникальные редкие монеты со всего мира с доставкой прямо в руки--}}
+{{--                                    </p>--}}
 
-                                    <a href="" class="post-btn">Подробнее
-                                        <img src="/assets/img/arrow-left.png" alt="">
-                                    </a>
-                                </div>
-                                <div class="post-info search-post-info">
-                                        <span class="post-info-item">
-                                            <!-- Оценки:  <span class="post-info-item-count">64</span> -->
-                                        </span>
-                                    <span class="post-info-item">
-                                            <!-- Просмотры:  <span class="post-info-item-count">64</span> -->
-                                        </span>
-                                    <span class="post-date">
-                                            Год - <span class="search-val">2012</span>
+{{--                                    <a href="" class="post-btn">Подробнее--}}
+{{--                                        <img src="/assets/img/arrow-left.png" alt="">--}}
+{{--                                    </a>--}}
+{{--                                </div>--}}
+{{--                                <div class="post-info search-post-info">--}}
+{{--                                        <span class="post-info-item">--}}
+{{--                                            <!-- Оценки:  <span class="post-info-item-count">64</span> -->--}}
+{{--                                        </span>--}}
+{{--                                    <span class="post-info-item">--}}
+{{--                                            <!-- Просмотры:  <span class="post-info-item-count">64</span> -->--}}
+{{--                                        </span>--}}
+{{--                                    <span class="post-date">--}}
+{{--                                            Год - <span class="search-val">2012</span>--}}
 
-                                            Состояние - <span class="search-val">Новое</span>
-                                        </span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+{{--                                            Состояние - <span class="search-val">Новое</span>--}}
+{{--                                        </span>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
+{{--                        </div>--}}
+{{--                    </div>--}}
+{{--                </div>--}}
             </div>
         </div>
     </section>
