@@ -201,6 +201,11 @@
                                 </div>
                                 <div style="color:#4A4A4A;margin-top: 18px">
                                     {!! $library->description !!}
+                                    <ul style="margin-top: 10px">
+                                    @foreach($library->file->where('category', 'file')->get() as $key => $value)
+                                        <li style="list-style-type: none;"><a class="search-val" href="{{$value->src}}" target="_blank">Файл {{$key+1}}</a></li>
+                                    @endforeach
+                                    </ul>
                                 </div>
                             </div>
                         </section>
