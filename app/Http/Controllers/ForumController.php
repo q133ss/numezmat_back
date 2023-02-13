@@ -141,7 +141,7 @@ class ForumController extends Controller
     public function store(StoreRequest $request)
     {
         $data = $request->validated();
-
+        $data['user_id'] = Auth()->id();
         $catalog = Forum::create($data);
 
         foreach ($request->img as $img){
@@ -216,7 +216,8 @@ class ForumController extends Controller
     public function edit($id)
     {
         $post = Forum::findOrFail($id);
-        return view('forum.edit', compact('post'));
+        $categories = Category::where('type', 'App\Models\Forum')->get();
+        return view('forum.edit', compact('post', 'categories'));
     }
 
     /**

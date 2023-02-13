@@ -142,14 +142,7 @@
                                         <span class="post-info-item">
                                             <!-- Просмотры:  <span class="post-info-item-count">64</span> -->
                                         </span>
-                                        <span class="post-date">
-                                                @if(!$item->characteristics->where('key', 'year')->isEmpty())
-                                                Год - <span class="search-val">{{$item->characteristics->where('key', 'year')->pluck('value')->first()}}</span>
-                                            @endif
-                                            @if(!$item->characteristics->where('key', 'condition')->isEmpty())
-                                                Состояние - <span class="search-val">{{$item->characteristics->where('key', 'condition')->pluck('value')->first()}}</span>
-                                            @endif
-                                        </span>
+                                        <span class="post-date"></span>
                                     </div>
                                 </div>
                             </div>

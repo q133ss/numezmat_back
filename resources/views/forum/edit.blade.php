@@ -100,11 +100,11 @@
                 <div class="page-header-left">
                     <ul class="breadcrumbs">
                         <li><a href="/">Главная</a></li>
-                        <li><a href="{{route('catalog.index')}}">Каталог</a></li>
+                        <li><a href="{{route('forum.index')}}">Форум</a></li>
                         @foreach($post->category->getParents() as $category)
-                            <li><a href="{{route('catalog.show', $category)}}">{{$category->name}}</a></li>
+                            <li><a href="{{route('forum.show', $category)}}">{{$category->name}}</a></li>
                         @endforeach
-                        <li><a href="{{route('catalog.show', $post->category->id)}}">{{$post->category->name}}</a></li>
+                        <li><a href="{{route('forum.show', $post->category->id)}}">{{$post->category->name}}</a></li>
                         <li>{{$post->title}}</li>
                     </ul>
                     <div class="page-title-block">
@@ -122,7 +122,7 @@
     </section>
     <section class="rating-show">
         <div class="container">
-            <form action="{{route('catalog.update', $post->id)}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
+            <form action="{{route('forum.update', $post->id)}}" id="edit-form" method="POST" enctype="multipart/form-data" class="search-wrap">
                 @csrf
                 @method('PUT')
 
@@ -137,14 +137,14 @@
                 <div class="swiper mySwiper">
                     <div class="swiper-wrapper">
                         @foreach($post->images() as $img)
-                        <div class="swiper-slide edit-slide">
-                            <img src="{{$img}}" alt="" style="cursor: pointer" class="edit-imgs">
-                            <div class="slider-btns">
-                                <button class="comment-form-btn slider-edit-btn" type="button">Изменить</button>
-                                <button class="comment-form-btn edit-slide-edit-btn" type="button">Удалить</button>
-                                <input type="file" class="display-n sliders-file">
+                            <div class="swiper-slide edit-slide">
+                                <img src="{{$img}}" alt="" style="cursor: pointer" class="edit-imgs">
+                                <div class="slider-btns">
+                                    <button class="comment-form-btn slider-edit-btn" type="button">Изменить</button>
+                                    <button class="comment-form-btn edit-slide-edit-btn" type="button">Удалить</button>
+                                    <input type="file" class="display-n sliders-file">
+                                </div>
                             </div>
-                        </div>
                         @endforeach
                     </div>
                     <div class="swiper-pagination"></div>
@@ -153,24 +153,18 @@
                 <label for="title" class="search-header news-edit-label">Заголовок</label>
                 <input type="text" class="search-request" name="title" value="{{$post->title}}">
 
+                <label for="title" class="search-header news-edit-label">Категория</label>
+                <select name="category_id" class="search-request" id="">
+                    @foreach($categories as $category)
+                        <option value="{{$category->id}}" @if($category->id == $post->category_id) selected @endif>{{$category->name}}</option>
+                    @endforeach
+                </select>
+
                 <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
                     {{$post->description}}
                 </textarea>
-                <label for="#" class="search-header news-edit-label">Характеристики</label>
-                <div id="chars">
-                @foreach($post->characteristics as $k => $char)
-                    <div class="char-wrap" id="char_{{$k}}">
-                        <input type="text" style='background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;' name="char_name[]" value="{{$char->name}}" placeholder="Название">
-                        <input type="text" style='background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;' name="char_key[]" value="{{$char->key}}" placeholder="Ключ">
-                        <input type="text" style='background-color: #F3F7FA;padding: 15px 24px; font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;' name="char_value[]" value="{{$char->value}}" placeholder="Значение">
-                        <button type="button" onclick="deleteCharBtn('{{$k}}')" style='background-color: #F3F7FA; padding: 15px 24px;font-family: "Roboto",sans-serif; font-size: 14px; font-weight: 400; color: #000000; margin-top: 12px;border-radius: 5px;'>X</button>
-                    </div>
-                @endforeach
-                </div>
-                <div class="char-wrap" style="margin-top: 10px;">
-                <button type="button" style="background-color: #8997a5" class="comment-form-btn" onclick="appendChars()"> Добавить</button>
-                </div>
+
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>
@@ -239,7 +233,7 @@
             form_data.append('id', '{{$post->id}}');
 
             $.ajax({
-                url: "/catalog/change-file",
+                url: "/forum/change-file",
                 type: "POST",
                 processData: false,
                 contentType: false,
@@ -274,7 +268,7 @@
 
         if(conf){
             $.ajax({
-                url: "/catalog/delete-file",
+                url: "/forum/delete-file",
                 type: "POST",
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

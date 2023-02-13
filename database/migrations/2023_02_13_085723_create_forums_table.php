@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->foreignId('category_id')->nullable();
             $table->boolean('is_block')->default(false);
+            $table->foreignId('user_id');
             $table->timestamps();
         });
     }

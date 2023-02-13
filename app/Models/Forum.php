@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
@@ -57,5 +58,15 @@ class Forum extends Model
     public function comments()
     {
         return $this->morphMany(Comment::class, 'morphable')->where('reply_id', null);
+    }
+
+    public function getDate()
+    {
+        return Carbon::parse($this->created_at)->format('d-m-Y H:i:s');
+    }
+
+    public function author()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
     }
 }

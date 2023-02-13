@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Characteristic;
 use App\Models\Expertise;
 use App\Models\File;
+use App\Models\Forum;
 use App\Models\Library;
 use App\Models\News;
 use App\Models\Product;
@@ -598,5 +599,22 @@ class PostSeeder extends Seeder
             ]);
         }
 
+        $firstCat = Category::where('type', 'App\Models\Forum')->where('name', 'Подкатегория 1')->pluck('id')->first();
+        $forums = [
+            ['title' => 'Правила раздела', 'description' => 'Основные правила раздела..'],
+            ['title' => 'Форум 1', 'description' => 'Форум'],
+        ];
+        foreach ($forums as $forum){
+            $forum['user_id'] = 1;
+            $forum['category_id'] = $firstCat;
+            $_forum = Forum::create($forum);
+
+            File::create([
+                'morphable_type' => 'App\Models\Forum',
+                'morphable_id' => $_forum->id,
+                'src' => '/assets/img/'.$imgs[rand(0,2)],
+                'category' => 'img'
+            ]);
+        }
     }
 }
