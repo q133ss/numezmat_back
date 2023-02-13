@@ -558,5 +558,45 @@ class PostSeeder extends Seeder
             ]);
         }
 
+        $forum_cats = [
+            ['name' => 'Добро пожаловать на форум!', 'description' => 'Добро пожаловать на форум!'],
+            ['name' => 'Редкие находки в МО области', 'description' => 'Редкие находки в МО области'],
+        ];
+
+        foreach ($forum_cats as $cat){
+            $cat['type'] = 'App\Models\Forum';
+            $category = Category::create($cat);
+            File::create([
+                'morphable_type' => 'App\Models\Category',
+                'morphable_id' => $category->id,
+                'src' => '/assets/img/'.$imgs[rand(0,2)],
+                'category' => 'img'
+            ]);
+        }
+
+        $wellcome = Category::where('type', 'App\Models\Forum')->where('name', 'Добро пожаловать на форум!')->pluck('id')->first();
+        $rarly = Category::where('type', 'App\Models\Forum')->where('name', 'Редкие находки в МО области')->pluck('id')->first();
+
+        $forum_sub_cats = [
+            ['name' => 'Подкатегория 1', 'description' => 'Подкатегория', 'parent_id' => $wellcome],
+            ['name' => 'Подкатегория 2', 'description' => 'Подкатегория', 'parent_id' => $wellcome],
+            ['name' => 'Подкатегория 3', 'description' => 'Подкатегория', 'parent_id' => $wellcome],
+            ['name' => 'Подкатегория 4', 'description' => 'Подкатегория', 'parent_id' => $wellcome],
+
+            ['name' => 'Подкатегория', 'description' => 'Подкатегория', 'parent_id' => $rarly],
+            ['name' => 'Подкатегория 2', 'description' => 'Подкатегория', 'parent_id' => $rarly],
+        ];
+
+        foreach ($forum_sub_cats as $cat){
+            $cat['type'] = 'App\Models\Forum';
+            $category = Category::create($cat);
+            File::create([
+                'morphable_type' => 'App\Models\Category',
+                'morphable_id' => $category->id,
+                'src' => '/assets/img/'.$imgs[rand(0,2)],
+                'category' => 'img'
+            ]);
+        }
+
     }
 }

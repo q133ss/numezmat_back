@@ -216,5 +216,37 @@ class PermissionSeeder extends Seeder
         $manageUser->name = 'Удалять разделы в "Библиотека"';
         $manageUser->slug = 'delete-sections-library';
         $manageUser->save();
+
+
+        //Forum
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять разделы в "Беседка"';
+        $manageUser->slug = 'create-sections-forum';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Беседка"';
+        $manageUser->slug = 'create-forum';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять записи в "Беседка"';
+        $manageUser->slug = 'edit-forum';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Блокировать и удалять записи в "Беседка"';
+        $manageUser->slug = 'block-forum';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Изменять разделы в "Беседка"';
+        $manageUser->slug = 'edit-sections-forum';
+        $manageUser->save();
+
+        $manageUser = new Permission();
+        $manageUser->name = 'Удалять разделы в "Беседка"';
+        $manageUser->slug = 'delete-sections-forum';
+        $manageUser->save();
     }
 }

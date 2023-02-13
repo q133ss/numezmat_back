@@ -111,6 +111,19 @@ Route::middleware('auth')->group(function(){
     Route::delete('/profile/coin/delete/{id}', [App\Http\Controllers\ProfileController::class, 'deleteCoin'])->name('profile.coin.delete');
 });
 
+
+//Forum
+Route::get('/forum/create/section', [App\Http\Controllers\ForumController::class, 'createSection'])->name('forum.create.section');
+Route::post('/forum/store-section', [App\Http\Controllers\ForumController::class, 'storeSection'])->name('forum.store.section');
+Route::get('/forum/edit-section/{id}', [App\Http\Controllers\ForumController::class, 'editSection'])->name('forum.edit.section');
+Route::post('/forum/update-section/{id}', [App\Http\Controllers\ForumController::class, 'updateSection'])->name('forum.update.section');
+Route::get('/forum/delete-section/{id}', [App\Http\Controllers\ForumController::class, 'deleteSection'])->name('forum.delete.section');
+Route::post('/forum/change-file', [App\Http\Controllers\ForumController::class, 'updateImg']);
+Route::post('/forum/delete-file', [App\Http\Controllers\ForumController::class, 'deleteImg']);
+Route::get('/forum/block/{id}/{action}', [App\Http\Controllers\ForumController::class, 'block'])->name('forum.block');
+Route::get('forum/detail/{id}', [App\Http\Controllers\ForumController::class, 'detail'])->name('forum.detail');
+Route::resource('forum', App\Http\Controllers\ForumController::class);
+
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
 Route::post('/comment/action', [App\Http\Controllers\CommentController::class, 'actionComment'])->name('comment.action');
 

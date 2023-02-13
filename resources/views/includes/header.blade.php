@@ -84,7 +84,7 @@
                     </li>
 
                     <li class="menu-item">
-                        <a href="#">Беседка</a>
+                        <a href="{{route('forum.index')}}">Беседка</a>
                     </li>
 
                     <li class="menu-item">
