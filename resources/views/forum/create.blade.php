@@ -67,7 +67,7 @@
                 <label for="title" class="search-header news-edit-label">Категория</label>
                 <select name="category_id" class="search-request" id="">
                     @foreach($categories as $category)
-                        <option value="{{$category->id}}">{{$category->name}}</option>
+                        <option value="{{$category->id}}" @if(\Request::has('category_id') && \Request()->category_id == $category->id) selected @endif>{{$category->name}}</option>
                     @endforeach
                 </select>
 

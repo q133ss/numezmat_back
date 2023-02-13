@@ -40,23 +40,33 @@
     <section class="content-wrap search-content">
         <div class="container">
             <div class="search-wrap">
+                <form action="">
                 <div class="search-request-wrap">
                     <h3 class="search-header">Запрос:</h3>
-                    <input type="text" placeholder="Монета 1" class="search-request">
+                    <input type="text" name="search" value="{{\Request()->search}}" placeholder="Монета 1" class="search-request">
                     <img src="/assets/img/search-inp.png" class="search-inp-ico" alt="">
                 </div>
-                <form class="search-filters" action="">
+                <div class="search-filters">
                     <div>
                         <label class="search-header">Искать в</label>
-                        <select name="" class="search-filter" id="">
-                            <option value="#">Везде</option>
+                        <select name="category" class="search-filter" id="">
+                            <option value="all" @if(\Request()->category == 'all') selected @endif>Везде</option>
+                            <option value="news" @if(\Request()->category == 'news') selected @endif>Новости</option>
+                            <option value="rating" @if(\Request()->category == 'rating') selected @endif>Оценка</option>
+                            <option value="expertise" @if(\Request()->category == 'expertise') selected @endif>Экспертиза</option>
+                            <option value="catalog" @if(\Request()->category == 'catalog') selected @endif>Каталог</option>
+                            <option value="product" @if(\Request()->category == 'product') selected @endif>Магазин</option>
+                            <option value="library" @if(\Request()->category == 'library') selected @endif>Библиотека</option>
+                            <option value="forum" @if(\Request()->category == 'forum') selected @endif>Беседка</option>
                         </select>
                     </div>
-                    <button class="comment-form-btn">Фильтровать</button>
+                    <button type="submit" class="comment-form-btn">Фильтровать</button>
+                </div>
                 </form>
             </div>
 
             <div class="search-result-wrap">
+                @if(!$items->isEmpty())
                 @foreach($items->first() as $group)
                 @foreach($group as $item)
                 <div class="search-results">
@@ -71,15 +81,42 @@
                                     {{$item->name ?? '11'}}
                                 @endif
                                 </h3>
-                                <a href="#" class="news-slide-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
+                                @if($item->getTable() == 'news')
+                                    <a href="{{route('news.show', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'ratings')
+                                    <a href="{{route('rating.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'expertises')
+                                    <a href="{{route('expertise.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'catalogs')
+                                    <a href="{{route('catalog.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'products')
+                                    <a href="{{route('product.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'libraries')
+                                    <a href="{{route('library.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @elseif($item->getTable() == 'forums')
+                                    <a href="{{route('forum.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                        <img src="/assets/img/arrow-left.png" alt="">
+                                    </a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 </div>
                 @endforeach
                 @endforeach
+                @endif
 
 {{--                <div class="search-results">--}}
 {{--                    <div class="search-result">--}}

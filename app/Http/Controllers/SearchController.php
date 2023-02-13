@@ -15,12 +15,14 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $query = $request->search;
         $items = [];
-        if($request->has('category')){
-            $items[] = $this->searchByCategory($request->category, $query);
-        }else{
-            $items[] = $this->searchAll($query);
+        if($request->has('search')) {
+            $query = $request->search;
+            if ($request->has('category') && $request->category != 'all') {
+                $items[] = $this->searchByCategory($request->category, $query);
+            } else {
+                $items[] = $this->searchAll($query);
+            }
         }
 
         $items = collect($items);
@@ -41,7 +43,32 @@ class SearchController extends Controller
         return $items;
     }
 
-    private function searchByCategory($category){
+    private function searchByCategory($category, $query) : array{
+        $items = [];
+        switch ($category){
+            case "news":
+                $items[] = News::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "rating":
+                $items[] = Rating::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "expertise":
+                $items[] = Expertise::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "catalog":
+                $items[] = Catalog::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "product":
+                $items[] = Product::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "library":
+                $items[] = Library::where('name', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+            case "forum":
+                $items[] = Forum::where('title', 'LIKE', '%'.$query.'%')->orWhere('description', 'LIKE', '%'.$query.'%')->get();
+                break;
+        }
 
+        return $items;
     }
 }
