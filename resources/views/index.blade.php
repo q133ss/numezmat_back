@@ -114,14 +114,16 @@
         </div>
     </section>
 
-    <section class="lasted">
+    @foreach($items as $key => $group)
+        @if($key == 'App\Models\Product')
+            <section class="lasted">
         <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Последние поступления</h3>
                     <span>Смотрите, что недавно появилось в нашем магазине</span>
                 </div>
-                <a href="#" class="posts-header-btn">
+                <a href="{{route('shop.index')}}" class="posts-header-btn">
                     Посмотреть все монеты
                     <img src="/assets/img/arrow-left.png" alt="">
                 </a>
@@ -131,52 +133,17 @@
 
                 <div class="swiper posts-slider">
                     <div class="swiper-wrapper">
+                        @foreach($group as $item)
                         <div class="swiper-slide post-slide">
                             <div class="post-slide-img">
-                                <img src="/assets/img/post1.png" alt="">
+                                <img src="{{$item->img()}}" alt="">
                             </div>
                             <a href="#productModal" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
+                            <h3 class="post-slide-title">{{$item->title}}</h3>
+                            <p class="post-slide-text">{{mb_substr($item->description, 0, 50).'...'}}</p>
+                            <a href="{{route('shop.detail', $item->id)}}" class="post-slide-btn">Подробнее</a>
                         </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post2.png" alt="">
-                            </div>
-                            <a href="#productModal" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#productModal" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-
+                        @endforeach
                     </div>
                     <div class="swiper-button-next slider-arrow-right"></div>
                     <div class="swiper-button-prev slider-arrow-left"></div>
@@ -185,15 +152,16 @@
             </div>
         </div>
     </section>
-
-    <section class="expertise">
+        @endif
+        @if($key == 'App\Models\Expertise')
+            <section class="expertise">
         <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Экспертиза монет</h3>
                     <span>Монеты на экспертизу</span>
                 </div>
-                <a href="#" class="posts-header-btn">
+                <a href="{{route('expertise.index')}}" class="posts-header-btn">
                     Посмотреть все монеты
                     <img src="/assets/img/arrow-left.png" alt="">
                 </a>
@@ -203,52 +171,17 @@
 
                 <div class="swiper posts-slider">
                     <div class="swiper-wrapper">
+                        @foreach($group as $item)
                         <div class="swiper-slide post-slide">
                             <div class="post-slide-img">
-                                <img src="/assets/img/post1.png" alt="">
+                                <img src="{{$item->img()}}" alt="">
                             </div>
                             <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
+                            <h3 class="post-slide-title">{{$item->title}}</h3>
+                            <p class="post-slide-text">{{mb_substr($item->description, 0 , 30).'...'}}</p>
+                            <a href="{{route('expertise.detail', $item->id)}}" class="post-slide-btn">Подробнее</a>
                         </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post2.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-                        <div class="swiper-slide post-slide">
-                            <div class="post-slide-img">
-                                <img src="/assets/img/post3.png" alt="">
-                            </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
-                            <h3 class="post-slide-title">КАЛАБРИЯ, ТАРЕНТ ДИОБОЛ 280-228 ГГ. ДО Н.Э.</h3>
-                            <p class="post-slide-text">25 рублей 1899 года Тимашев Морозов</p>
-                            <a href="#" class="post-slide-btn">Подробнее</a>
-                        </div>
-
+                        @endforeach
                     </div>
                     <div class="swiper-button-next slider-arrow-right"></div>
                     <div class="swiper-button-prev slider-arrow-left"></div>
@@ -257,15 +190,16 @@
             </div>
         </div>
     </section>
-
-    <section class="last-news">
+        @endif
+        @if($key == 'App\Models\News')
+            <section class="last-news">
         <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Последние новости</h3>
                     <span>Наши последние новости</span>
                 </div>
-                <a href="#" class="posts-header-btn">
+                <a href="{{route('news.index')}}" class="posts-header-btn">
                     Посмотреть все новости
                     <img src="/assets/img/arrow-left.png" alt="">
                 </a>
@@ -274,42 +208,17 @@
             <div class="index-posts-wrap">
                 <div class="swiper news-slider">
                     <div class="swiper-wrapper">
+                        @foreach($group as $item)
                         <div class="swiper-slide news-slide-wrap">
-                            <img src="/assets/img/news1.png" class="news-slide-img" alt="">
+                            <img src="{{$item->img()}}" class="news-slide-img" alt="">
                             <div class="news-slide-left-part">
-                                <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                                    ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                                    НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                                <a href="#" class="news-slide-btn">Подробнее
+                                <h3>{{$item->title}}</h3>
+                                <a href="{{route('news.show', $item->id)}}" class="news-slide-btn">Подробнее
                                     <img src="/assets/img/arrow-left.png" alt="">
                                 </a>
                             </div>
                         </div>
-
-                        <div class="swiper-slide news-slide-wrap">
-                            <img src="/assets/img/news2.png" class="news-slide-img" alt="">
-                            <div class="news-slide-left-part">
-                                <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                                    ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                                    НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                                <a href="#" class="news-slide-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
-                        <div class="swiper-slide news-slide-wrap">
-                            <img src="/assets/img/news1.png" class="news-slide-img" alt="">
-                            <div class="news-slide-left-part">
-                                <h3>50 ЛЕТ МЕЖДУНАРОДНОЙ
-                                    ОРГАНИЗАЦИИ ФРАНКОФОНИИ
-                                    НА 50 БАНИ И 10 ЛЕЯХ РУМЫНИИ</h3>
-                                <a href="#" class="news-slide-btn">Подробнее
-                                    <img src="/assets/img/arrow-left.png" alt="">
-                                </a>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
                     <div class="swiper-button-next slider-arrow-right"></div>
                     <div class="swiper-button-prev slider-arrow-left"></div>
@@ -317,6 +226,8 @@
             </div>
         </div>
     </section>
+        @endif
+    @endforeach
 
     <section class="info">
         <div class="container">

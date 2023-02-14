@@ -13,9 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 
 //News
 Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);

@@ -15,4 +15,13 @@ trait CommentsSort{
 
         return $itemsWithComments->get()->merge($itemsWithNoComments)->pluck('id')->all();
     }
+
+    public function commentsLastDate($type)
+    {
+        return $this->leftJoin('comments', 'comments.morphable_id', $this->getTable().'.id')
+            ->where('comments.morphable_type', $type)
+            ->orderBy('comments.created_at', 'DESC')
+            ->pluck('comments.created_at')
+            ->first();
+    }
 }
