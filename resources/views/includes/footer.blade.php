@@ -1,3 +1,20 @@
+<div id="request-ads" class="modal">
+    <h3 class="post-title">Оставить заявку на рекламу</h3>
+
+    <label for="type" class="search-header news-edit-label" style="display:block; padding-top: 12px;">Где бы вы хотели разместить рекламу</label>
+    <select name="type" class="search-request" id="ads_type">
+        <option value="here">Только на этой странице</option>
+        <option value="all">Во всей категории</option>
+    </select>
+    <label class="search-header news-edit-label" style="display:block; padding-top: 12px;" for="img">Изображение</label>
+    <input type="file" id="ads_img" class="search-request" name="img">
+
+    <label class="search-header news-edit-label" style="display:block; padding-top: 12px;" for="img">Ссылка</label>
+    <input type="text" id="ads_link" class="search-request" name="link">
+
+    <button class="other-theme-btn" style="margin-top: 12px;" type="button" onclick="adsSend()">Отправить</button>
+</div>
+
 <footer>
     <div class="container">
         <div class="footer-row">
@@ -54,6 +71,10 @@
 </div>
 
 <script>
+
+    function adsSend(){
+        //
+    }
 
     $('#sortSelect').change(function (){
         $(this).parent().submit();

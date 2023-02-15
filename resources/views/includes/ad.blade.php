@@ -15,6 +15,6 @@
     @endif
 @else
     @for($i = 0; $i < $count; $i++)
-    <img src="/assets/img/ads.jpg" alt="">
+        <a href="#request-ads" rel="modal:open"><img src="/assets/img/ads.jpg" alt=""></a>
     @endfor
 @endif
