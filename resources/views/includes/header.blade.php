@@ -49,15 +49,25 @@
                         <i class="fa fa-angle-down"></i>
 
                         <ul class="sub-menu">
-                            <li class="sub-has-child">
-                                Меню 1
-                                <ul class="sub-sub-menu">
-                                    <li><a href="#">Под меню 1</a></li>
-                                    <li><a href="#">Под меню 1</a></li>
-                                </ul>
-                            </li>
-                            <li>Меню 2</li>
-                            <li>Меню 3</li>
+                            @foreach(\App\Models\Category::getMainCategories('App\Models\Catalog')->get() as $category)
+                            @if(\App\Models\Category::where('parent_id', $category->id)->exists())
+                                <li class="sub-has-child" onclick="location.href='{{route('catalog.show', $category->id)}}'" style="cursor: pointer">
+                                    {{$category->name}}
+                                    <ul class="sub-sub-menu">
+                                        @foreach(\App\Models\Category::where('parent_id', $category->id)->limit(4)->get() as $subcat)
+                                        <li>
+                                            <a href="{{route('catalog.show', $subcat->id)}}">
+                                                {{$subcat->name}}
+                                            </a>
+                                        </li>
+                                        @endforeach
+                                    </ul>
+                                </li>
+                            @else
+                                <li onclick="location.href='{{route('catalog.show', $category->id)}}'" style="cursor: pointer">{{$category->name}}</li>
+                            @endif
+                            @endforeach
+
                         </ul>
                     </li>
 
@@ -66,9 +76,24 @@
                         <i class="fa fa-angle-down"></i>
 
                         <ul class="sub-menu">
-                            <li>Меню 1</li>
-                            <li>Меню 2</li>
-                            <li>Меню 3</li>
+                            @foreach(\App\Models\Category::getMainCategories('App\Models\Shop')->get() as $category)
+                                @if(\App\Models\Category::where('parent_id', $category->id)->exists())
+                                    <li class="sub-has-child" onclick="location.href='{{route('shop.show', $category->id)}}'" style="cursor: pointer">
+                                        {{$category->name}}
+                                        <ul class="sub-sub-menu">
+                                            @foreach(\App\Models\Category::where('parent_id', $category->id)->limit(4)->get() as $subcat)
+                                                <li>
+                                                    <a href="{{route('shop.show', $subcat->id)}}">
+                                                        {{$subcat->name}}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li onclick="location.href='{{route('shop.show', $category->id)}}'" style="cursor: pointer">{{$category->name}}</li>
+                                @endif
+                            @endforeach
                         </ul>
                     </li>
 
@@ -77,9 +102,24 @@
                         <i class="fa fa-angle-down"></i>
 
                         <ul class="sub-menu">
-                            <li>Меню 1</li>
-                            <li>Меню 2</li>
-                            <li>Меню 3</li>
+                            @foreach(\App\Models\Category::getMainCategories('App\Models\Library')->get() as $category)
+                                @if(\App\Models\Category::where('parent_id', $category->id)->exists())
+                                    <li class="sub-has-child" onclick="location.href='{{route('library.show', $category->id)}}'" style="cursor: pointer">
+                                        {{$category->name}}
+                                        <ul class="sub-sub-menu">
+                                            @foreach(\App\Models\Category::where('parent_id', $category->id)->limit(4)->get() as $subcat)
+                                                <li>
+                                                    <a href="{{route('library.show', $subcat->id)}}">
+                                                        {{$subcat->name}}
+                                                    </a>
+                                                </li>
+                                            @endforeach
+                                        </ul>
+                                    </li>
+                                @else
+                                    <li onclick="location.href='{{route('library.show', $category->id)}}'" style="cursor: pointer">{{$category->name}}</li>
+                                @endif
+                            @endforeach
                         </ul>
                     </li>
 

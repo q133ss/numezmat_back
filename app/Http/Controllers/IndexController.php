@@ -22,7 +22,7 @@ class IndexController extends Controller
         $items = [];
 
         foreach ($classes as $key => $class){
-            $items[$key] = $key::get();
+            $items[$key] = $key::where('is_block', false)->get();
         }
         return view('index', compact('items'));
     }
