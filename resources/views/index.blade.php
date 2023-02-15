@@ -14,6 +14,7 @@
     <!-- jQuery Modal -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 @include('includes.header')
@@ -117,7 +118,7 @@
     @foreach($items as $key => $group)
         @if($key == 'App\Models\Product')
             <section class="lasted">
-        <div class="container">
+                <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Последние поступления</h3>
@@ -138,7 +139,7 @@
                             <div class="post-slide-img">
                                 <img src="{{$item->img()}}" alt="">
                             </div>
-                            <a href="#productModal" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
+                            <a href="#productModal" onclick="productModal('product','{{$item->id}}')" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
                             <h3 class="post-slide-title">{{$item->title}}</h3>
                             <p class="post-slide-text">{{mb_substr($item->description, 0, 50).'...'}}</p>
                             <a href="{{route('shop.detail', $item->id)}}" class="post-slide-btn">Подробнее</a>
@@ -151,11 +152,11 @@
 
             </div>
         </div>
-    </section>
+            </section>
         @endif
         @if($key == 'App\Models\Expertise')
             <section class="expertise">
-        <div class="container">
+                <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Экспертиза монет</h3>
@@ -189,11 +190,11 @@
 
             </div>
         </div>
-    </section>
+            </section>
         @endif
         @if($key == 'App\Models\News')
             <section class="last-news">
-        <div class="container">
+                <div class="container">
             <div class="posts-header">
                 <div class="posts-header-title">
                     <h3>Последние новости</h3>
@@ -225,7 +226,7 @@
                 </div>
             </div>
         </div>
-    </section>
+            </section>
         @endif
     @endforeach
 
@@ -272,67 +273,17 @@
     <div class="productModalWrap">
         <div class="productGallery">
             <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff" class="swiper mySwiper2">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                    </div>
-
+                <div class="swiper-wrapper" id="product_slide_main">
 
                 </div>
             </div>
             <div thumbsSlider="" class="swiper gallerySwiper">
-                <div class="swiper-wrapper">
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
-                    </div>
-                    <div class="swiper-slide">
-                        <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
-                    </div>
-
+                <div class="swiper-wrapper" id="product_slide_wrap">
                 </div>
             </div>
         </div>
         <div class="productData">
-            <h3>Характеристики</h3>
-            <div class="charWrap">
-                <div class="charItem">
-                    <div class="charKey">Страна:</div>
-                    <div class="charVal">Россия</div>
-                </div>
-                <div class="charItem">
-                    <div class="charKey">Тираж (шт):</div>
-                    <div class="charVal"></div>
-                </div>
-            </div>
-            <div class="charWrap">
-                <div class="charItem">
-                    <div class="charKey">Страна:</div>
-                    <div class="charVal">Россия</div>
-                </div>
-                <div class="charItem">
-                    <div class="charKey">Тираж (шт):</div>
-                    <div class="charVal"></div>
-                </div>
-            </div>
-            <div class="charWrap">
-                <div class="charItem">
-                    <div class="charKey">Страна:</div>
-                    <div class="charVal">Россия</div>
-                </div>
-                <div class="charItem">
-                    <div class="charKey">Тираж (шт):</div>
-                    <div class="charVal"></div>
-                </div>
-            </div>
+
         </div>
     </div>
     <!-- End Gallery -->
@@ -344,6 +295,106 @@
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <!-- Initialize Swiper -->
 <script>
+    function productModal(type, id){
+        $.ajax({
+            url: "/get-data/"+type+"/"+id,
+            type: "POST",
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            success: function (response) {
+                //Очищаем html
+                $('.productData').html('');
+                $('#product_slide_wrap').html('');
+                $('#product_slide_main').html('');
+
+                //Добавляем данные
+                $('.productData').append(
+                    '<h3>'+response.data.title+'</h3>' +
+                    '<p>'+response.data.description+'</p>' +
+                    '<h3 style="margin-top: 31px">Характеристики</h3>' +
+                    '<div class="chars">'+
+                    '</div>'
+                )
+                response.data.characteristics.forEach(function(item, i, arr) {
+                    $('.chars').append('' +
+                        '<div class="charWrap">' +
+                            '<div class="charItem">'+
+                            '<div class="charKey">'+item.name+':</div>'+
+                            '<div class="charVal">'+item.value+'</div>'+
+                        '</div></div>');
+                })
+
+                response.data.images.forEach(function (item, i, arr){
+                    $('#product_slide_wrap').append(
+                        '<div class="swiper-slide">'+
+                            '<img src="'+item+'" />'+
+                        '</div>'
+                    );
+
+                    $('#product_slide_main').append(
+                        '<div class="swiper-slide">'+
+                            '<img src="'+item+'" />'+
+                        '</div>'
+                    );
+                });
+
+                // Вызываем еще раз свайпер
+                var swiper = new Swiper(".gallerySwiper", {
+                    loop: false,
+                    spaceBetween: 10,
+                    slidesPerView: 3,
+                    freeMode: true,
+                    watchSlidesProgress: true,
+                    width: 335,
+                    centeredSlides: true,
+
+                    //   breakpoints: {
+                    //         750:{
+                    //             slidesPerView: 2,
+                    //         },
+                    //         650:{
+                    //             slidesPerView: 'auto',
+                    //             centeredSlides: false,
+                    //             watchSlidesProgress: false,
+                    //             width: null,
+                    //         }
+                    //     }
+                });
+                var swiper2 = new Swiper(".mySwiper2", {
+                    loop: false,
+                    spaceBetween: 10,
+                    autoHeight: true,
+                    //   navigation: {
+                    //     nextEl: ".swiper-button-next",
+                    //     prevEl: ".swiper-button-prev",
+                    //   },
+                    thumbs: {
+                        swiper: swiper,
+                    },
+                });
+                //End1
+                ;
+                //<h3>Характеристики</h3>
+                // <div class="charWrap">
+                //     <div class="charItem">
+                //         <div class="charKey">Страна:</div>
+                //         <div class="charVal">Россия</div>
+                //     </div>
+                //     <div class="charItem">
+                //         <div class="charKey">Тираж (шт):</div>
+                //         <div class="charVal"></div>
+                //     </div>
+                // </div>
+            },
+            error: function(data) {
+                //console.log(data);
+            }
+        });
+    }
+
     var swiper = new Swiper(".mySwiper", {
         navigation: {
             nextEl: ".swiper-button-next",

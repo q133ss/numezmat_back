@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\IndexController\ProductResource;
 use App\Models\Expertise;
 use App\Models\News;
 use App\Models\Product;
@@ -24,5 +25,17 @@ class IndexController extends Controller
             $items[$key] = $key::get();
         }
         return view('index', compact('items'));
+    }
+
+    public function getData($type, $id)
+    {
+        switch ($type){
+            case 'product':
+                return new ProductResource(Product::findOrFail($id));
+            case 'expertise':
+                return Expertise::findOrFail($id);
+            case 'news':
+                return News::findOrFail($id);
+        }
     }
 }
