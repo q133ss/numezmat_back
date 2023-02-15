@@ -33,9 +33,7 @@ class IndexController extends Controller
             case 'product':
                 return new ProductResource(Product::findOrFail($id));
             case 'expertise':
-                return Expertise::findOrFail($id);
-            case 'news':
-                return News::findOrFail($id);
+                return new ProductResource(Expertise::findOrFail($id));
         }
     }
 }

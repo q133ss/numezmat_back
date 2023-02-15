@@ -177,7 +177,7 @@
                             <div class="post-slide-img">
                                 <img src="{{$item->img()}}" alt="">
                             </div>
-                            <a href="#" class="post-slide-fast-view">Быстрый просмотр</a>
+                            <a href="#productModal" onclick="productModal('expertise','{{$item->id}}')" rel="modal:open" class="post-slide-fast-view">Быстрый просмотр</a>
                             <h3 class="post-slide-title">{{$item->title}}</h3>
                             <p class="post-slide-text">{{mb_substr($item->description, 0 , 30).'...'}}</p>
                             <a href="{{route('expertise.detail', $item->id)}}" class="post-slide-btn">Подробнее</a>
@@ -313,20 +313,28 @@
                 //Добавляем данные
                 $('.productData').append(
                     '<h3>'+response.data.title+'</h3>' +
-                    '<p>'+response.data.description+'</p>' +
-                    '<h3 style="margin-top: 31px">Характеристики</h3>' +
-                    '<div class="chars">'+
-                    '</div>'
+                    '<p>'+response.data.description+'</p>'
                 )
-                response.data.characteristics.forEach(function(item, i, arr) {
-                    $('.chars').append('' +
-                        '<div class="charWrap">' +
-                            '<div class="charItem">'+
-                            '<div class="charKey">'+item.name+':</div>'+
-                            '<div class="charVal">'+item.value+'</div>'+
-                        '</div></div>');
-                })
 
+                //проверка, есть-ли характеристики
+                if(response.data.characteristics.length > 0) {
+                    $('.productData').append(
+                        '<h3 style="margin-top: 31px">Характеристики</h3>' +
+                        '<div class="chars">'+
+                        '</div>'
+                    )
+
+                    response.data.characteristics.forEach(function (item, i, arr) {
+                        $('.chars').append('' +
+                            '<div class="charWrap">' +
+                            '<div class="charItem">' +
+                            '<div class="charKey">' + item.name + ':</div>' +
+                            '<div class="charVal">' + item.value + '</div>' +
+                            '</div></div>');
+                    })
+                }
+
+                //изображения
                 response.data.images.forEach(function (item, i, arr){
                     $('#product_slide_wrap').append(
                         '<div class="swiper-slide">'+
@@ -350,44 +358,17 @@
                     watchSlidesProgress: true,
                     width: 335,
                     centeredSlides: true,
-
-                    //   breakpoints: {
-                    //         750:{
-                    //             slidesPerView: 2,
-                    //         },
-                    //         650:{
-                    //             slidesPerView: 'auto',
-                    //             centeredSlides: false,
-                    //             watchSlidesProgress: false,
-                    //             width: null,
-                    //         }
-                    //     }
                 });
                 var swiper2 = new Swiper(".mySwiper2", {
                     loop: false,
                     spaceBetween: 10,
                     autoHeight: true,
-                    //   navigation: {
-                    //     nextEl: ".swiper-button-next",
-                    //     prevEl: ".swiper-button-prev",
-                    //   },
                     thumbs: {
                         swiper: swiper,
                     },
                 });
-                //End1
+                //End
                 ;
-                //<h3>Характеристики</h3>
-                // <div class="charWrap">
-                //     <div class="charItem">
-                //         <div class="charKey">Страна:</div>
-                //         <div class="charVal">Россия</div>
-                //     </div>
-                //     <div class="charItem">
-                //         <div class="charKey">Тираж (шт):</div>
-                //         <div class="charVal"></div>
-                //     </div>
-                // </div>
             },
             error: function(data) {
                 //console.log(data);
