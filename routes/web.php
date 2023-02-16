@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\IndexController::class, 'index'])->name('index');
 Route::post('/get-data/{type}/{id}', [App\Http\Controllers\IndexController::class, 'getData']);
 
+Route::post('/ads/send', [App\Http\Controllers\AdController::class, 'send']);
+
 //News
 Route::post('/news/block', [App\Http\Controllers\NewsController::class, 'block']);
 Route::resource('news', App\Http\Controllers\NewsController::class);

@@ -1,6 +1,8 @@
 <div id="request-ads" class="modal">
     <h3 class="post-title">Оставить заявку на рекламу</h3>
 
+    <div id="ads-error" style="color: red"></div>
+
     <label for="type" class="search-header news-edit-label" style="display:block; padding-top: 12px;">Где бы вы хотели разместить рекламу</label>
     <select name="type" class="search-request" id="ads_type">
         <option value="here">Только на этой странице</option>
@@ -11,6 +13,9 @@
 
     <label class="search-header news-edit-label" style="display:block; padding-top: 12px;" for="img">Ссылка</label>
     <input type="text" id="ads_link" class="search-request" name="link">
+
+    <label class="search-header news-edit-label" style="display:block; padding-top: 12px;" for="img">Ваш телефон</label>
+    <input type="text" id="ads_phone" class="search-request" name="phone">
 
     <button class="other-theme-btn" style="margin-top: 12px;" type="button" onclick="adsSend()">Отправить</button>
 </div>
@@ -73,7 +78,35 @@
 <script>
 
     function adsSend(){
-        //
+        let img = $('#ads_img').prop('files')[0];
+        let form_data = new FormData();
+        form_data.append('type', $('#ads_type').val());
+        form_data.append('img', img);
+        form_data.append('link', $('#ads_link').val());
+        form_data.append('phone', $('#ads_phone').val());
+
+        $.ajax({
+            url: "/ads/send",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': '{{ csrf_token() }}'
+            },
+            data: form_data,
+            success: function (response) {
+                //тут меняем хтмл формы
+                $('#request-ads').html('<h3>Заявка успешно отправлена, мы свяжемся с вами в ближайшее время</h3>');
+            },
+            error: function(data) {
+                var response = JSON.parse(data.responseText);
+                var errorString = '';
+                $.each( response.errors, function( key, value) {
+                    errorString += value+'<br>';
+                });
+                $('#ads-error').html(errorString);
+            }
+        });
     }
 
     $('#sortSelect').change(function (){
