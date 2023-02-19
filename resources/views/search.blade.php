@@ -98,7 +98,7 @@
                                         <img src="/assets/img/arrow-left.png" alt="">
                                     </a>
                                 @elseif($item->getTable() == 'products')
-                                    <a href="{{route('product.detail', $item->id)}}" class="news-slide-btn">Подробнее
+                                    <a href="{{route('shop.detail', $item->id)}}" class="news-slide-btn">Подробнее
                                         <img src="/assets/img/arrow-left.png" alt="">
                                     </a>
                                 @elseif($item->getTable() == 'libraries')

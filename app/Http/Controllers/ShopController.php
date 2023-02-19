@@ -232,6 +232,12 @@ class ShopController extends Controller
         return to_route('shop.detail', $id);
     }
 
+    public function block($id, $action)
+    {
+        Product::findOrFail($id)->update(['is_block' => $action]);
+        return to_route('shop.detail', $id);
+    }
+
     /**
      * Remove the specified resource from storage.
      *

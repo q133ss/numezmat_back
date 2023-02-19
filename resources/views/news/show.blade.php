@@ -295,7 +295,7 @@
 
     function block(){
         if(confirm('Вы уверены?')){
-            let post_id = '{{$post->id}}';
+            let post_id = '{{$news->id}}';
             $.ajax({
                 url: "/news/block",
                 type: "POST",

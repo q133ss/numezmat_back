@@ -129,4 +129,13 @@ class ProfileController extends Controller
             return response('You dont have permissions', 403);
         }
     }
+
+    public function updateImg(Request $request)
+    {
+        $path = '/storage/'.$request->file('img')->store('avatars', 'public');
+        File::where('morphable_type', 'App\Models\User')
+            ->where('morphable_id', Auth()->id())
+            ->where('category', 'avatar')->first()->update(['src' => $path]);
+        return $path;
+    }
 }

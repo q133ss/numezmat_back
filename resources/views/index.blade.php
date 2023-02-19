@@ -25,7 +25,7 @@
                         <div class="slider-content">
                             <h3 class="slider-title">Интернет аукцион<br>в реальном времени</h3>
                             <p class="slider-text">Приобретайте редкие манеты и продовайте свою коллекцию</p>
-                            <a href="#" class="slider-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
+                            <a href="{{route('register')}}" class="slider-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
                         </div>
                         <img src="/assets/img/slider-img.png" alt="">
                     </div>
@@ -34,7 +34,7 @@
                         <div class="slider-content">
                             <h3 class="slider-title">Интернет аукцион<br>в реальном времени</h3>
                             <p class="slider-text">Приобретайте редкие манеты и продовайте свою коллекцию</p>
-                            <a href="#" class="slider-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
+                            <a href="{{route('register')}}" class="slider-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
                         </div>
                         <img src="/assets/img/slider-img.png" alt="">
                     </div>
@@ -106,7 +106,7 @@
                 </div>
                 <div class="why-right">
                     <img src="/assets/img/why-photo.png" alt="">
-                    <a href="#" class="why-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
+                    <a href="{{route('register')}}" class="why-btn">ПРОЙТИ РЕГИСТРАЦИЮ</a>
                 </div>
             </div>
         </div>

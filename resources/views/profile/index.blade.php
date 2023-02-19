@@ -10,7 +10,7 @@
     <!-- Jquery -->
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
             integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <body>
 @include('includes.header')
@@ -117,6 +117,29 @@
 <script>
     $('#change-avatar').click(function (){
         $('#profile-img').click();
+    });
+
+    $('#profile-img').change(function (){
+        let img = $(this).prop('files')[0];
+        let form_data = new FormData();
+        form_data.append('img', img);
+
+        $.ajax({
+            url: "profile/img/update",
+            type: "POST",
+            processData: false,
+            contentType: false,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            data: form_data,
+            success: function (response) {
+                $('.profile-avatar').attr('src', response);
+            },
+            error: function(data) {
+                //console.log(data);
+            }
+        });
     });
 </script>
 </body>

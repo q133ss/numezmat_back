@@ -111,6 +111,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/profile/coin/update', [App\Http\Controllers\ProfileController::class, 'updateCoin'])->name('profile.coin.update');
     Route::post('/profile/coin/store', [App\Http\Controllers\ProfileController::class, 'storeCoin'])->name('profile.coin.store');
     Route::delete('/profile/coin/delete/{id}', [App\Http\Controllers\ProfileController::class, 'deleteCoin'])->name('profile.coin.delete');
+    Route::post('/profile/img/update', [App\Http\Controllers\ProfileController::class, 'updateImg']);
 });
 
 
