@@ -29,7 +29,7 @@
                     </ul>
                     <div class="page-title-block">
                         <div class="page-img">
-                            <img src="/assets/img/catalogImg.png" alt="">
+                            <img src="/assets/img/discussion.png" alt="">
                         </div>
                         <h3 class="page-title">
                             Беседка
