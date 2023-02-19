@@ -63,7 +63,7 @@
                     @endcan
                     @foreach($categories as $category)
                     <div class="post">
-                        <img src="{{$category->img()}}" class="post-image" alt="">
+                        <img src="{{$category->img()}}" style="cursor: pointer" onclick="location.href='{{route('expertise.show', $category->id)}}'" class="post-image" alt="">
                         <div class="post-content">
                             <div class="post-description">
                                 <h3 class="post-title">

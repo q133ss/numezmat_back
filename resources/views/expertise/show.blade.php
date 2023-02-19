@@ -118,7 +118,7 @@
                     @foreach($items as $item)
                         <div class="search-result">
                             <div class="post">
-                                <img src="{{$item->img()}}" class="post-image" alt="">
+                                <img src="{{$item->img()}}" class="post-image view-img" alt="">
                                 <div class="post-content">
                                     <div class="post-description">
                                         <h3 class="post-title">
@@ -191,6 +191,10 @@
             {{$items->links('includes.pagination')}}
         </div>
     </section>
+
+    <div id="photoModal" class="modal">
+        <img src="" id="photoModalImg" alt="">
+    </div>
 
     @include('includes.footer')
 </div>

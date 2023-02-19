@@ -134,7 +134,7 @@
                         @foreach($group as $item)
                         <div class="swiper-slide post-slide">
                             <div class="post-slide-img">
-                                <img src="{{$item->img()}}" alt="">
+                                <img style="cursor:pointer" onclick="location.href='{{route('shop.detail', $item->id)}}'" src="{{$item->img()}}" alt="">
                             </div>
                             <a href="#productModal" onclick="productModal('product','{{$item->id}}')" class="post-slide-fast-view" rel="modal:open">Быстрый просмотр</a>
                             <h3 class="post-slide-title">{{$item->title}}</h3>
@@ -172,7 +172,7 @@
                         @foreach($group as $item)
                         <div class="swiper-slide post-slide">
                             <div class="post-slide-img">
-                                <img src="{{$item->img()}}" alt="">
+                                <img style="cursor:pointer" onclick="location.href='{{route('expertise.detail', $item->id)}}'" src="{{$item->img()}}" alt="">
                             </div>
                             <a href="#productModal" onclick="productModal('expertise','{{$item->id}}')" rel="modal:open" class="post-slide-fast-view">Быстрый просмотр</a>
                             <h3 class="post-slide-title">{{$item->title}}</h3>
@@ -208,7 +208,7 @@
                     <div class="swiper-wrapper">
                         @foreach($group as $item)
                         <div class="swiper-slide news-slide-wrap">
-                            <img src="{{$item->img()}}" class="news-slide-img" alt="">
+                            <img style="cursor:pointer" onclick="location.href='{{route('news.show', $item->id)}}'" src="{{$item->img()}}" class="news-slide-img" alt="">
                             <div class="news-slide-left-part">
                                 <h3>{{$item->title}}</h3>
                                 <a href="{{route('news.show', $item->id)}}" class="news-slide-btn">Подробнее

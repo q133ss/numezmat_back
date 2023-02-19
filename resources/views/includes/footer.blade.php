@@ -77,6 +77,12 @@
 
 <script>
 
+    $('.view-img').click(function (){
+        let path = $(this).attr('src');
+        $('#photoModalImg').attr('src', path);
+        $('#photoModal').modal('show');
+    });
+
     function adsSend(){
         let img = $('#ads_img').prop('files')[0];
         let form_data = new FormData();

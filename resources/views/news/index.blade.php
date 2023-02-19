@@ -61,7 +61,7 @@
             <div class="news-wrapper">
                 @foreach($news as $post)
                 <div class="news-slide-wrap">
-                    <img src="{{$post->img()}}" class="news-slide-img" alt="">
+                    <img style="cursor:pointer" onclick="location.href='{{route('news.show', $post->id)}}'" src="{{$post->img()}}" class="news-slide-img" alt="">
                     <div class="news-slide-left-part">
                         <h3>{{$post->title}}</h3>
                         <a href="{{route('news.show', $post->id)}}" class="news-slide-btn">Подробнее

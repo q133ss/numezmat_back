@@ -79,7 +79,7 @@
 
                     @foreach($categories as $category)
                         <div class="post">
-                            <img src="{{$category->img()}}" class="post-image" alt="">
+                            <img src="{{$category->img()}}" style="cursor: pointer" class="post-image" onclick="location.href='{{route('library.show', $category->id)}}'" alt="">
                             <div class="post-content">
                                 <div class="post-description">
                                     <h3 class="post-title">
@@ -113,7 +113,7 @@
                     @foreach($items as $item)
                         <div class="search-result">
                             <div class="post">
-                                <img src="{{$item->img()}}" class="post-image" alt="">
+                                <img src="{{$item->img()}}" class="post-image view-img" style="cursor:pointer;" alt="">
                                 <div class="post-content">
                                     <div class="post-description">
                                         <h3 class="post-title">
@@ -178,6 +178,10 @@
             {{$items->links('includes.pagination')}}
         </div>
     </section>
+
+    <div id="photoModal" class="modal">
+        <img src="" id="photoModalImg" alt="">
+    </div>
 
     @include('includes.footer')
 </div>
