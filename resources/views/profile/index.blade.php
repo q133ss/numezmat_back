@@ -42,6 +42,14 @@
         <div class="container">
             <div class="profile-wrap">
                 <ul class="profile-menu">
+                    @if($user->hasRole('admin'))
+                        <li>
+                            <a href="{{route('admin.users.index')}}">
+                                Админка
+                            </a>
+                        </li>
+                    @endif
+
                     <li>
                         <a href="{{route('profile.index')}}">
                             Настройки профиля
@@ -57,6 +65,12 @@
                     <li>
                         <a href="{{route('profile.orders')}}">
                             Мои заказы
+                        </a>
+                    </li>
+
+                    <li>
+                        <a href="{{route('logout.perform')}}">
+                            Выйти
                         </a>
                     </li>
                 </ul>

@@ -11,7 +11,9 @@ use App\Models\Coin;
 use App\Models\File;
 use App\Models\Order;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 
 class ProfileController extends Controller
 {
@@ -137,5 +139,12 @@ class ProfileController extends Controller
             ->where('morphable_id', Auth()->id())
             ->where('category', 'avatar')->first()->update(['src' => $path]);
         return $path;
+    }
+
+    public function perform()
+    {
+        Session::flush();
+        Auth::logout();
+        return redirect('login');
     }
 }

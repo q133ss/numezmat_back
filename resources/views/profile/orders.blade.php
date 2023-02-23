@@ -62,6 +62,12 @@
                             Мои заказы
                         </a>
                     </li>
+
+                    <li>
+                        <a href="{{route('logout.perform')}}">
+                            Выйти
+                        </a>
+                    </li>
                 </ul>
 
                 <div class="profile-content" style="display: block">

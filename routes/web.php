@@ -112,6 +112,7 @@ Route::middleware('auth')->group(function(){
     Route::post('/profile/coin/store', [App\Http\Controllers\ProfileController::class, 'storeCoin'])->name('profile.coin.store');
     Route::delete('/profile/coin/delete/{id}', [App\Http\Controllers\ProfileController::class, 'deleteCoin'])->name('profile.coin.delete');
     Route::post('/profile/img/update', [App\Http\Controllers\ProfileController::class, 'updateImg']);
+    Route::get('/logout', [App\Http\Controllers\ProfileController::class, 'perform'])->name('logout.perform');
 });
 
 
@@ -129,5 +130,9 @@ Route::resource('forum', App\Http\Controllers\ForumController::class);
 
 Route::post('/comment/send', [App\Http\Controllers\CommentController::class, 'sendComment'])->name('comment.send');
 Route::post('/comment/action', [App\Http\Controllers\CommentController::class, 'actionComment'])->name('comment.action');
+
+Route::middleware('auth')->middleware('has.role:admin')->prefix('admin')->name('admin.')->group(function(){
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class)->only('index', 'edit', 'update', 'destroy');
+});
 
 Auth::routes();
