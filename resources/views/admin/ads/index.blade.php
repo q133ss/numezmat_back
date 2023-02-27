@@ -27,8 +27,12 @@
                     <td>
                         {{$ad->getCategory()}}
                     </td>
-                    <td>000</td>
-                    <td>{{$ad->getLastDate()}}</td>
+                    <td>
+                        {{$ad->getStartDate()}}
+                    </td>
+                    <td>
+                        {{$ad->getLastDate()}}
+                    </td>
                     <td>
                         {{$ad->active ? 'Активная' : 'Не активная'}}
                     </td>

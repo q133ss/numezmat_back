@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -48,10 +49,19 @@ class Ad extends Model
         return $this->hasOne(AdsOrder::class, 'ad_id', 'id');
     }
 
+    public function getStartDate()
+    {
+        if($this->order != null) {
+            return Carbon::parse($this->order->start_date)->format('d.m.Y');
+        }else{
+            return '';
+        }
+    }
+
     public function getLastDate()
     {
         if($this->order != null) {
-            return $this->order->pluck('last_date')->first();
+            return Carbon::parse($this->order->pluck('last_date')->first())->format('d.m.Y');
         }else{
             return '';
         }
