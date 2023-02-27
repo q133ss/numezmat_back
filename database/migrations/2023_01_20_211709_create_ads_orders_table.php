@@ -18,7 +18,8 @@ return new class extends Migration
             $table->string('url')->nullable();
             $table->string('category')->nullable();
             $table->foreignId('ad_id');
-            $table->timestamp('last_date');
+            $table->timestamp('start_date')->default(now());
+            $table->timestamp('last_date')->default(now()->addHour());
             $table->timestamps();
         });
     }

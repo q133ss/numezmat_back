@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class AdsOrder extends Model
 {
     use HasFactory;
+    protected $guarded = [];
 
     public function ads()
     {
@@ -16,13 +17,27 @@ class AdsOrder extends Model
 
     public static function getAds($count = 2)
     {
-        $query = self::join('ads', 'ads.id', 'ads_orders.ad_id')
+        //делаем 2 квери
+
+        //еще на на категорию
+        $query_cat = self::join('ads', 'ads.id', 'ads_orders.ad_id')
+            ->where('category', stristr(\Request::route()->getName(),'.', true))
+            ->where('active', true)
+            ->where('last_date' , '>', now())
+            ->orderBy('ads_orders.last_date', 'ASC')
+            ->limit($count);
+
+        $query_url = self::join('ads', 'ads.id', 'ads_orders.ad_id')
             ->where('page_url', url()->current())
             ->where('active', true)
+            ->where('last_date' , '>', now())
             ->orderBy('ads_orders.last_date', 'ASC')
-            ->limit($count)
-            ->get();
+            ->limit($count);
 
-        return $query;
+        //нихуя
+        //их может быть 2
+        //одна на всю, другая на конкретную
+        //и шо делать...
+        return $query_url->exists() ? $query_url->get() : $query_cat->get();
     }
 }

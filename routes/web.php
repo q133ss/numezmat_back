@@ -133,6 +133,10 @@ Route::post('/comment/action', [App\Http\Controllers\CommentController::class, '
 
 Route::middleware('auth')->middleware('has.role:admin')->prefix('admin')->name('admin.')->group(function(){
     Route::resource('users', App\Http\Controllers\Admin\UserController::class)->only('index', 'edit', 'update', 'destroy');
+    Route::get('ads/requests', [App\Http\Controllers\Admin\AdController::class, 'requests'])->name('ads.requests');
+    Route::get('ads/requests/{id}', [App\Http\Controllers\Admin\AdController::class, 'show'])->name('ads.requests.show');
+    Route::get('ads/requests/{id}/{action}', [App\Http\Controllers\Admin\AdController::class, 'action'])->name('ads.requests.action');
+    Route::get('ads', [App\Http\Controllers\Admin\AdController::class, 'ads'])->name('ads.index');
 });
 
 Auth::routes();

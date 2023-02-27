@@ -14,6 +14,9 @@ class AdController extends Controller
         unset($data['img']);
         $data['user_id'] = Auth()->id();
         $data['img'] = '/storage/'.$request->file('img')->store('ads', 'public');
+        if($data['type'] != 'all'){
+            unset($data['category']);
+        }
 
         AdRequest::create($data);
         return true;

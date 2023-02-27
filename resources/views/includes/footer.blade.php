@@ -83,13 +83,16 @@
         $('#photoModal').modal('show');
     });
 
-    function adsSend(){
+    function adsSend(in_footer = 0){
         let img = $('#ads_img').prop('files')[0];
         let form_data = new FormData();
         form_data.append('type', $('#ads_type').val());
         form_data.append('img', img);
         form_data.append('link', $('#ads_link').val());
         form_data.append('phone', $('#ads_phone').val());
+        form_data.append('page_url', '{{URL()->current()}}');
+        form_data.append('in_footer', in_footer);
+        form_data.append('category', '{{stristr(\Request::route()->getName(),'.', true)}}');
 
         $.ajax({
             url: "/ads/send",

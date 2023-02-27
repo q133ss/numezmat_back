@@ -20,6 +20,9 @@ return new class extends Migration
             $table->string('img');
             $table->string('link');
             $table->string('phone');
+            $table->string('page_url');
+            $table->boolean('in_footer');
+            $table->string('category')->nullable();
             $table->timestamps();
         });
     }

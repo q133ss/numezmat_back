@@ -67,8 +67,8 @@
                 </a>
                 <div class="collapse" id="ui-advert">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Заявки на рекламу</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Реклама</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.ads.requests')}}">Заявки на рекламу</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.ads.index')}}">Реклама</a></li>
                     </ul>
                 </div>
             </li>
@@ -174,5 +174,6 @@
         return false;
     });
 </script>
+@yield('scripts')
 </body>
 </html>
