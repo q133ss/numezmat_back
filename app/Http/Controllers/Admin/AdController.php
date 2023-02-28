@@ -66,4 +66,10 @@ class AdController extends Controller
         $ads = Ad::orderBy('created_at')->get();
         return view('admin.ads.index', compact('ads'));
     }
+
+    public function edit($id)
+    {
+        $ad = Ad::findOrFail($id);
+        return view('admin.ads.adsEdit', compact('ad'));
+    }
 }

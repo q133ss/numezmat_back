@@ -37,7 +37,7 @@
                         {{$ad->active ? 'Активная' : 'Не активная'}}
                     </td>
                     <td>
-                        <a href="#">Изменить</a>
+                        <a href="{{route('admin.ads.edit', $ad->id)}}">Изменить</a>
                     </td>
                 </tr>
             @endforeach
