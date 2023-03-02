@@ -138,6 +138,7 @@ Route::middleware('auth')->middleware('has.role:admin')->prefix('admin')->name('
     Route::get('ads/requests/{id}/{action}', [App\Http\Controllers\Admin\AdController::class, 'action'])->name('ads.requests.action');
     Route::get('ads', [App\Http\Controllers\Admin\AdController::class, 'ads'])->name('ads.index');
     Route::get('/ads/{id}', [App\Http\Controllers\Admin\AdController::class, 'edit'])->name('ads.edit');
+    Route::post('/ads/{id}/update', [App\Http\Controllers\Admin\AdController::class, 'update'])->name('ads.update');
 });
 
 Auth::routes();

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\AdController\ActionRequest;
+use App\Http\Requests\Admin\AdController\UpdateRequest;
 use App\Models\Ad;
 use App\Models\AdRequest;
 use App\Models\AdsOrder;
@@ -71,5 +72,34 @@ class AdController extends Controller
     {
         $ad = Ad::findOrFail($id);
         return view('admin.ads.adsEdit', compact('ad'));
+    }
+
+    public function update(UpdateRequest $request, $id)
+    {
+        $data = $request->validated();
+        unset($data['img']);
+
+        if(isset($request->in_footer)){
+            unset($data['in_footer']);
+            $data['in_footer'] = true;
+        }else{
+            $data['in_footer'] = false;
+        }
+
+        if(isset($request->active)){
+            unset($data['active']);
+            $data['active'] = true;
+        }else{
+            $data['active'] = false;
+        }
+
+        if($request->hasFile('img')){
+            $img_path = '/storage/'.$request->file('img')->store('ads', 'public');
+            $data['img'] = $img_path;
+        }
+
+        $ad = Ad::findOrFail($id);
+        $ad->update($data);
+        return to_route('admin.ads.index')->withSuccess('Реклама успешно обновлена');
     }
 }
