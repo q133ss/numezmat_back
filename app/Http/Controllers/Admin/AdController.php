@@ -54,7 +54,7 @@ class AdController extends Controller
                     ]
                 );
                 $request->delete();
-                return to_route('admin.ads.show', $ad->id);
+                return to_route('admin.ads.index', $ad->id)->withSuccess('Реклама успешно создана');
             case 'reject':
                 //удаляем заявку и все
                 $request->delete();

@@ -34,7 +34,7 @@
                 <li>Изображение: <img src="{{$request->img}}" width="100%" alt=""></li>
             </ul>
             <button type="submit" class="btn btn-primary">Принять</button>
-                <a href="{{route('admin.ads.requests.action', [$request->id, 'reject'])}}" class="btn btn-danger">Отклонить</a>
+            <a href="{{route('admin.ads.requests.action', ['id' => $request->id, 'action' => 'reject', 'start_date' => '01-01-2023', 'last_date' => '01-01-2023'])}}" class="btn btn-danger">Отклонить</a>
             </form>
         </div>
     </div>
