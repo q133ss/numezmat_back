@@ -19,6 +19,7 @@
                 <li>Телефон: <a href="tel:{{$request->phone}}">{{$request->phone}}</a></li>
                 <li>Ссылка: <a href="{{$request->link}}" target="_blank">{{$request->link}}</a></li>
                 <li>Страница: <a href="{{$request->page_url}}" target="_blank">{{$request->page_url}}</a></li>
+                <li>Размещение в футоре: {{$request->in_footer == 1 ? 'Да' : 'Нет'}}</li>
                 @if($request->type == 'all')
                     <li>Категория: {{$request->getCategory()}}</li>
                 @endif

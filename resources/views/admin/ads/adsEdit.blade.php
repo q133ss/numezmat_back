@@ -26,6 +26,11 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="exampleInputPassword1">Размещение в футоре</label>
+                    <input type="text" value="{{$ad->in_footer == 1 ? 'Да' : 'Нет'}}" disabled class="form-control" id="exampleInputPassword1">
+                </div>
+
+                <div class="form-group">
                     <label for="exampleInputPassword1">Категория (если нужна реклама на весь раздел)</label>
                     <select name="category_type" class="form-control" id="">
                         <option value="">Нет</option>

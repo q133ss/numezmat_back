@@ -25,7 +25,11 @@
                     <td><img src="{{$ad->img}}" alt=""></td>
                     <td>{{$ad->link}}</td>
                     <td>
-                        {{$ad->getCategory()}}
+                        @if($ad->getCategory() == 'Отсутсвует')
+                            {{$ad->page_url}}
+                        @else
+                            {{$ad->getCategory()}}
+                        @endif
                     </td>
                     <td>
                         {{$ad->getStartDate()}}

@@ -15,29 +15,27 @@ class AdsOrder extends Model
         return $this->hasMany(Ad::class, 'id', 'ad_id');
     }
 
-    public static function getAds($count = 2)
+    public static function getAds($count = 2, $in_footer = false)
     {
-        //делаем 2 квери
-
-        //еще на на категорию
         $query_cat = self::join('ads', 'ads.id', 'ads_orders.ad_id')
             ->where('category', stristr(\Request::route()->getName(),'.', true))
             ->where('active', true)
+            ->where('in_footer', $in_footer)
             ->where('last_date' , '>', now())
             ->orderBy('ads_orders.last_date', 'ASC')
             ->limit($count);
 
         $query_url = self::join('ads', 'ads.id', 'ads_orders.ad_id')
             ->where('page_url', url()->current())
+            ->where('in_footer', $in_footer)
             ->where('active', true)
             ->where('last_date' , '>', now())
             ->orderBy('ads_orders.last_date', 'ASC')
             ->limit($count);
 
-        //нихуя
         //их может быть 2
         //одна на всю, другая на конкретную
-        //и шо делать...
+        #TODO надо проверить это
         return $query_url->exists() ? $query_url->get() : $query_cat->get();
     }
 }

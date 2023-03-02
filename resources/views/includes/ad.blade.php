@@ -14,11 +14,11 @@
 
     @if($qty < $count)
         @for($i = 0; $i<$diff; $i++)
-            <a href="#request-ads" rel="modal:open"><img src="/assets/img/ads.jpg" alt=""></a>
+            <a @if(isset($in_footer)) onclick="$('#adsSendBtn').attr('onclick', 'adsSend(1)')" @else onclick="$('#adsSendBtn').attr('onclick', 'adsSend()')" @endif href="#request-ads" rel="modal:open"><img src="/assets/img/ads.jpg" alt=""></a>
         @endfor
     @endif
 @else
     @for($i = 0; $i < $count; $i++)
-        <a href="#request-ads" rel="modal:open"><img src="/assets/img/ads.jpg" alt=""></a>
+        <a @if(isset($in_footer)) onclick="$('#adsSendBtn').attr('onclick', 'adsSend(1)')" @else onclick="$('#adsSendBtn').attr('onclick', 'adsSend()')" @endif href="#request-ads" rel="modal:open"><img src="/assets/img/ads.jpg" alt=""></a>
     @endfor
 @endif

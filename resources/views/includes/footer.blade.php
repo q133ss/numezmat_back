@@ -17,7 +17,7 @@
     <label class="search-header news-edit-label" style="display:block; padding-top: 12px;" for="img">Ваш телефон</label>
     <input type="text" id="ads_phone" class="search-request" name="phone">
 
-    <button class="other-theme-btn" style="margin-top: 12px;" type="button" onclick="adsSend()">Отправить</button>
+    <button class="other-theme-btn" style="margin-top: 12px;" type="button" id="adsSendBtn" onclick="adsSend()">Отправить</button>
 </div>
 
 <footer>
@@ -49,8 +49,8 @@
             </div>
 
             <div class="footer-col">
-                <div class="footer-ads">
-                    <img src="/assets/img/ads.jpg" alt="">
+                <div class="footer-ads_block">
+                    @include('includes.ad', ['count' => 1, 'in_footer' => 1])
                 </div>
             </div>
         </div>
