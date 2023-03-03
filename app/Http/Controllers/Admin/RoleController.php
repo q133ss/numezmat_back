@@ -3,7 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RoleController\StoreRequest;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class RoleController extends Controller
 {
@@ -14,7 +18,8 @@ class RoleController extends Controller
      */
     public function index()
     {
-        //
+        $roles = Role::get();
+        return view('admin.roles.index', compact('roles'));
     }
 
     /**
@@ -24,7 +29,8 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = Permission::get();
+        return view('admin.roles.create', compact('permissions'));
     }
 
     /**
@@ -33,9 +39,20 @@ class RoleController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreRequest $request)
     {
-        //
+        $data = $request->validated();
+        unset($data['permissions']);
+
+        $data['slug'] = Str::slug($data['name']);
+        $role = Role::create($data);
+
+        $permissions = Permission::whereIn('slug', $request->permissions)->get();
+        foreach ($permissions as $permission) {
+            $role->permissions()->attach($permission);
+        }
+
+        return to_route('admin.roles.index')->withSuccess('Роль успешно добавлена');
     }
 
     /**
@@ -57,7 +74,9 @@ class RoleController extends Controller
      */
     public function edit($id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $permissions = Permission::get();
+        return view('admin.roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -67,9 +86,22 @@ class RoleController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(StoreRequest $request, $id)
     {
-        //
+        $data = $request->validated();
+        unset($data['permissions']);
+
+        $data['slug'] = Str::slug($data['name']);
+        $role = Role::findOrFail($id);
+        $role->update($data);
+
+        $permissions = Permission::whereIn('slug', $request->permissions)->get();
+        $role->permissions()->detach();
+        foreach ($permissions as $permission) {
+            $role->permissions()->attach($permission);
+        }
+
+        return to_route('admin.roles.index')->withSuccess('Роль успешно обновлена');
     }
 
     /**
@@ -80,6 +112,7 @@ class RoleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Role::findOrFail($id)->delete();
+        return to_route('admin.roles.index')->withSuccess('Роль успешно удалена');
     }
 }

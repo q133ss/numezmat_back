@@ -74,7 +74,7 @@
             </li>
 
             <li class="nav-item menu-items">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{route('admin.roles.index')}}">
               <span class="menu-icon">
                 <i class="mdi mdi-account-card-details"></i>
               </span>

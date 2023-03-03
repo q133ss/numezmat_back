@@ -8,25 +8,25 @@
         </div>
         <ul>
             <li>
-                <a href="/assets/news.html">Новости</a>
+                <a href="{{route('news.index')}}">Новости</a>
             </li>
             <li>
-                <a href="/assets/rating.html">Определение и оценка</a>
+                <a href="{{route('rating.index')}}">Определение и оценка</a>
             </li>
             <li>
-                <a href="/assets/expertise.html">Экспертиза</a>
+                <a href="{{route('expertise.index')}}">Экспертиза</a>
             </li>
             <li>
-                <a href="/assets/catalog.html">Каталог</a>
+                <a href="{{route('catalog.index')}}">Каталог</a>
             </li>
             <li>
-                <a href="#">Магазин</a>
+                <a href="{{route('shop.index')}}">Магазин</a>
             </li>
             <li>
-                <a href="#">Библиотека</a>
+                <a href="{{route('library.index')}}">Библиотека</a>
             </li>
             <li>
-                <a href="#">Беседка</a>
+                <a href="{{route('forum.index')}}">Беседка</a>
             </li>
         </ul>
     </div>
