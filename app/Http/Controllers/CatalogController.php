@@ -10,10 +10,21 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Catalog;
 use App\Models\Category;
 use App\Models\File;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
+    use CanViewThisPage;
+
+    public function __construct()
+    {
+        $this->checkViewPermission('view-catalog');
+        $this->middleware('permission:edit-catalog')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-catalog')->only(['block']);
+        $this->middleware('permission:create-catalog')->only(['create','store']);
+        $this->middleware('permission:create-sections-catalog')->only(['createSection','storeSection', 'updateSection']);
+    }
     /**
      * Display a listing of the resource.
      *

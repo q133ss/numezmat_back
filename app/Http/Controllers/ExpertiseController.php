@@ -10,10 +10,20 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\Expertise;
 use App\Models\File;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 
 class ExpertiseController extends Controller
 {
+    use CanViewThisPage;
+    public function __construct()
+    {
+        $this->checkViewPermission('view-expertise');
+        $this->middleware('permission:edit-expertise')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-expertise')->only(['block']);
+        $this->middleware('permission:create-expertise')->only(['create','store']);
+        $this->middleware('permission:create-sections-expertise')->only(['createSection','storeSection', 'updateSection']);
+    }
     /**
      * Display a listing of the resource.
      *

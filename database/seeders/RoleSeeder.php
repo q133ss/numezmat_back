@@ -29,5 +29,10 @@ class RoleSeeder extends Seeder
         $developer->name = 'Модератор';
         $developer->slug = 'moderator';
         $developer->save();
+
+        $developer = new Role();
+        $developer->name = 'Незарегистрированный';
+        $developer->slug = 'unregister';
+        $developer->save();
     }
 }

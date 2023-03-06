@@ -22,11 +22,13 @@
                     <td>{{$role->name}}</td>
                     <td><a href="{{route('admin.roles.edit', $role->id)}}" class="btn btn-warning">Изменить</a></td>
                     <td>
+                        @if($role->slug != 'nezaregistrirovannyi')
                         <form action="{{route('admin.roles.destroy', $role->id)}}" method="POST">
                             @csrf
                             @method('DELETE')
                             <button type="submit" class="delete_agreement btn btn-danger">Удалить</button>
                         </form>
+                        @endif
                     </td>
                 </tr>
             @endforeach

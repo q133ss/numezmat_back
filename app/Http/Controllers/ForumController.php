@@ -9,10 +9,20 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Forum;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 
 class ForumController extends Controller
 {
+    use CanViewThisPage;
+    public function __construct()
+    {
+        $this->checkViewPermission('view-forum');
+        $this->middleware('permission:edit-forum')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-forum')->only(['block']);
+        $this->middleware('permission:create-forum')->only(['create','store']);
+        $this->middleware('permission:create-sections-forum')->only(['createSection','storeSection', 'updateSection']);
+    }
     /**
      * Display a listing of the resource.
      *

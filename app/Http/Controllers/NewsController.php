@@ -7,11 +7,14 @@ use App\Http\Requests\NewsController\UpdateRequest;
 use App\Models\File;
 use App\Models\News;
 use Illuminate\Http\Request;
+use App\Traits\CanViewThisPage;
 
 class NewsController extends Controller
 {
+    use CanViewThisPage;
     public function __construct()
     {
+        $this->checkViewPermission('view-news');
         $this->middleware('permission:edit-news')->only(['edit','update']);
         $this->middleware('permission:block-news')->only('block');
         $this->middleware('permission:create-news')->only(['create','store']);

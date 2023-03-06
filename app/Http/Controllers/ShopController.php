@@ -11,10 +11,20 @@ use App\Models\Catalog;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Product;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
+    use CanViewThisPage;
+    public function __construct()
+    {
+        $this->checkViewPermission('view-shop');
+        $this->middleware('permission:edit-shop')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-shop')->only(['block']);
+        $this->middleware('permission:create-shop')->only(['create','store']);
+        $this->middleware('permission:create-sections-shop')->only(['createSection','storeSection', 'updateSection']);
+    }
     /**
      * Display a listing of the resource.
      *

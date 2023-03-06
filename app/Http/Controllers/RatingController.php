@@ -10,13 +10,16 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Rating;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Route;
 
 class RatingController extends Controller
 {
+    use CanViewThisPage;
     public function __construct()
     {
+        $this->checkViewPermission('view-rating');
         $this->middleware('permission:edit-rating')->only(['edit','update','updateImg','deleteImg']);
         $this->middleware('permission:block-rating')->only(['block']);
         $this->middleware('permission:create-rating')->only(['create','store']);

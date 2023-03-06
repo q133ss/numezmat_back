@@ -9,10 +9,20 @@ use App\Http\Requests\UpdateSection;
 use App\Models\Category;
 use App\Models\File;
 use App\Models\Library;
+use App\Traits\CanViewThisPage;
 use Illuminate\Http\Request;
 
 class LibraryController extends Controller
 {
+    use CanViewThisPage;
+    public function __construct()
+    {
+        $this->checkViewPermission('view-library');
+        $this->middleware('permission:edit-library')->only(['edit','update','updateImg','deleteImg']);
+        $this->middleware('permission:block-library')->only(['block']);
+        $this->middleware('permission:create-library')->only(['create','store']);
+        $this->middleware('permission:create-sections-library')->only(['createSection','storeSection', 'updateSection']);
+    }
     /**
      * Display a listing of the resource.
      *
