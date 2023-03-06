@@ -141,7 +141,11 @@ Route::middleware('auth')->middleware('has.role:admin')->prefix('admin')->name('
     Route::get('/ads/{id}', [App\Http\Controllers\Admin\AdController::class, 'edit'])->name('ads.edit');
     Route::post('/ads/{id}/update', [App\Http\Controllers\Admin\AdController::class, 'update'])->name('ads.update');
 
-    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class);
+    Route::resource('roles', App\Http\Controllers\Admin\RoleController::class)->except('show');
+
+    Route::get('/block/{model}', [App\Http\Controllers\Admin\BlockController::class, 'index'])->name('block');
+    Route::get('/block/restore/{type}/{id}', [App\Http\Controllers\Admin\BlockController::class, 'restore'])->name('block.restore');
+    Route::get('/block/delete/{type}/{id}', [App\Http\Controllers\Admin\BlockController::class, 'delete'])->name('block.delete');
 });
 
 Auth::routes();

@@ -83,15 +83,6 @@
             </li>
 
             <li class="nav-item menu-items">
-                <a class="nav-link" href="#">
-              <span class="menu-icon">
-                <i class="mdi mdi-account-key"></i>
-              </span>
-                    <span class="menu-title">Доступы</span>
-                </a>
-            </li>
-
-            <li class="nav-item menu-items">
                 <a class="nav-link" data-toggle="collapse" href="#ui-basic" aria-expanded="false" aria-controls="ui-basic">
               <span class="menu-icon">
                 <i class="mdi mdi-alert "></i>
@@ -101,13 +92,13 @@
                 </a>
                 <div class="collapse" id="ui-basic">
                     <ul class="nav flex-column sub-menu">
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/buttons.html">Новости</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/dropdowns.html">Определение и оценка</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Экспертиза</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Каталог</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Магазин</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Библиотека</a></li>
-                        <li class="nav-item"> <a class="nav-link" href="pages/ui-features/typography.html">Беседка</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'news')}}">Новости</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'rating')}}">Определение и оценка</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'expertise')}}">Экспертиза</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'catalog')}}">Каталог</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'shop')}}">Магазин</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'library')}}">Библиотека</a></li>
+                        <li class="nav-item"> <a class="nav-link" href="{{route('admin.block', 'forum')}}">Беседка</a></li>
                     </ul>
                 </div>
             </li>
