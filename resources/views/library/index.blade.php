@@ -57,6 +57,9 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
+                    @can('create-sections-library')
+                        <a href="{{route('library.create.section')}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый раздел</a>
+                    @endcan
                     @foreach($categories as $category)
                     <div class="post">
                         <img src="{{$category->img()}}" style="cursor: pointer" onclick="location.href='{{route('library.show', $category->id)}}'" class="post-image" alt="">

@@ -28,9 +28,14 @@ class Library extends Model
         return $this->hasOne(Category::class, 'id', 'category_id');
     }
 
-    public function file()
+    public function allFiles()
     {
-        return $this->morphOne(File::class, 'morphable');
+        return $this->morphMany(File::class, 'morphable');
+    }
+
+    public function files()
+    {
+        return $this->morphMany(File::class, 'morphable')->where('category', 'file');
     }
 
     public function relatedPosts($count = 4)

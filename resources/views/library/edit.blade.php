@@ -85,6 +85,10 @@
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">
                     {{$post->description}}
                 </textarea>
+
+                <label for="name" class="search-header news-edit-label">Файлы</label>
+                <input type="file" class="search-request" name="attached_files[]" multiple value="">
+
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>

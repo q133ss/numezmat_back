@@ -23,7 +23,7 @@ class CatalogController extends Controller
         $this->middleware('permission:edit-catalog')->only(['edit','update','updateImg','deleteImg']);
         $this->middleware('permission:block-catalog')->only(['block']);
         $this->middleware('permission:create-catalog')->only(['create','store']);
-        $this->middleware('permission:create-sections-catalog')->only(['createSection','storeSection', 'updateSection']);
+        $this->middleware('permission:catalog.create.section')->only(['createSection','storeSection', 'updateSection']);
     }
     /**
      * Display a listing of the resource.
@@ -170,6 +170,7 @@ class CatalogController extends Controller
     {
         $data = $request->validated();
         unset($data['characteristics']);
+        unset($data['img']);
 
         $catalog = Catalog::create($data);
         foreach ($request->validated()['characteristics'] as $characteristic){

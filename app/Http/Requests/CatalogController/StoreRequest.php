@@ -26,6 +26,11 @@ class StoreRequest extends FormRequest
     public function rules()
     {
         $char_arr = [];
+
+        if(!isset($this->char_name)){
+            throw ValidationException::withMessages(['Характеристики' => 'Необходимо добавить хотя бы одну характеристику']);
+        }
+
         foreach ($this->char_name as $key => $name){
             $char_arr[] = [
                 'name' => $this->char_name[$key],
@@ -39,6 +44,7 @@ class StoreRequest extends FormRequest
         $this->characteristics = $char_arr;
 
         return [
+            'img' => 'required|array',
             'title' => 'string|required',
             'description' => 'string|required',
             'category_id' => 'required|exists:categories,id',
@@ -63,6 +69,9 @@ class StoreRequest extends FormRequest
     public function messages()
     {
         return [
+            'img.required' => 'Выберите изображение',
+            'img.array' => 'Выберите изображение',
+
             'category_id.required' => 'Выберите категорию',
             'category_id.exists' => 'Выберите категорию',
 

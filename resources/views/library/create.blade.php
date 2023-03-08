@@ -77,6 +77,9 @@
                 <label for="title" style="margin-bottom: 15px" class="search-header news-edit-label">Текст</label>
                 <textarea name="description" id="" cols="30" rows="10" class="comment-field">{{old('description')}}</textarea>
 
+                <label for="name" class="search-header news-edit-label">Файлы</label>
+                <input type="file" class="search-request" name="attached_files[]" multiple value="{{old('attached_files[]')}}">
+
                 <button class="comment-form-btn" type="submit">Сохранить</button>
             </form>
         </div>

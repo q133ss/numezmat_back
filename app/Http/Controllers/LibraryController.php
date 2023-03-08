@@ -89,6 +89,19 @@ class LibraryController extends Controller
                 ]
             );
         }
+
+        foreach ($request->attached_files as $file){
+            $path = $file->store('libraries', 'public');
+            File::create(
+                [
+                    'morphable_type' => 'App\Models\Library',
+                    'morphable_id' => $library->id,
+                    'category' => 'file',
+                    'src' => '/storage/'.$path
+                ]
+            );
+        }
+
         return to_route('library.detail', $library->id);
     }
 
@@ -174,6 +187,23 @@ class LibraryController extends Controller
 
             $file = $request->file('img')->store('libraries', 'public');
             $post->file()->update(['src' => '/storage/'.$file]);
+        }
+
+        if($request->attached_files) {
+            if($post->files != null) {
+                File::whereIn('id', $post->files->pluck('id')->all())->delete();
+            }
+            foreach ($request->attached_files as $file) {
+                $path = $file->store('libraries', 'public');
+                File::create(
+                    [
+                        'morphable_type' => 'App\Models\Library',
+                        'morphable_id' => $post->id,
+                        'category' => 'file',
+                        'src' => '/storage/' . $path
+                    ]
+                );
+            }
         }
 
         $data = $request->validated();

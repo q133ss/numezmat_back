@@ -90,7 +90,7 @@ class ShopController extends Controller
                 ->where('morphable_id', $id)
                 ->first();
 
-            unlink(public_path().$file->src);
+            //unlink(public_path().$file->src);
 
             $filePath = $request->file('img')->store('shops', 'public');
             $file->src = '/storage/' . $filePath;
@@ -142,7 +142,7 @@ class ShopController extends Controller
         }
 
         while(true){
-            $item = Product::where('parent_id', last($category_ids));
+            $item = Product::where('category_id', last($category_ids));
             if($item->exists()) {
                 $category_id = $item->pluck('id')->first();
 

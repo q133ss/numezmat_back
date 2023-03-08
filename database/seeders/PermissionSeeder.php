@@ -130,6 +130,11 @@ class PermissionSeeder extends Seeder
 
         //Catalog
         $manageUser = new Permission();
+        $manageUser->name = 'Добавлять записи в "Каталог"';
+        $manageUser->slug = 'create-catalog';
+        $manageUser->save();
+
+        $manageUser = new Permission();
         $manageUser->name = 'Изменять записи в "Каталог"';
         $manageUser->slug = 'edit-catalog';
         $manageUser->save();

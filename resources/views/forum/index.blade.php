@@ -56,6 +56,10 @@
         <div class="container">
             <div class="posts-page-wrap">
                 <div class="posts-wrapper">
+                    @can('create-sections-forum')
+                        @php $args = ['parent_id' => 1]; @endphp
+                        <a href="{{route('forum.create.section')}}" class="comment-form-btn" style="display: block; margin-bottom: 20px; margin-top: 0;">Добавить новый раздел</a>
+                    @endcan
                     @foreach($categories as $category)
                     <div class="post">
                         <img src="{{$category->img()}}" style="cursor: pointer" onclick="location.href='{{route('forum.show', $category->id)}}'" class="post-image" alt="">
